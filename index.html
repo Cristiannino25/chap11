@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapitre 11 — L'ingénierie | Guide d'étude</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #00a89d;
+    --teal-dark: #007a72;
+    --teal-light: #e0f7f6;
+    --orange: #f5821f;
+    --dark: #1a2332;
+    --dark2: #243040;
+    --mid: #3a4d61;
+    --light: #f0f4f8;
+    --white: #ffffff;
+    --text: #2c3e50;
+    --muted: #6b7f94;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --yellow: #f39c12;
+    --purple: #8e44ad;
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    --card-shadow-hover: 0 8px 32px rgba(0,168,157,0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--light);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ---- HEADER ---- */
+  header {
+    background: var(--dark);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--teal);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: white; }
+  nav { display: flex; gap: 0.25rem; }
+  nav button {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.65);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  nav button:hover, nav button.active {
+    background: var(--teal);
+    color: white;
+  }
+  .progress-bar {
+    height: 3px;
+    background: var(--teal);
+    transition: width 0.4s;
+    width: 0%;
+  }
+
+  /* ---- MAIN LAYOUT ---- */
+  .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  /* ---- SECTIONS ---- */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ---- HERO ---- */
+  .hero {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 50%, #1a3040 100%);
+    border-radius: 16px;
+    padding: 3rem 2.5rem;
+    color: white;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(0,168,157,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '⚙️';
+    position: absolute;
+    bottom: -10px; right: 2rem;
+    font-size: 7rem;
+    opacity: 0.08;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--teal);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .hero p { color: rgba(255,255,255,0.7); font-size: 1rem; max-width: 500px; }
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--teal);
+  }
+  .stat-label { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+
+  /* ---- TOPIC CARDS ---- */
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .topic-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+    transition: all 0.25s;
+    border-top: 4px solid var(--teal);
+    position: relative;
+    overflow: hidden;
+  }
+  .topic-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
+  }
+  .topic-card.orange { border-top-color: var(--orange); }
+  .topic-card.purple { border-top-color: var(--purple); }
+  .topic-card.green { border-top-color: var(--green); }
+  .topic-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .topic-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .topic-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+  .topic-badge {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--light);
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 100px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* ---- SECTION HEADERS ---- */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--teal-light);
+  }
+  .section-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--dark);
+  }
+  .section-badge {
+    background: var(--teal);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+  }
+
+  /* ---- DEFINITION BOXES ---- */
+  .def-box {
+    background: linear-gradient(135deg, var(--teal-light), #d0f0ee);
+    border-left: 4px solid var(--teal);
+    border-radius: 0 10px 10px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+  }
+  .def-box strong { color: var(--teal-dark); font-weight: 700; }
+  .def-box.orange { background: #fff3e6; border-left-color: var(--orange); }
+  .def-box.orange strong { color: #c0500a; }
+  .def-box.purple { background: #f3e6ff; border-left-color: var(--purple); }
+  .def-box.purple strong { color: #6a1fa0; }
+
+  /* ---- CONTENT CARDS ---- */
+  .content-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--card-shadow);
+  }
+  .content-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--light);
+  }
+  .content-card h4 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--teal-dark);
+    margin: 0.75rem 0 0.4rem;
+  }
+
+  /* ---- TABLES ---- */
+  .table-wrap { overflow-x: auto; margin: 0.75rem 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  th {
+    background: var(--dark);
+    color: white;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  td {
+    padding: 0.55rem 0.9rem;
+    border-bottom: 1px solid var(--light);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #f8fafb; }
+  th:first-child { border-radius: 6px 0 0 0; }
+  th:last-child { border-radius: 0 6px 0 0; }
+
+  /* ---- GRID LAYOUTS ---- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 700px) {
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.8rem; }
+    nav button { font-size: 0.72rem; padding: 0.35rem 0.6rem; }
+  }
+
+  /* ---- LIAISON CARDS ---- */
+  .liaison-card {
+    background: white;
+    border-radius: 10px;
+    border: 2px solid var(--teal-light);
+    padding: 1.1rem;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+  }
+  .liaison-card:hover { border-color: var(--teal); }
+  .liaison-card .lc-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--teal-dark);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--teal-light);
+  }
+  .lc-mvt { font-weight: 500; color: var(--dark); margin-bottom: 0.4rem; }
+  .lc-mvt span { color: var(--teal); font-style: italic; }
+  .avantages { color: var(--green); font-size: 0.8rem; }
+  .inconvenients { color: var(--red); font-size: 0.8rem; }
+  .avantages li, .inconvenients li { margin-left: 1rem; margin-top: 0.25rem; }
+
+  /* ---- MECHANISM CARDS ---- */
+  .mech-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--teal);
+  }
+  .mech-card.orange { border-left-color: var(--orange); }
+  .mech-card.purple { border-left-color: var(--purple); }
+  .mech-card h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+  .mech-role { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.6rem; }
+  .mech-info { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.82rem; }
+  .mech-info div { background: var(--light); border-radius: 6px; padding: 0.5rem; }
+  .mech-info label { display: block; font-weight: 600; color: var(--muted); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.2rem; }
+  .tag {
+    display: inline-block;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    font-size: 0.72rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    font-weight: 600;
+    margin-top: 0.3rem;
+  }
+  .tag.rev { background: #e8f5e9; color: #1b7a2e; }
+  .tag.norev { background: #fce8e8; color: #c0392b; }
+
+  /* ---- FABRICATION ---- */
+  .fab-step {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.75rem 1rem;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .fab-num {
+    min-width: 32px; height: 32px;
+    background: var(--teal);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .fab-step h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .fab-step p { font-size: 0.82rem; color: var(--muted); }
+  .fab-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    margin-right: 0.25rem;
+    margin-top: 0.25rem;
+    font-weight: 600;
+  }
+  .fab-tag.bois { background: #e8d5b7; color: #6b4c10; }
+  .fab-tag.metal { background: #d5e8f0; color: #1a5c7a; }
+  .fab-tag.plastique { background: #d5f0e8; color: #1a7a58; }
+
+  /* ---- FLASHCARDS ---- */
+  .flashcard-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .fc-counter {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--muted);
+  }
+  .fc-counter span { color: var(--teal); }
+  .btn {
+    background: var(--teal);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .btn.secondary {
+    background: white;
+    color: var(--teal);
+    border: 2px solid var(--teal);
+  }
+  .btn.secondary:hover { background: var(--teal-light); }
+  .btn-group { display: flex; gap: 0.5rem; }
+
+  .flashcard-scene {
+    perspective: 1200px;
+    margin: 0 auto;
+    max-width: 600px;
+    height: 260px;
+    cursor: pointer;
+  }
+  .flashcard {
+    width: 100%; height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .flashcard.flipped { transform: rotateY(180deg); }
+  .fc-face {
+    position: absolute;
+    width: 100%; height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+  }
+  .fc-front {
+    background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
+    color: white;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+  .fc-back {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color: white;
+    transform: rotateY(180deg);
+    box-shadow: 0 12px 40px rgba(0,168,157,0.25);
+  }
+  .fc-hint {
+    font-size: 0.72rem;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .fc-question {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+  .fc-answer {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  .fc-category {
+    margin-top: 1rem;
+    font-size: 0.7rem;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .fc-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .fc-dot-container {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 300px;
+  }
+  .fc-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #d0dae3;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .fc-dot.active { background: var(--teal); transform: scale(1.3); }
+  .fc-dot.known { background: var(--green); }
+  .filter-btns { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .filter-btn {
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    border: 2px solid var(--light);
+    background: white;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--teal);
+    color: var(--teal);
+    background: var(--teal-light);
+  }
+
+  /* ---- QUIZ ---- */
+  .quiz-progress {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .quiz-progress-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--light);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .quiz-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal-dark));
+    border-radius: 100px;
+    transition: width 0.4s;
+  }
+  .quiz-stat { text-align: center; min-width: 50px; }
+  .quiz-stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+  }
+  .quiz-stat-label { font-size: 0.7rem; color: var(--muted); }
+  .quiz-question-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.4s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .q-num {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.75rem;
+  }
+  .q-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+    color: var(--dark);
+  }
+  .q-options { display: flex; flex-direction: column; gap: 0.75rem; }
+  .q-option {
+    padding: 0.85rem 1.25rem;
+    border: 2px solid var(--light);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    background: white;
+    width: 100%;
+    text-align: left;
+  }
+  .q-option:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: var(--teal-light);
+    color: var(--teal-dark);
+  }
+  .q-option.correct { border-color: var(--green); background: #e8f5e9; color: #1b7a2e; }
+  .q-option.wrong { border-color: var(--red); background: #fce8e8; color: var(--red); }
+  .q-letter {
+    min-width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+  .q-option.correct .q-letter { background: var(--green); color: white; }
+  .q-option.wrong .q-letter { background: var(--red); color: white; }
+  .q-explanation {
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    background: var(--teal-light);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: var(--teal-dark);
+    display: none;
+  }
+  .q-explanation.show { display: block; animation: fadeIn 0.3s ease; }
+  .quiz-results {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+  }
+  .score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1.5rem auto;
+    color: white;
+    box-shadow: 0 8px 24px rgba(0,168,157,0.35);
+  }
+  .score-circle .big { font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; }
+  .score-circle .small { font-size: 0.75rem; opacity: 0.8; }
+  .quiz-results h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; }
+  .quiz-results p { color: var(--muted); margin: 0.5rem 0 1.5rem; }
+
+  /* ---- RESUME ---- */
+  .concept-chip {
+    display: inline-block;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    margin: 0.2rem;
+  }
+  .concept-chip.orange { background: #fff0e0; color: #b8500a; }
+  .concept-chip.purple { background: #f0e0ff; color: #6a1fa0; }
+  .concept-chip.green { background: #e0f5e8; color: #1b7a2e; }
+
+  /* SCROLL ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- TABS ---- */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--light);
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--teal); }
+  .tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* TOOLTIP */
+  .tooltip-wrap { position: relative; display: inline-block; }
+  .tooltip-wrap .tip {
+    visibility: hidden;
+    background: var(--dark);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.7rem;
+    border-radius: 6px;
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tooltip-wrap:hover .tip { visibility: visible; opacity: 1; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--light); }
+  ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">CH.11 <span>L'ingénierie</span></div>
+    <nav>
+      <button class="active" onclick="showSection('accueil', this)">🏠 Accueil</button>
+      <button onclick="showSection('materiaux', this)">🔩 Matériaux</button>
+      <button onclick="showSection('fabrication', this)">🔨 Fabrication</button>
+      <button onclick="showSection('mecanique', this)">⚙️ Mécanique</button>
+      <button onclick="showSection('mecanismes', this)">🔗 Mécanismes</button>
+      <button onclick="showSection('flashcards', this)">🃏 Fiches</button>
+      <button onclick="showSection('quiz', this)">🎯 Quiz</button>
+    </nav>
+  </div>
+  <div class="progress-bar" id="progressBar"></div>
+</header>
+
+<!-- ==================== ACCUEIL ==================== -->
+<div id="accueil" class="section active">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-tag">📚 Guide d'étude</div>
+      <h1>L'ingénierie<br>Chapitre 11</h1>
+      <p>Tout ce qu'il faut savoir pour réussir ton examen — matériaux, fabrication et fonctions mécaniques.</p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Grandes thématiques</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">35+</div>
+          <div class="stat-label">Fiches de révision</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">25</div>
+          <div class="stat-label">Questions de quiz</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="topics-grid">
+      <div class="topic-card" onclick="showSection('materiaux', document.querySelectorAll('nav button')[1])">
+        <span class="topic-icon">🔩</span>
+        <div class="topic-badge">11.1</div>
+        <h3>Les matériaux</h3>
+        <p>Propriétés mécaniques, bois, métaux, alliages, thermoplastiques.</p>
+      </div>
+      <div class="topic-card orange" onclick="showSection('fabrication', document.querySelectorAll('nav button')[2])">
+        <span class="topic-icon">🔨</span>
+        <div class="topic-badge">11.1.4</div>
+        <h3>La fabrication</h3>
+        <p>Mesurage, façonnage par enlèvement et par déformation, assemblage.</p>
+      </div>
+      <div class="topic-card purple" onclick="showSection('mecanique', document.querySelectorAll('nav button')[3])">
+        <span class="topic-icon">⚙️</span>
+        <div class="topic-badge">11.2.1</div>
+        <h3>Fonctions mécaniques élémentaires</h3>
+        <p>Guidage, liaison, lubrification, étanchéité.</p>
+      </div>
+      <div class="topic-card green" onclick="showSection('mecanismes', document.querySelectorAll('nav button')[4])">
+        <span class="topic-icon">🔗</span>
+        <div class="topic-badge">11.2.2</div>
+        <h3>Fonctions mécaniques complexes</h3>
+        <p>Systèmes de transmission et de transformation du mouvement.</p>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h3>📌 Concepts-clés à retenir</h3>
+      <div style="line-height: 2.2;">
+        <span class="concept-chip">objet technique</span>
+        <span class="concept-chip">contrainte mécanique</span>
+        <span class="concept-chip">ductilité</span>
+        <span class="concept-chip">malléabilité</span>
+        <span class="concept-chip">résilience</span>
+        <span class="concept-chip">élasticité</span>
+        <span class="concept-chip">rigidité</span>
+        <span class="concept-chip">fragilité</span>
+        <span class="concept-chip orange">procédé de fabrication</span>
+        <span class="concept-chip orange">façonnage par enlèvement</span>
+        <span class="concept-chip orange">façonnage par déformation</span>
+        <span class="concept-chip orange">fraisage · sciage · tournage</span>
+        <span class="concept-chip purple">fonction de guidage</span>
+        <span class="concept-chip purple">fonction de liaison</span>
+        <span class="concept-chip purple">fonction de lubrification</span>
+        <span class="concept-chip purple">fonction d'étanchéité</span>
+        <span class="concept-chip green">organe menant / mené</span>
+        <span class="concept-chip green">transmission · transformation</span>
+        <span class="concept-chip green">roues de friction</span>
+        <span class="concept-chip green">bielle · came · vis sans fin</span>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:1.25rem;">
+      <div class="content-card" style="background:linear-gradient(135deg,#f0faf9,#e0f7f5); border-left: 4px solid var(--teal);">
+        <h3>🎯 Pour bien étudier</h3>
+        <p style="font-size:.87rem; line-height:1.7; color:var(--text);">
+          1. Commence par parcourir le <strong>résumé</strong> de chaque section.<br>
+          2. Utilise les <strong>fiches de révision</strong> pour mémoriser les définitions.<br>
+          3. Teste-toi avec le <strong>quiz de 25 questions</strong> à la fin.<br>
+          4. Revois les sections où tu fais des erreurs.
+        </p>
+      </div>
+      <div class="content-card" style="background:linear-gradient(135deg,#fff8f0,#ffe8d0); border-left: 4px solid var(--orange);">
+        <h3>⚡ Points souvent à l'examen</h3>
+        <p style="font-size:.87rem; line-height:1.7;">
+          • Différencier les <strong>6 types de liaisons</strong><br>
+          • Les <strong>4 types de guidage</strong><br>
+          • <strong>Réversible vs non réversible</strong><br>
+          • <strong>Organe menant vs mené</strong><br>
+          • Identifier un mécanisme à partir d'un exemple réel
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MATÉRIAUX ==================== -->
+<div id="materiaux" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span style="font-size:1.8rem">🔩</span>
+      <h2>11.1 — Les matériaux</h2>
+      <span class="section-badge">Section 11.1</span>
+    </div>
+
+    <div class="def-box">
+      Un <strong>OBJET TECHNIQUE</strong> est un objet conçu et fabriqué par l'humain.<br>
+      Un <strong>MATÉRIAU</strong> est une matière d'origine naturelle ou industrielle servant à la fabrication d'objets, de bâtiments ou de machines.
+    </div>
+    <div class="def-box orange">
+      Une <strong>CONTRAINTE MÉCANIQUE</strong> correspond à l'effet résultant de l'application de deux ou plusieurs forces sur un matériau.
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('mat', 'proprietes', this)">Propriétés</div>
+      <div class="tab" onclick="switchTab('mat', 'bois', this)">Bois</div>
+      <div class="tab" onclick="switchTab('mat', 'metaux', this)">Métaux & Alliages</div>
+      <div class="tab" onclick="switchTab('mat', 'plastiques', this)">Thermoplastiques</div>
+    </div>
+
+    <!-- Propriétés -->
+    <div id="mat-proprietes" class="tab-content active">
+      <div class="content-card">
+        <h3>Contraintes mécaniques</h3>
+        <div class="three-col">
+          <div style="background:var(--light);border-radius:8px;padding:1rem;text-align:center">
+            <div style="font-size:1.5rem">⬅➡</div>
+            <div style="font-weight:700;margin:.4rem 0;">Compression</div>
+            <div style="font-size:.82rem;color:var(--muted)">Contrainte qui tend à <strong>écraser</strong> les matériaux (deux forces opposées qui se rapprochent).</div>
+          </div>
+          <div style="background:var(--light);border-radius:8px;padding:1rem;text-align:center">
+            <div style="font-size:1.5rem">↔️</div>
+            <div style="font-weight:700;margin:.4rem 0;">Traction (tension)</div>
+            <div style="font-size:.82rem;color:var(--muted)">Contrainte qui tend à <strong>étirer</strong> les matériaux (deux forces opposées qui s'éloignent).</div>
+          </div>
+          <div style="background:var(--light);border-radius:8px;padding:1rem;text-align:center">
+            <div style="font-size:1.5rem">🔀</div>
+            <div style="font-weight:700;margin:.4rem 0;">Torsion</div>
+            <div style="font-size:.82rem;color:var(--muted)">Contrainte qui tend à <strong>tordre</strong> les matériaux selon un axe de rotation.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h3>Propriétés mécaniques des matériaux</h3>
+        <div class="def-box" style="margin-bottom:.75rem">
+          Une <strong>PROPRIÉTÉ MÉCANIQUE</strong> décrit le comportement d'un matériau soumis à une contrainte mécanique.
+        </div>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Propriété</th><th>Définition</th><th>Exemple / Note</th></tr>
+            <tr><td><strong>Ductilité</strong></td><td>S'étire en fils sans se rompre sous traction.</td><td>Fils de cuivre électrique</td></tr>
+            <tr><td><strong>Dureté</strong></td><td>Résiste aux rayures et à la pénétration.</td><td>Diamant, acier trempé</td></tr>
+            <tr><td><strong>Élasticité</strong></td><td>Se déforme mais reprend sa forme initiale quand la contrainte disparaît.</td><td>Ressort, caoutchouc</td></tr>
+            <tr><td><strong>Fragilité</strong></td><td>Se brise au lieu de se déformer sous contrainte.</td><td>Verre, céramique</td></tr>
+            <tr><td><strong>Malléabilité</strong></td><td>Se déforme sans se rompre (s'aplatit, se courbe). Garde sa forme.</td><td>Or, aluminium</td></tr>
+            <tr><td><strong>Résilience</strong></td><td>Résiste aux chocs en se déformant très peu au lieu de se rompre.</td><td>Plastiques ABS</td></tr>
+            <tr><td><strong>Rigidité</strong></td><td>Ne se déforme pas sous une ou plusieurs contraintes.</td><td>Acier structurel</td></tr>
+          </table>
+        </div>
+        <p style="font-size:.82rem;margin-top:.75rem;color:var(--muted)">💡 La ductilité et la malléabilité sont généralement associées aux <strong>métaux et aux alliages</strong>.</p>
+      </div>
+
+      <div class="content-card">
+        <h3>Propriétés non mécaniques</h3>
+        <div class="two-col">
+          <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.85rem">
+            <strong>Propriétés physiques :</strong><br>
+            La conductibilité électrique, la conductibilité thermique, la masse volumique et la perméabilité à l'eau.
+          </div>
+          <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.85rem">
+            <strong>Propriétés chimiques :</strong><br>
+            La résistance à la corrosion et la neutralité chimique.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bois -->
+    <div id="mat-bois" class="tab-content">
+      <div class="def-box">
+        Le <strong>BOIS</strong> est un matériau d'origine végétale dérivé des différentes parties d'un arbre.
+        Il est facile à travailler, assemblable, recyclable et biodégradable. C'est aussi un matériau <strong>renouvelable</strong>.
+      </div>
+      <div class="content-card">
+        <h3>Catégories de bois</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Catégorie</th><th>Origine</th><th>Propriétés recherchées</th><th>Exemples</th></tr>
+            <tr>
+              <td><strong>Bois durs (feuillus)</strong></td>
+              <td>Arbres qui poussent lentement → bois dense et robuste</td>
+              <td>Dureté, résistance à l'usure</td>
+              <td>Chêne, érable, merisier</td>
+            </tr>
+            <tr>
+              <td><strong>Bois tendres (conifères)</strong></td>
+              <td>Arbres qui poussent rapidement → coût d'exploitation moins élevé</td>
+              <td>Élasticité</td>
+              <td>Mélèze, pin, sapin</td>
+            </tr>
+            <tr>
+              <td><strong>Bois modifiés</strong></td>
+              <td>Bois auxquels on a ajouté d'autres substances</td>
+              <td>Propriétés améliorées, coût diminué, planches plus grandes</td>
+              <td>Lamellé-collé, contreplaqué, panneaux de fibres</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="content-card">
+        <h3>Propriétés communes aux bois</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;font-size:.85rem">
+          <span style="background:#e8d5b7;color:#5a3200;padding:.4rem .8rem;border-radius:6px;font-weight:600">Isolation thermique et électrique</span>
+          <span style="background:#e8d5b7;color:#5a3200;padding:.4rem .8rem;border-radius:6px;font-weight:600">Résilience</span>
+          <span style="background:#e8d5b7;color:#5a3200;padding:.4rem .8rem;border-radius:6px;font-weight:600">Rigidité</span>
+          <span style="background:#e8d5b7;color:#5a3200;padding:.4rem .8rem;border-radius:6px;font-weight:600">Flottabilité (masse vol. &lt; eau)</span>
+        </div>
+        <h4 style="margin-top:1rem">Bois modifiés — exemples</h4>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Type</th><th>Description</th></tr>
+            <tr><td>Bois traité</td><td>Imprégné d'un produit pour augmenter sa résistance aux intempéries</td></tr>
+            <tr><td>Lamellé-collé</td><td>Obtenu par collage de plusieurs lamelles de bois</td></tr>
+            <tr><td>Contreplaqué</td><td>Minces feuilles de bois collées en alternant le sens du grain pour augmenter la rigidité</td></tr>
+            <tr><td>Panneau de particules</td><td>Constitué de copeaux de bois collés à l'aide d'une résine</td></tr>
+            <tr><td>Panneau de fibres</td><td>Fait de fibres de bois compressées, parfois recouvert d'une couche de finition</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Métaux -->
+    <div id="mat-metaux" class="tab-content">
+      <div class="def-box">
+        Un <strong>MÉTAL</strong> est un matériau généralement obtenu par le raffinage d'un minerai. Ils sont brillants, ductiles, malléables et conducteurs de chaleur et d'électricité. <strong>Non renouvelables, mais recyclables.</strong>
+      </div>
+      <div class="content-card">
+        <h3>Alliages ferreux (contiennent du fer)</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Alliage</th><th>Composition</th><th>Propriétés recherchées</th></tr>
+            <tr><td><strong>Acier</strong></td><td>Fer + Carbone (&lt;2% m/m) + autres</td><td>Ductilité, dureté, malléabilité, résilience, rigidité</td></tr>
+            <tr><td><strong>Acier inoxydable</strong></td><td>Fer + Carbone (&lt;1,2%) + Chrome + Nickel</td><td>Ductilité, dureté, malléabilité, résilience, résistance à la corrosion, rigidité</td></tr>
+            <tr><td><strong>Fonte</strong></td><td>Fer + Carbone (&gt;2% m/m)</td><td>Dureté, grande masse volumique</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="content-card">
+        <h3>Alliages non ferreux (ne contiennent pas de fer)</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Alliage</th><th>Composition</th><th>Propriétés recherchées</th></tr>
+            <tr><td><strong>Alliages d'aluminium</strong></td><td>Aluminium + autres substances</td><td>Malléabilité, résistance à la corrosion, petite masse volumique</td></tr>
+            <tr><td><strong>Bronze</strong></td><td>Cuivre + Étain</td><td>Dureté, malléabilité, résistance à la corrosion, grande masse vol. — <em>Avantage: variation de couleur</em></td></tr>
+            <tr><td><strong>Laiton</strong></td><td>Cuivre + Zinc</td><td>Ductilité, malléabilité, résistance à la corrosion — <em>Avantage: variation de couleur</em></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plastiques -->
+    <div id="mat-plastiques" class="tab-content">
+      <div class="def-box">
+        Un <strong>THERMOPLASTIQUE</strong> est un type de plastique qui peut être modelé ou remodelé sous l'action de la chaleur. Lorsqu'il refroidit, il durcit et conserve sa nouvelle forme. <strong>Non renouvelables, mais généralement recyclables.</strong>
+      </div>
+      <div class="content-card">
+        <h3>Propriétés et avantages des thermoplastiques</h3>
+        <div class="two-col">
+          <div>
+            <h4>Propriétés</h4>
+            <ul style="font-size:.85rem;margin-left:1.2rem;line-height:2">
+              <li>Conductibilité électrique nulle</li>
+              <li>Faible conductibilité thermique</li>
+              <li>Bonne élasticité</li>
+              <li>Grande résilience</li>
+              <li>Bonne résistance à la corrosion et aux agents chimiques</li>
+              <li>Faible masse volumique (grande légèreté)</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Avantages</h4>
+            <ul style="font-size:.85rem;margin-left:1.2rem;line-height:2">
+              <li>Faible coût de production</li>
+              <li>Grande capacité à être recyclés</li>
+            </ul>
+            <h4 style="margin-top:1rem">Utilisations</h4>
+            <ul style="font-size:.85rem;margin-left:1.2rem;line-height:2">
+              <li>Contenants alimentaires</li>
+              <li>Sacs</li>
+              <li>Contenants compressibles</li>
+              <li>Matériaux de construction</li>
+              <li>Matériel médical</li>
+              <li>Vaisselle et ustensiles</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FABRICATION ==================== -->
+<div id="fabrication" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span style="font-size:1.8rem">🔨</span>
+      <h2>11.1.4 — La fabrication</h2>
+      <span class="section-badge">Section 11.1.4</span>
+    </div>
+
+    <div class="def-box orange">
+      Un <strong>PROCÉDÉ DE FABRICATION</strong> regroupe toutes les étapes de transformation des matériaux bruts dans le but d'en faire une pièce, un objet ou un système.
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('fab', 'etapes', this)">Étapes</div>
+      <div class="tab" onclick="switchTab('fab', 'enlevement', this)">Façonnage par enlèvement</div>
+      <div class="tab" onclick="switchTab('fab', 'deformation', this)">Façonnage par déformation</div>
+    </div>
+
+    <div id="fab-etapes" class="tab-content active">
+      <div class="content-card">
+        <h3>Les 3 étapes du procédé de fabrication</h3>
+        <div class="fab-step">
+          <div class="fab-num">1</div>
+          <div>
+            <h4>Le mesurage et le traçage</h4>
+            <p>Déterminer les mesures exactes de chaque pièce. Dessiner des lignes de coupe ou des repères sur les matériaux à usiner.<br>
+            <em>À cette étape, on procède souvent à un <strong>ébauchage</strong> (enlever grossièrement les parties superflues).</em></p>
+          </div>
+        </div>
+        <div class="fab-step">
+          <div class="fab-num">2</div>
+          <div>
+            <h4>Le façonnage et le contrôle</h4>
+            <p>Usiner un matériau à l'aide d'outils pour fabriquer la pièce voulue. Le contrôle s'assure que les formes et les grandeurs obtenues correspondent à ce qui est prévu.<br>
+            Deux grands types : <strong>façonnage par enlèvement</strong> et <strong>façonnage par déformation</strong>.</p>
+          </div>
+        </div>
+        <div class="fab-step">
+          <div class="fab-num">3</div>
+          <div>
+            <h4>L'assemblage et la finition</h4>
+            <p>Réunir les différentes pièces pour former l'objet technique. La finition sert à <strong>protéger les matériaux</strong> ou à améliorer l'aspect esthétique de l'objet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="fab-enlevement" class="tab-content">
+      <div class="content-card">
+        <h3>Façonnage par enlèvement de matière</h3>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">On utilise ces techniques pour les bois, les métaux et les plastiques.</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Définition</th><th>Matériaux</th></tr>
+            <tr>
+              <td><strong>Le découpage</strong></td>
+              <td>Tailler un matériau à l'aide d'un outil à découper (laser, jet d'eau, chalumeau, ciseau, couteau à lame rétractable).</td>
+              <td><span class="fab-tag bois">Bois</span><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le fraisage</strong></td>
+              <td>Sculpter un matériau en combinant la rotation de l'outil de coupe (la fraise) et le déplacement de la pièce sur le plateau de la fraiseuse.</td>
+              <td><span class="fab-tag bois">Bois</span><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le perçage</strong></td>
+              <td>Effectuer un trou cylindrique à l'aide d'une perceuse et d'un foret ou d'une mèche.</td>
+              <td><span class="fab-tag bois">Bois</span><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le sciage</strong></td>
+              <td>Couper un matériau à l'aide d'une scie (à main, à métaux, à ruban, circulaire).</td>
+              <td><span class="fab-tag bois">Bois</span><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le tournage</strong></td>
+              <td>Sculpter une pièce cylindrique en la faisant tourner sur son axe à l'aide d'un tour et d'un outil tranchant.</td>
+              <td><span class="fab-tag bois">Bois</span><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+          </table>
+        </div>
+        <div class="def-box" style="margin-top:1rem">
+          💡 L'<strong>impression 3D</strong> est une technique de <strong>façonnage par addition</strong> de matériau (contrairement aux techniques d'enlèvement).
+        </div>
+      </div>
+    </div>
+
+    <div id="fab-deformation" class="tab-content">
+      <div class="content-card">
+        <h3>Façonnage par déformation</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Technique</th><th>Définition</th><th>Matériaux</th></tr>
+            <tr>
+              <td><strong>Le cambrage / thermoformage</strong></td>
+              <td>Courber un matériau.</td>
+              <td><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span><span class="fab-tag bois">Bois</span></td>
+            </tr>
+            <tr>
+              <td><strong>L'extrusion</strong></td>
+              <td>Presser un matériau chauffé à travers une filière pour qu'il prenne la forme voulue.</td>
+              <td><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le laminage</strong></td>
+              <td>Écraser un matériau pour obtenir une feuille mince.</td>
+              <td><span class="fab-tag metal">Métal</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le moulage</strong></td>
+              <td>Verser un matériau fondu dans un moule pour qu'il prenne la forme voulue, une fois refroidi.</td>
+              <td><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le moulage par injection-soufflage</strong></td>
+              <td>Verser un matériau fondu dans un moule et lui donner une forme creuse par l'injection d'un gaz comprimé.</td>
+              <td><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+            <tr>
+              <td><strong>Le pliage / thermopliage</strong></td>
+              <td>Plier une pièce plane à l'aide d'une plieuse ou d'une thermoplieuse.</td>
+              <td><span class="fab-tag metal">Métal</span><span class="fab-tag plastique">Plastique</span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MÉCANIQUE ÉLÉMENTAIRE ==================== -->
+<div id="mecanique" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span style="font-size:1.8rem">⚙️</span>
+      <h2>11.2.1 — Fonctions mécaniques élémentaires</h2>
+      <span class="section-badge">Section 11.2</span>
+    </div>
+
+    <div class="def-box purple">
+      Une <strong>FONCTION MÉCANIQUE ÉLÉMENTAIRE</strong> correspond au rôle particulier assuré par une pièce dans un objet technique.<br>
+      Les fonctions de guidage, de liaison, de lubrification et d'étanchéité sont des fonctions mécaniques élémentaires.
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('mec', 'guidage', this)">Guidage</div>
+      <div class="tab" onclick="switchTab('mec', 'liaison', this)">Liaison</div>
+      <div class="tab" onclick="switchTab('mec', 'lubrification', this)">Lubrification</div>
+      <div class="tab" onclick="switchTab('mec', 'etancheite', this)">Étanchéité</div>
+    </div>
+
+    <!-- Guidage -->
+    <div id="mec-guidage" class="tab-content active">
+      <div class="def-box">
+        La <strong>FONCTION DE GUIDAGE</strong> consiste à diriger le déplacement d'une pièce mobile pour que celle-ci effectue un type de mouvement déterminé.<br>
+        La pièce qui assure cette fonction est l'<strong>organe de guidage</strong>.
+      </div>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Les pièces mobiles peuvent effectuer 3 types de mouvements : <strong>rotation</strong>, <strong>translation rectiligne</strong> et <strong>mouvement hélicoïdal</strong>.</p>
+      <div class="two-col">
+        <div class="liaison-card">
+          <div class="lc-title">🔄 Guidage en rotation</div>
+          <div class="lc-mvt"><strong>Organe de guidage :</strong> un axe cylindrique ou une pièce sphérique</div>
+          <div class="lc-mvt"><strong>Type de mouvement :</strong> <span>rotation autour d'un ou plusieurs axes</span></div>
+          <div style="font-size:.8rem;color:var(--muted);margin-top:.4rem">Exemple : Poignée de porte</div>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">➡️ Guidage en translation</div>
+          <div class="lc-mvt"><strong>Organe de guidage :</strong> une glissière, un rail ou une rainure</div>
+          <div class="lc-mvt"><strong>Type de mouvement :</strong> <span>translation rectiligne</span></div>
+          <div style="font-size:.8rem;color:var(--muted);margin-top:.4rem">Exemple : Verrou de porte</div>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">🔄➡️ Guidage mixte</div>
+          <div class="lc-mvt"><strong>Organe de guidage :</strong> une glissière ou un rail cylindrique</div>
+          <div class="lc-mvt"><strong>Types de mouvements :</strong> <span>translation rectiligne ET rotation autour d'un axe</span></div>
+          <div style="font-size:.8rem;color:var(--muted);margin-top:.4rem">Exemple : Anse de casserole</div>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">🌀 Guidage hélicoïdal</div>
+          <div class="lc-mvt"><strong>Organe de guidage :</strong> des filets</div>
+          <div class="lc-mvt"><strong>Type de mouvement :</strong> <span>mouvement hélicoïdal</span></div>
+          <div style="font-size:.8rem;color:var(--muted);margin-top:.4rem">Exemple : Ampoule dans son socle</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Liaison -->
+    <div id="mec-liaison" class="tab-content">
+      <div class="def-box">
+        La <strong>FONCTION DE LIAISON</strong> consiste à unir et à maintenir ensemble deux ou plusieurs pièces d'un objet technique.<br>
+        Les liaisons peuvent être <strong>fixes</strong> (pièces ne bougent pas) ou <strong>mobiles</strong> (nécessitent un organe de guidage).
+      </div>
+      <div class="two-col">
+        <div class="liaison-card">
+          <div class="lc-title">🔒 Liaison encastrement</div>
+          <div class="lc-mvt">Mouvement : <span>aucun (liaison totale)</span></div>
+          <h4 style="color:var(--green);font-size:.8rem;margin-top:.5rem">Avantages ✓</h4>
+          <ul class="avantages"><li>Assure une liaison stable entre les pièces</li><li>Peut supporter de très fortes contraintes</li></ul>
+          <h4 style="color:var(--red);font-size:.8rem;margin-top:.4rem">Inconvénient ✗</h4>
+          <ul class="inconvenients"><li>Peut causer une déformation des pièces</li></ul>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">↔️ Liaison glissière</div>
+          <div class="lc-mvt">Mouvement : <span>translation rectiligne</span></div>
+          <h4 style="color:var(--green);font-size:.8rem;margin-top:.5rem">Avantages ✓</h4>
+          <ul class="avantages"><li>Amplitude dépend de la dimension des organes de guidage et de liaison</li><li>Ne permet aucune rotation</li></ul>
+          <h4 style="color:var(--red);font-size:.8rem;margin-top:.4rem">Inconvénients ✗</h4>
+          <ul class="inconvenients"><li>Peut nécessiter une lubrification</li><li>Exige grande précision</li><li>Peut provoquer le blocage</li><li>Peut entraîner une usure des pièces</li></ul>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">🔄 Liaison pivot</div>
+          <div class="lc-mvt">Mouvement : <span>rotation autour d'un axe</span></div>
+          <h4 style="color:var(--green);font-size:.8rem;margin-top:.5rem">Avantages ✓</h4>
+          <ul class="avantages"><li>Permet rotation totale (360°) ou limitée</li><li>Ne permet aucune translation</li><li>Généralement facile à réaliser</li></ul>
+          <h4 style="color:var(--red);font-size:.8rem;margin-top:.4rem">Inconvénients ✗</h4>
+          <ul class="inconvenients"><li>Peut nécessiter une lubrification</li><li>Peut être moins efficace ou coûteuse selon le type de guidage</li></ul>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">🔄↔️ Liaison pivot glissant</div>
+          <div class="lc-mvt">Mouvements : <span>rotation ET translation selon le même axe</span></div>
+          <h4 style="color:var(--green);font-size:.8rem;margin-top:.5rem">Avantages ✓</h4>
+          <ul class="avantages"><li>Permet mouvements de rotation et translation simultanés ou indépendants</li><li>Amplitude dépend des organes de guidage et de liaison</li></ul>
+          <h4 style="color:var(--red);font-size:.8rem;margin-top:.4rem">Inconvénients ✗</h4>
+          <ul class="inconvenients"><li>Peut nécessiter une lubrification</li><li>Exige grande précision</li><li>Peut entraîner une usure des pièces</li></ul>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">🌐 Liaison sphérique (rotule)</div>
+          <div class="lc-mvt">Mouvement : <span>rotation autour du centre de la sphère</span></div>
+          <h4 style="color:var(--green);font-size:.8rem;margin-top:.5rem">Avantages ✓</h4>
+          <ul class="avantages"><li>Grande liberté de mouvement de rotation</li><li>Rotation totale (360°) au centre ou limitée</li><li>Ne permet aucune translation</li></ul>
+          <h4 style="color:var(--red);font-size:.8rem;margin-top:.4rem">Inconvénients ✗</h4>
+          <ul class="inconvenients"><li>Peut nécessiter une lubrification</li><li>Exige grande précision (jeu entre pièces)</li></ul>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">🌀 Liaison hélicoïdale</div>
+          <div class="lc-mvt">Mouvement : <span>mouvement hélicoïdal selon un seul axe</span></div>
+          <h4 style="color:var(--green);font-size:.8rem;margin-top:.5rem">Avantages ✓</h4>
+          <ul class="avantages"><li>Permet mouvements de rotation et translation simultanés</li><li>Évite le glissement des pièces</li></ul>
+          <h4 style="color:var(--red);font-size:.8rem;margin-top:.4rem">Inconvénients ✗</h4>
+          <ul class="inconvenients"><li>Peut nécessiter une lubrification</li><li>Exige grande précision</li><li>Translation à amplitude limitée</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lubrification -->
+    <div id="mec-lubrification" class="tab-content">
+      <div class="def-box">
+        La <strong>FONCTION DE LUBRIFICATION</strong> permet de réduire le frottement entre deux ou plusieurs pièces.<br>
+        Les substances qui assurent cette fonction sont les <strong>lubrifiants</strong>.
+      </div>
+      <div class="content-card">
+        <h3>Buts de la lubrification</h3>
+        <ul style="font-size:.87rem;margin-left:1.2rem;line-height:2.2">
+          <li>Diminuer le frottement entre les pièces</li>
+          <li>Prévenir l'usure des pièces</li>
+          <li>Réduire la force nécessaire pour faire fonctionner l'objet ou le système</li>
+        </ul>
+      </div>
+      <div class="three-col">
+        <div class="liaison-card">
+          <div class="lc-title">🪨 Lubrifiants solides</div>
+          <div style="font-size:.83rem;margin-top:.5rem">
+            <strong>Exemples :</strong> le graphite, la paraffine et le téflon.
+          </div>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">🧴 Lubrifiants semi-solides</div>
+          <div style="font-size:.83rem;margin-top:.5rem">
+            <strong>Exemples :</strong> la cire et la graisse (animale, végétale ou synthétique).
+          </div>
+        </div>
+        <div class="liaison-card">
+          <div class="lc-title">💧 Lubrifiants liquides</div>
+          <div style="font-size:.83rem;margin-top:.5rem">
+            <strong>Exemples :</strong> l'eau et l'huile (animale, végétale, minérale ou synthétique).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Étanchéité -->
+    <div id="mec-etancheite" class="tab-content">
+      <div class="def-box">
+        La <strong>FONCTION D'ÉTANCHÉITÉ</strong> consiste à empêcher une substance d'entrer à l'intérieur d'un objet ou d'une partie d'un objet ou à l'empêcher d'en sortir.
+      </div>
+      <div class="content-card">
+        <h3>Rôle de l'étanchéité</h3>
+        <p style="font-size:.87rem;line-height:1.7">
+          L'étanchéité <strong>diminue les risques de contamination ou de fuite</strong> d'un objet ou d'un système.<br>
+          Les matériaux choisis pour assurer cette fonction sont habituellement <strong>flexibles et compressibles</strong> : le caoutchouc, le liège et certains plastiques.
+        </p>
+        <h4>Exemples d'organes d'étanchéité</h4>
+        <div class="two-col" style="margin-top:.75rem">
+          <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.84rem">
+            🍶 <strong>Rondelle en caoutchouc</strong> dans le bouchon d'une bouteille — rend la bouteille étanche.
+          </div>
+          <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.84rem">
+            🥛 <strong>Pellicule sur le pot de yogourt</strong> — diminue les risques de contamination et prolonge la durée de conservation.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MÉCANISMES ==================== -->
+<div id="mecanismes" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span style="font-size:1.8rem">🔗</span>
+      <h2>11.2.2 — Fonctions mécaniques complexes</h2>
+      <span class="section-badge">Section 11.2.2</span>
+    </div>
+
+    <div class="def-box purple">
+      Une <strong>FONCTION MÉCANIQUE COMPLEXE</strong> correspond au rôle particulier assuré par un groupe de pièces mobiles formant un <strong>système</strong> dans un objet technique.<br>
+      Le plus souvent, ce rôle consiste à <strong>transférer un mouvement</strong> d'une partie à une autre, en le transformant ou non.
+    </div>
+
+    <div class="content-card" style="margin-bottom:1rem">
+      <h3>Vocabulaire essentiel</h3>
+      <div class="two-col">
+        <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.85rem">
+          <strong>Organe menant</strong> (ou organe moteur) : pièce qui amorce le mouvement grâce à une force extérieure.
+        </div>
+        <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.85rem">
+          <strong>Organe mené</strong> : pièce qui reçoit le mouvement et assure le fonctionnement du système.
+        </div>
+        <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.85rem">
+          <strong>Organe intermédiaire</strong> : organe (courroie, chaîne, roue dentée) qui transmet le mouvement de l'organe menant à l'organe mené.
+        </div>
+        <div style="background:var(--light);border-radius:8px;padding:1rem;font-size:.85rem">
+          <strong>Système réversible</strong> : l'organe mené peut devenir l'organe menant, et inversement, sans endommager le système.
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('meca', 'transmission', this)">Systèmes de transmission</div>
+      <div class="tab" onclick="switchTab('meca', 'transformation', this)">Systèmes de transformation</div>
+      <div class="tab" onclick="switchTab('meca', 'vitesse', this)">Changement de vitesse</div>
+    </div>
+
+    <!-- Transmission -->
+    <div id="meca-transmission" class="tab-content active">
+      <div class="def-box">
+        Dans un <strong>système de transmission du mouvement</strong>, le même type de mouvement est transféré de l'organe menant à l'organe mené. Le sens peut être inversé.
+      </div>
+
+      <div class="mech-card">
+        <h4>🔘 Mécanisme à roues de friction</h4>
+        <div class="mech-role">Rôle : Transmettre un mouvement de rotation grâce au frottement (ou à la friction) entre des roues.</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label>Le sens de rotation s'inverse d'une roue à l'autre. <span class="tag rev">Réversible ✓</span></div>
+          <div><label>Exemple</label>Une dynamo de bicyclette (roue avant → galet de la dynamo)</div>
+        </div>
+      </div>
+
+      <div class="mech-card orange">
+        <h4>⚙️ Mécanisme à roues dentées (engrenages)</h4>
+        <div class="mech-role">Rôle : Transmettre un mouvement de rotation grâce à l'engrenage de roues dentées (les pignons).</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label>Le sens de rotation s'inverse d'une roue dentée à l'autre. <span class="tag rev">Réversible ✓</span></div>
+          <div><label>Exemple</label>Une perceuse manuelle (chignole) : grande roue dentée → petite roue dentée → mandrin → foret</div>
+        </div>
+      </div>
+
+      <div class="mech-card purple">
+        <h4>🎯 Mécanisme à courroie et à poulies</h4>
+        <div class="mech-role">Rôle : Transmettre un mouvement de rotation entre des poulies grâce à une courroie.</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label>Roues à l'intérieur de la courroie : même sens. Roues à l'extérieur : sens inverse. Courroie croisée : sens inverse. <span class="tag rev">Réversible ✓</span></div>
+          <div><label>Exemple</label>Ventilateur industriel : moteur (poulie) → courroie → poulie du ventilateur</div>
+        </div>
+      </div>
+
+      <div class="mech-card">
+        <h4>⛓️ Mécanisme à chaîne et à roues dentées</h4>
+        <div class="mech-role">Rôle : Transmettre un mouvement de rotation entre des roues dentées grâce à une chaîne dont les maillons s'emboîtent dans les dents.</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label>Roues à l'intérieur : même sens de rotation. Roues à l'extérieur : sens inverse. <span class="tag rev">Réversible ✓</span></div>
+          <div><label>Exemple</label>Transmission d'une bicyclette : plateau (pédalier) → chaîne → pignon (roue arrière)</div>
+        </div>
+      </div>
+
+      <div class="mech-card orange">
+        <h4>🐌 Mécanisme à roue dentée et à vis sans fin</h4>
+        <div class="mech-role">Rôle : Transmettre un mouvement de rotation grâce à une vis sans fin dont les filets s'emboîtent dans les dents d'une roue.</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label>Chaque tour de la vis sans fin fait avancer la roue dentée d'une seule dent → très grande <strong>diminution de vitesse</strong>. <span class="tag norev">Généralement non réversible ✗</span></div>
+          <div><label>Exemple</label>Chevilles de réglage d'une guitare</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transformation -->
+    <div id="meca-transformation" class="tab-content">
+      <div class="def-box">
+        Dans un <strong>système de transformation du mouvement</strong>, le mouvement de l'organe menant est <strong>différent</strong> de celui de l'organe mené. Ex: rotation → translation.
+      </div>
+
+      <div class="mech-card">
+        <h4>🔩 Mécanisme à bielle et à manivelle</h4>
+        <div class="mech-role">Rôle : Transformer la rotation de la manivelle en translation bidirectionnelle d'une extrémité de la bielle, ou inversement.</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label><span class="tag rev">Réversible ✓</span></div>
+          <div><label>Exemple</label>Moteur à combustion : la combustion provoque une augmentation de pression → translation verticale du piston → rotation de la manivelle</div>
+        </div>
+        <div style="font-size:.8rem;color:var(--muted);margin-top:.5rem">
+          <strong>Note :</strong> Une bielle est une tige reliée à la manivelle et souvent fixée à un piston. La manivelle est une pièce qui tourne généralement située sur une roue.
+        </div>
+      </div>
+
+      <div class="mech-card orange">
+        <h4>⚙️ Mécanisme à pignon et à crémaillère</h4>
+        <div class="mech-role">Rôle : Transformer la rotation du pignon en translation rectiligne de la crémaillère, ou inversement.</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label><span class="tag rev">Réversible ✓</span></div>
+          <div><label>Exemple</label>Tire-bouchon à deux leviers : levier → pignon → crémaillère de la mèche → tire le bouchon vers le haut</div>
+        </div>
+        <div style="font-size:.8rem;color:var(--muted);margin-top:.5rem">
+          <strong>Note :</strong> Une crémaillère est une tige dentée.
+        </div>
+      </div>
+
+      <div class="mech-card purple">
+        <h4>🥚 Mécanisme à came et à tige-poussoir</h4>
+        <div class="mech-role">Rôle : Transformer la rotation de la came en translation bidirectionnelle de la tige-poussoir.</div>
+        <div class="mech-info">
+          <div><label>Caractéristiques</label><span class="tag norev">Non réversible ✗</span></div>
+          <div><label>Exemple</label>Système de soupapes dans le moteur d'une voiture : rotation de la came → translation de la tige-poussoir → soupape s'ouvre/ferme</div>
+        </div>
+        <div style="font-size:.8rem;color:var(--muted);margin-top:.5rem">
+          <strong>Note :</strong> Une came est une pièce non sphérique dont l'axe de rotation est décentré. Un ressort permet à la tige-poussoir de revenir à sa position initiale.
+        </div>
+      </div>
+
+      <div class="mech-card">
+        <h4>🔧 Mécanisme à vis et à écrou</h4>
+        <div class="mech-role">Rôle : Transformer la rotation en translation rectiligne.</div>
+        <div class="mech-info">
+          <div><label>2 types</label>Type 1 : menant = vis, mené = écrou. Type 2 : menant = écrou, mené = vis. <span class="tag norev">Non réversible ✗</span></div>
+          <div><label>Exemple</label>Cric d'une voiture : force sur la manivelle → rotation de la vis → translation des écrous → soulèvement de la voiture</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vitesse -->
+    <div id="meca-vitesse" class="tab-content">
+      <div class="content-card">
+        <h3>Changement de vitesse dans les systèmes de transmission</h3>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">Dans un système de transmission, la vitesse de rotation d'un organe par rapport à un autre varie selon le diamètre des roues de friction ou le nombre de dents des roues dentées.</p>
+        <div class="table-wrap">
+          <table>
+            <tr>
+              <th>Roues de friction</th>
+              <th>Roues dentées</th>
+              <th>Résultat</th>
+            </tr>
+            <tr>
+              <td>Même diamètre</td>
+              <td>Même nombre de dents</td>
+              <td>La vitesse <strong>ne change pas</strong> d'une roue à l'autre</td>
+            </tr>
+            <tr>
+              <td>Diamètre plus petit</td>
+              <td>Nombre de dents plus petit</td>
+              <td>La vitesse de rotation <strong>augmente</strong> d'une roue à l'autre</td>
+            </tr>
+            <tr>
+              <td>Diamètre plus grand</td>
+              <td>Nombre de dents plus grand</td>
+              <td>La vitesse de rotation <strong>diminue</strong> d'une roue à l'autre</td>
+            </tr>
+          </table>
+        </div>
+        <div class="def-box" style="margin-top:1rem">
+          💡 <strong>Vis sans fin :</strong> Chaque tour complet de la vis sans fin fait avancer la roue dentée d'<strong>une seule dent</strong>. Plus le nombre de dents de la roue dentée est grand, plus la vitesse de rotation <strong>diminue</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== FLASHCARDS ==================== -->
+<div id="flashcards" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span style="font-size:1.8rem">🃏</span>
+      <h2>Fiches de révision</h2>
+      <span class="section-badge">35 fiches</span>
+    </div>
+
+    <div class="filter-btns" id="fcFilters">
+      <button class="filter-btn active" onclick="filterFlashcards('all', this)">Toutes (35)</button>
+      <button class="filter-btn" onclick="filterFlashcards('materiaux', this)">🔩 Matériaux</button>
+      <button class="filter-btn" onclick="filterFlashcards('fabrication', this)">🔨 Fabrication</button>
+      <button class="filter-btn" onclick="filterFlashcards('elementaire', this)">⚙️ Fonctions élémentaires</button>
+      <button class="filter-btn" onclick="filterFlashcards('mecanismes', this)">🔗 Mécanismes</button>
+    </div>
+
+    <div class="flashcard-controls">
+      <div class="fc-counter">Fiche <span id="fcCurrent">1</span> / <span id="fcTotal">35</span></div>
+      <div class="btn-group">
+        <button class="btn secondary" onclick="shuffleFlashcards()">🔀 Mélanger</button>
+        <button class="btn secondary" onclick="resetFlashcards()">↩️ Recommencer</button>
+      </div>
+    </div>
+
+    <div class="flashcard-scene" onclick="flipCard()">
+      <div class="flashcard" id="flashcard">
+        <div class="fc-face fc-front">
+          <div class="fc-hint">❓ Question — cliquer pour retourner</div>
+          <div class="fc-question" id="fcQuestion">Chargement...</div>
+          <div class="fc-category" id="fcCategory"></div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-hint">✅ Réponse</div>
+          <div class="fc-answer" id="fcAnswer">Chargement...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fc-nav">
+      <button class="btn secondary" onclick="prevCard()">← Précédente</button>
+      <div class="fc-dot-container" id="fcDots"></div>
+      <button class="btn" onclick="nextCard()">Suivante →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div id="quiz" class="section">
+  <div class="container">
+    <div class="section-header">
+      <span style="font-size:1.8rem">🎯</span>
+      <h2>Quiz de révision</h2>
+      <span class="section-badge">25 questions</span>
+    </div>
+
+    <div id="quizContainer">
+      <div class="quiz-progress">
+        <div class="quiz-stat">
+          <div class="quiz-stat-num" id="qNum" style="color:var(--teal)">1</div>
+          <div class="quiz-stat-label">Question</div>
+        </div>
+        <div class="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="qProgressBar" style="width:4%"></div>
+        </div>
+        <div class="quiz-stat">
+          <div class="quiz-stat-num" id="qScore" style="color:var(--green)">0</div>
+          <div class="quiz-stat-label">Correct</div>
+        </div>
+        <div class="quiz-stat">
+          <div class="quiz-stat-num" id="qWrong" style="color:var(--red)">0</div>
+          <div class="quiz-stat-label">Erreurs</div>
+        </div>
+      </div>
+
+      <div id="questionCard" class="quiz-question-card">
+        <!-- Injected by JS -->
+      </div>
+
+      <div style="text-align:right">
+        <button class="btn" id="nextBtn" onclick="nextQuestion()" style="display:none">Question suivante →</button>
+      </div>
+    </div>
+
+    <div id="quizResults" class="quiz-results" style="display:none">
+      <div style="font-size:2.5rem">🏆</div>
+      <h3>Quiz terminé !</h3>
+      <div class="score-circle">
+        <div class="big" id="finalScore">-</div>
+        <div class="small">/ 25</div>
+      </div>
+      <p id="scoreMessage">Bon travail !</p>
+      <div class="btn-group" style="justify-content:center">
+        <button class="btn" onclick="restartQuiz()">🔄 Recommencer</button>
+        <button class="btn secondary" onclick="showSection('accueil', document.querySelectorAll('nav button')[0])">🏠 Accueil</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ====== DATA ======
+
+const flashcardsData = [
+  // Matériaux
+  { q: "Qu'est-ce qu'un objet technique ?", a: "Un objet conçu et fabriqué par l'humain.", cat: "materiaux" },
+  { q: "Qu'est-ce qu'une contrainte mécanique ?", a: "L'effet résultant de l'application de deux ou plusieurs forces sur un matériau.", cat: "materiaux" },
+  { q: "Décris la contrainte de compression.", a: "Contrainte qui tend à ÉCRASER les matériaux (deux forces opposées qui se rapprochent).", cat: "materiaux" },
+  { q: "Décris la contrainte de traction.", a: "Contrainte qui tend à ÉTIRER les matériaux (deux forces qui s'éloignent dans des sens opposés).", cat: "materiaux" },
+  { q: "Qu'est-ce que la ductilité ?", a: "Propriété d'un matériau qui s'étire en fils sans se rompre lorsqu'il est soumis à une traction. (Ex: cuivre)", cat: "materiaux" },
+  { q: "Qu'est-ce que la malléabilité ?", a: "Propriété d'un matériau qui se déforme sans se rompre (s'aplatit, se courbe ou se plie) et conserve sa nouvelle forme.", cat: "materiaux" },
+  { q: "Qu'est-ce que la résilience ?", a: "Propriété d'un matériau qui résiste aux chocs en se déformant très peu au lieu de se rompre.", cat: "materiaux" },
+  { q: "Quelle est la différence entre élasticité et malléabilité ?", a: "Élastique = reprend sa forme initiale quand la contrainte disparaît. Malléable = conserve sa nouvelle forme quand la contrainte disparaît.", cat: "materiaux" },
+  { q: "Qu'est-ce qu'un métal ?", a: "Un matériau généralement obtenu par le raffinage d'un minerai. Non renouvelable mais recyclable.", cat: "materiaux" },
+  { q: "Quels sont les composants de l'acier inoxydable ?", a: "Fer + Carbone (<1,2% m/m) + Chrome + Nickel. Propriétés : ductilité, dureté, malléabilité, résistance à la corrosion.", cat: "materiaux" },
+  { q: "Qu'est-ce qu'un thermoplastique ?", a: "Type de plastique qui peut être modelé ou remodelé sous l'action de la chaleur. Lorsqu'il refroidit, il durcit et conserve sa nouvelle forme.", cat: "materiaux" },
+  { q: "Nomme 3 bois modifiés et explique-les.", a: "Lamellé-collé (lamelles collées), Contreplaqué (feuilles alternées en sens opposés), Panneau de particules (copeaux + résine), Panneau de fibres (fibres compressées).", cat: "materiaux" },
+
+  // Fabrication
+  { q: "Qu'est-ce qu'un procédé de fabrication ?", a: "Ensemble des étapes de transformation des matériaux bruts dans le but d'en faire une pièce, un objet ou un système.", cat: "fabrication" },
+  { q: "Quelles sont les 3 étapes du procédé de fabrication ?", a: "1. Mesurage et traçage  2. Façonnage et contrôle  3. Assemblage et finition", cat: "fabrication" },
+  { q: "Quelle est la différence entre façonnage par enlèvement et façonnage par déformation ?", a: "Par enlèvement : on retire de la matière (découpage, fraisage, perçage, sciage, tournage). Par déformation : on change la forme du matériau sans en retirer (cambrage, moulage, laminage, extrusion).", cat: "fabrication" },
+  { q: "Qu'est-ce que le fraisage ?", a: "Sculpter un matériau en combinant la rotation de l'outil de coupe (la fraise) et le déplacement de la pièce sur le plateau de la fraiseuse.", cat: "fabrication" },
+  { q: "Qu'est-ce que l'extrusion ?", a: "Presser un matériau chauffé à travers une filière pour qu'il prenne la forme voulue. Pour métaux et plastiques.", cat: "fabrication" },
+  { q: "Qu'est-ce que le moulage par injection-soufflage ?", a: "Verser un matériau fondu dans un moule et lui donner une forme creuse par l'injection d'un gaz comprimé. Pour les plastiques. (Ex: bouteilles)", cat: "fabrication" },
+
+  // Fonctions élémentaires
+  { q: "Qu'est-ce que la fonction de guidage ?", a: "Diriger le déplacement d'une pièce mobile pour que celle-ci effectue un type de mouvement déterminé. La pièce qui assure cette fonction est l'organe de guidage.", cat: "elementaire" },
+  { q: "Quels sont les 4 types de guidage ?", a: "1. En rotation (axe cylindrique)  2. En translation (glissière/rail/rainure)  3. Mixte (glissière ou rail cylindrique)  4. Hélicoïdal (filets)", cat: "elementaire" },
+  { q: "Qu'est-ce que la liaison pivot ?", a: "Permet la rotation autour d'un axe. Avantages: rotation totale (360°) ou limitée, ne permet aucune translation, facile à réaliser.", cat: "elementaire" },
+  { q: "Décris la liaison encastrement.", a: "Liaison fixe, aucun mouvement permis (liaison totale). Avantages: liaison stable, supporte fortes contraintes. Inconvénient: peut causer déformation.", cat: "elementaire" },
+  { q: "Quels sont les 3 types de lubrifiants ? Donne un exemple de chacun.", a: "Solides (graphite, paraffine, téflon), Semi-solides (cire, graisse animale/végétale/synthétique), Liquides (eau, huile animale/végétale/minérale/synthétique).", cat: "elementaire" },
+  { q: "Quel est le rôle de la fonction d'étanchéité ?", a: "Empêcher une substance d'entrer à l'intérieur d'un objet ou de l'empêcher d'en sortir. Matériaux utilisés : caoutchouc, liège, certains plastiques (flexibles et compressibles).", cat: "elementaire" },
+
+  // Mécanismes
+  { q: "Quelle est la différence entre organe menant et organe mené ?", a: "Organe menant (ou moteur) : amorce le mouvement grâce à une force extérieure. Organe mené : reçoit le mouvement et assure le fonctionnement du système.", cat: "mecanismes" },
+  { q: "Qu'est-ce qu'un système réversible ?", a: "Un système où l'organe mené peut devenir l'organe menant, et inversement, sans endommager le système.", cat: "mecanismes" },
+  { q: "Quel mécanisme de transmission est généralement NON réversible ?", a: "Le mécanisme à roue dentée et à vis sans fin.", cat: "mecanismes" },
+  { q: "Comment fonctionne la transmission de bicyclette ?", a: "Mécanisme à chaîne et roues dentées. Organe menant = plateau (pédalier). Organe intermédiaire = chaîne. Organe mené = pignon de la roue arrière.", cat: "mecanismes" },
+  { q: "Décris le mécanisme à came et tige-poussoir.", a: "Transforme la rotation de la came en translation bidirectionnelle de la tige-poussoir. Non réversible. Exemple : système de soupapes d'un moteur de voiture.", cat: "mecanismes" },
+  { q: "Décris le mécanisme à pignon et à crémaillère.", a: "Transforme la rotation du pignon en translation rectiligne de la crémaillère (ou inversement). Réversible. Exemple : tire-bouchon à deux leviers.", cat: "mecanismes" },
+  { q: "Comment la vitesse change-t-elle dans un mécanisme à roues dentées ?", a: "Si l'organe mené a plus de dents = vitesse diminue. Si l'organe mené a moins de dents = vitesse augmente. Même nombre de dents = vitesse identique.", cat: "mecanismes" },
+  { q: "Décris le mécanisme à vis et à écrou.", a: "Transforme la rotation en translation rectiligne. Non réversible. Exemple : cric de voiture — rotation de la vis → translation des écrous → soulèvement de la voiture.", cat: "mecanismes" },
+  { q: "Dans un mécanisme à courroie et poulies, quel est le sens de rotation ?", a: "Roues à l'intérieur de la courroie : même sens. Roues à l'extérieur : sens inverse. Courroie croisée : sens inverse.", cat: "mecanismes" },
+];
+
+const quizData = [
+  { q: "Quelle propriété mécanique décrit un matériau qui reprend sa forme initiale après avoir été déformé ?", opts: ["Malléabilité", "Élasticité", "Ductilité", "Résilience"], ans: 1, exp: "L'élasticité : le matériau se déforme sous contrainte mais reprend sa forme initiale quand la contrainte disparaît (ex: ressort, caoutchouc)." },
+  { q: "Quelle contrainte mécanique tend à écraser un matériau ?", opts: ["Traction", "Torsion", "Compression", "Élasticité"], ans: 2, exp: "La compression est une contrainte où deux forces opposées se rapprochent, tendant à écraser le matériau. Ex: les piliers d'un pont." },
+  { q: "Quel type de bois est issu d'arbres qui poussent lentement, donnant un bois dense et robuste ?", opts: ["Bois tendres (conifères)", "Bois modifiés", "Bois durs (feuillus)", "Bois traités"], ans: 2, exp: "Les bois durs (feuillus) proviennent d'arbres qui poussent lentement, ce qui produit un bois dense et robuste. Exemples : chêne, érable, merisier." },
+  { q: "Quelle technique de façonnage consiste à presser un matériau chauffé à travers une filière ?", opts: ["Le laminage", "Le moulage", "L'extrusion", "Le tournage"], ans: 2, exp: "L'extrusion consiste à presser un matériau chauffé à travers une filière pour qu'il prenne la forme voulue. Pour les métaux et les plastiques." },
+  { q: "Quel type de guidage permet à la fois la translation rectiligne ET la rotation autour d'un axe ?", opts: ["Guidage en rotation", "Guidage en translation", "Guidage hélicoïdal", "Guidage mixte"], ans: 3, exp: "Le guidage mixte utilise une glissière ou un rail cylindrique et permet les deux types de mouvements simultanément ou indépendamment." },
+  { q: "Quelle liaison permet la ROTATION autour d'un axe et AUCUNE translation ?", opts: ["Liaison glissière", "Liaison pivot", "Liaison encastrement", "Liaison hélicoïdale"], ans: 1, exp: "La liaison pivot permet la rotation totale (360°) ou limitée autour d'un axe, sans permettre de translation." },
+  { q: "Parmi ces lubrifiants, lequel est un lubrifiant SOLIDE ?", opts: ["Huile de moteur", "Graisse synthétique", "Graphite", "Eau"], ans: 2, exp: "Le graphite est un lubrifiant solide. Les autres exemples de lubrifiants solides sont la paraffine et le téflon." },
+  { q: "Quel matériau est utilisé pour la fonction d'étanchéité ?", opts: ["Acier inoxydable", "Caoutchouc", "Aluminium", "Graphite"], ans: 1, exp: "Les matériaux pour l'étanchéité sont flexibles et compressibles : le caoutchouc, le liège et certains plastiques." },
+  { q: "Dans un mécanisme à roues dentées, que se passe-t-il si l'organe mené a PLUS de dents que l'organe menant ?", opts: ["La vitesse augmente", "La vitesse reste la même", "La vitesse diminue", "Le mouvement s'arrête"], ans: 2, exp: "Plus l'organe mené a de dents (diamètre plus grand), plus la vitesse de rotation diminue." },
+  { q: "Quel mécanisme transforme la rotation en translation rectiligne grâce à l'engrenage d'une roue avec une tige dentée ?", opts: ["Mécanisme à bielle et manivelle", "Mécanisme à came", "Mécanisme à pignon et crémaillère", "Mécanisme à vis sans fin"], ans: 2, exp: "Le mécanisme à pignon et crémaillère transforme la rotation du pignon en translation rectiligne de la crémaillère (tige dentée). Exemple : tire-bouchon à deux leviers." },
+  { q: "Dans un système de transmission à courroie, que se passe-t-il si la courroie est CROISÉE ?", opts: ["Les roues tournent dans le même sens", "Les roues tournent en sens inverse", "La vitesse double", "La courroie se bloque"], ans: 1, exp: "Une courroie croisée fait tourner les roues en sens inverse les unes des autres." },
+  { q: "Qu'est-ce que la résilience ?", opts: ["Capacité à s'étirer en fils sans se rompre", "Résistance aux chocs en se déformant très peu", "Capacité à se déformer et reprendre sa forme", "Résistance aux rayures"], ans: 1, exp: "La résilience est la propriété d'un matériau qui résiste aux chocs en se déformant très peu au lieu de se rompre." },
+  { q: "Quelle est la composition de la FONTE ?", opts: ["Fer + Carbone < 2% m/m", "Fer + Chrome + Nickel", "Fer + Carbone > 2% m/m", "Cuivre + Étain"], ans: 2, exp: "La fonte est composée de Fer + Carbone > 2% m/m. Propriétés recherchées : dureté et grande masse volumique." },
+  { q: "Quel procédé de fabrication permet de réaliser des objets creux en plastique (comme des bouteilles) ?", opts: ["Laminage", "Moulage par injection-soufflage", "Extrusion", "Pliage"], ans: 1, exp: "Le moulage par injection-soufflage : on verse un matériau fondu dans un moule et on lui donne une forme creuse par l'injection d'un gaz comprimé." },
+  { q: "La transmission d'une BICYCLETTE est un exemple de quel mécanisme ?", opts: ["Mécanisme à roues de friction", "Mécanisme à courroie et poulies", "Mécanisme à chaîne et roues dentées", "Mécanisme à vis sans fin"], ans: 2, exp: "La bicyclette utilise un mécanisme à chaîne et roues dentées : plateau (pédalier) → chaîne → pignon de la roue arrière." },
+  { q: "Quel mécanisme est utilisé dans les soupapes d'un moteur de voiture ?", opts: ["Mécanisme à bielle et manivelle", "Mécanisme à came et tige-poussoir", "Mécanisme à pignon et crémaillère", "Mécanisme à vis et écrou"], ans: 1, exp: "Le mécanisme à came et tige-poussoir : la rotation de la came est transformée en translation de la tige-poussoir, ouvrant et fermant la soupape." },
+  { q: "Quelle propriété mécanique est généralement associée aux métaux et aux alliages ?", opts: ["Fragilité et élasticité", "Ductilité et malléabilité", "Rigidité et fragilité", "Résilience et dureté"], ans: 1, exp: "La ductilité et la malléabilité sont généralement associées aux métaux et aux alliages." },
+  { q: "Un CRIC de voiture utilise quel mécanisme ?", opts: ["Mécanisme à came", "Mécanisme à bielle et manivelle", "Mécanisme à vis et à écrou", "Mécanisme à pignon et crémaillère"], ans: 2, exp: "Le cric utilise un mécanisme à vis et écrou : la rotation de la vis se transforme en translation des écrous, ce qui soulève la voiture." },
+  { q: "Quel type de liaison permet le MOUVEMENT HÉLICOÏDAL selon un seul axe ?", opts: ["Liaison pivot", "Liaison glissière", "Liaison sphérique", "Liaison hélicoïdale"], ans: 3, exp: "La liaison hélicoïdale permet le mouvement hélicoïdal selon un seul axe, combinant rotation et translation simultanées." },
+  { q: "Le mécanisme à ROUE DENTÉE et VIS SANS FIN est-il généralement réversible ?", opts: ["Oui, toujours réversible", "Non, généralement non réversible", "Seulement si les roues sont de même taille", "Ça dépend de la vitesse"], ans: 1, exp: "Le mécanisme à roue dentée et vis sans fin est généralement NON RÉVERSIBLE. Chaque tour de vis ne fait avancer la roue que d'une dent → très grande diminution de vitesse." },
+  { q: "Qu'est-ce que l'ÉBAUCHAGE dans le procédé de fabrication ?", opts: ["L'étape finale de finition", "La découpe précise d'une pièce", "Enlever grossièrement les parties superflues pour faciliter la manipulation", "Le traçage des lignes de coupe"], ans: 2, exp: "L'ébauchage consiste à enlever grossièrement les parties superflues du matériau pour que la pièce soit plus facile à manipuler. C'est fait lors de la première étape." },
+  { q: "Quel est le rôle de la FONCTION DE LUBRIFICATION ?", opts: ["Empêcher les substances d'entrer ou sortir", "Unir et maintenir les pièces ensemble", "Réduire le frottement entre les pièces", "Guider le déplacement d'une pièce mobile"], ans: 2, exp: "La fonction de lubrification permet de réduire le frottement entre deux ou plusieurs pièces, prévenir l'usure et réduire la force nécessaire pour faire fonctionner le système." },
+  { q: "Dans la transmission d'une perceuse manuelle (chignole), quelle est la grande roue dentée ?", opts: ["Le mandrin", "Le foret", "La grande roue dentée solidaire de la manivelle", "La petite roue dentée"], ans: 2, exp: "La grande roue dentée est solidaire de la manivelle (organe menant). Elle transmet son mouvement à la petite roue dentée solidaire du mandrin (organe mené)." },
+  { q: "Qu'est-ce que le FRAISAGE ?", opts: ["Effectuer un trou cylindrique avec une perceuse", "Couper un matériau avec une scie", "Sculpter un matériau par la rotation d'un outil de coupe combinée au déplacement de la pièce", "Courber un matériau chauffé"], ans: 2, exp: "Le fraisage consiste à sculpter un matériau en combinant la rotation de l'outil de coupe (la fraise) et le déplacement de la pièce sur le plateau de la fraiseuse." },
+  { q: "Parmi les alliages non ferreux, lequel est composé de CUIVRE + ÉTAIN ?", opts: ["Laiton", "Alliage d'aluminium", "Acier inoxydable", "Bronze"], ans: 3, exp: "Le bronze est composé de Cuivre + Étain. Propriétés : dureté, malléabilité, résistance à la corrosion, grande masse volumique. Avantage : variation de couleur." },
+];
+
+// ====== STATE ======
+let currentFlashcard = 0;
+let filteredFlashcards = [...flashcardsData];
+let currentQuiz = 0;
+let quizScore = 0;
+let quizWrong = 0;
+let quizAnswered = false;
+
+// ====== NAVIGATION ======
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  window.scrollTo(0, 0);
+  updateProgress(id);
+}
+
+function updateProgress(id) {
+  const sections = ['accueil', 'materiaux', 'fabrication', 'mecanique', 'mecanismes', 'flashcards', 'quiz'];
+  const idx = sections.indexOf(id);
+  const pct = idx === 0 ? 0 : ((idx / (sections.length - 1)) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+// ====== TABS ======
+function switchTab(prefix, tabId, el) {
+  document.querySelectorAll(`[id^="${prefix}-"]`).forEach(t => t.classList.remove('active'));
+  document.getElementById(`${prefix}-${tabId}`).classList.add('active');
+  // Update tab buttons within the same section
+  const parent = el.closest('.tab-bar');
+  parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ====== FLASHCARDS ======
+function renderFlashcard() {
+  const fc = filteredFlashcards[currentFlashcard];
+  document.getElementById('fcQuestion').textContent = fc.q;
+  document.getElementById('fcAnswer').textContent = fc.a;
+  document.getElementById('fcCategory').textContent = getCatLabel(fc.cat);
+  document.getElementById('fcCurrent').textContent = currentFlashcard + 1;
+  document.getElementById('fcTotal').textContent = filteredFlashcards.length;
+  document.getElementById('flashcard').classList.remove('flipped');
+  renderDots();
+}
+
+function getCatLabel(cat) {
+  const labels = { materiaux: '🔩 Matériaux', fabrication: '🔨 Fabrication', elementaire: '⚙️ Fonctions élémentaires', mecanismes: '🔗 Mécanismes' };
+  return labels[cat] || '';
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+}
+
+function nextCard() {
+  if (currentFlashcard < filteredFlashcards.length - 1) {
+    currentFlashcard++;
+    renderFlashcard();
+  }
+}
+
+function prevCard() {
+  if (currentFlashcard > 0) {
+    currentFlashcard--;
+    renderFlashcard();
+  }
+}
+
+function shuffleFlashcards() {
+  filteredFlashcards = [...filteredFlashcards].sort(() => Math.random() - 0.5);
+  currentFlashcard = 0;
+  renderFlashcard();
+}
+
+function resetFlashcards() {
+  currentFlashcard = 0;
+  filteredFlashcards = flashcardsData.filter(fc => currentFilter === 'all' || fc.cat === currentFilter);
+  renderFlashcard();
+}
+
+let currentFilter = 'all';
+function filterFlashcards(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filteredFlashcards = cat === 'all' ? [...flashcardsData] : flashcardsData.filter(fc => fc.cat === cat);
+  currentFlashcard = 0;
+  renderFlashcard();
+}
+
+function renderDots() {
+  const cont = document.getElementById('fcDots');
+  cont.innerHTML = '';
+  const max = Math.min(filteredFlashcards.length, 20);
+  for (let i = 0; i < max; i++) {
+    const d = document.createElement('div');
+    d.className = 'fc-dot' + (i === currentFlashcard ? ' active' : '');
+    d.onclick = (e) => { e.stopPropagation(); currentFlashcard = i; renderFlashcard(); };
+    cont.appendChild(d);
+  }
+}
+
+// Init flashcards
+renderFlashcard();
+
+// ====== QUIZ ======
+function renderQuestion() {
+  const q = quizData[currentQuiz];
+  document.getElementById('qNum').textContent = currentQuiz + 1;
+  document.getElementById('qProgressBar').style.width = ((currentQuiz + 1) / quizData.length * 100) + '%';
+  document.getElementById('nextBtn').style.display = 'none';
+  quizAnswered = false;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  let html = `<div class="q-num">Question ${currentQuiz + 1} sur ${quizData.length}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="q-options">`;
+  q.opts.forEach((opt, i) => {
+    html += `<button class="q-option" onclick="selectAnswer(${i})">
+      <span class="q-letter">${letters[i]}</span> ${opt}
+    </button>`;
+  });
+  html += `</div><div class="q-explanation" id="qExpl">💡 ${q.exp}</div>`;
+  document.getElementById('questionCard').innerHTML = html;
+}
+
+function selectAnswer(idx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+
+  const q = quizData[currentQuiz];
+  const opts = document.querySelectorAll('.q-option');
+  opts.forEach(o => o.disabled = true);
+
+  if (idx === q.ans) {
+    opts[idx].classList.add('correct');
+    quizScore++;
+    document.getElementById('qScore').textContent = quizScore;
+  } else {
+    opts[idx].classList.add('wrong');
+    opts[q.ans].classList.add('correct');
+    quizWrong++;
+    document.getElementById('qWrong').textContent = quizWrong;
+  }
+
+  document.getElementById('qExpl').classList.add('show');
+  document.getElementById('nextBtn').style.display = 'inline-flex';
+}
+
+function nextQuestion() {
+  currentQuiz++;
+  if (currentQuiz >= quizData.length) {
+    showResults();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResults() {
+  document.getElementById('quizContainer').style.display = 'none';
+  document.getElementById('quizResults').style.display = 'block';
+  document.getElementById('finalScore').textContent = quizScore;
+
+  const pct = (quizScore / quizData.length) * 100;
+  let msg;
+  if (pct >= 90) msg = "🌟 Excellent ! Tu es prêt(e) pour l'examen !";
+  else if (pct >= 75) msg = "👍 Très bien ! Revois les quelques erreurs.";
+  else if (pct >= 60) msg = "📚 Pas mal ! Concentre-toi sur les sections où tu as fait des erreurs.";
+  else msg = "💪 Continue à étudier ! Relis les résumés et refais le quiz.";
+  document.getElementById('scoreMessage').textContent = msg;
+}
+
+function restartQuiz() {
+  currentQuiz = 0;
+  quizScore = 0;
+  quizWrong = 0;
+  quizAnswered = false;
+  document.getElementById('qScore').textContent = '0';
+  document.getElementById('qWrong').textContent = '0';
+  document.getElementById('quizContainer').style.display = 'block';
+  document.getElementById('quizResults').style.display = 'none';
+  renderQuestion();
+}
+
+// Init quiz
+renderQuestion();
+
+// Keyboard navigation for flashcards
+document.addEventListener('keydown', (e) => {
+  const isFlash = document.getElementById('flashcards').classList.contains('active');
+  if (!isFlash) return;
+  if (e.key === 'ArrowRight') nextCard();
+  if (e.key === 'ArrowLeft') prevCard();
+  if (e.key === ' ') { e.preventDefault(); flipCard(); }
+});
+</script>
+</body>
+</html>

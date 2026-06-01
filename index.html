@@ -502,6 +502,133 @@
   .piege-card .pt { font-family:'Sora',sans-serif; font-weight:700; font-size:.88rem; color:var(--orange); margin-bottom:4px; }
   .piege-card .pe { font-size:.85rem; color:var(--ink); line-height:1.5; }
 
+
+  /* ── EXAM SPECIFIC ── */
+  .exam-nav-btn { color:#FCD34D !important; font-weight:800 !important; border-bottom-color:transparent; }
+  .exam-nav-btn.active { color:#FCD34D !important; border-bottom-color:#FCD34D !important; }
+  .exam-banner {
+    background: linear-gradient(135deg, #7B1010 0%, #A93226 50%, #C0392B 100%);
+    border-radius:16px; padding:32px 36px; margin-bottom:28px;
+    border:3px solid #FCD34D; position:relative; overflow:hidden;
+  }
+  .exam-banner::before {
+    content:''; position:absolute; top:-40px; right:-40px;
+    width:180px; height:180px; border-radius:50%;
+    background:rgba(252,211,77,.1);
+  }
+  .exam-banner h1 { font-family:'Sora',sans-serif; font-size:2rem; font-weight:800; color:#fff; margin-bottom:6px; }
+  .exam-banner p  { color:rgba(255,255,255,.8); font-size:.95rem; margin-bottom:16px; }
+  .exam-meta { display:flex; gap:20px; flex-wrap:wrap; }
+  .exam-meta-item {
+    background:rgba(255,255,255,.15); border-radius:8px; padding:8px 16px;
+    font-family:'Sora',sans-serif; font-size:.82rem; color:#fff; font-weight:600;
+  }
+  .exam-meta-item span { color:#FCD34D; }
+  .exam-locked { pointer-events:none; user-select:none; }
+  .exam-q-card {
+    background:#fff; border-radius:14px; margin-bottom:18px;
+    box-shadow:0 2px 12px rgba(0,0,0,.07); overflow:hidden;
+    border:2px solid #e2e8f0;
+  }
+  .exam-q-head {
+    background:#1A3A5C; padding:14px 20px;
+    display:flex; align-items:flex-start; gap:14px;
+  }
+  .exam-q-num {
+    background:#FCD34D; color:#1A3A5C;
+    font-family:'Sora',sans-serif; font-weight:800; font-size:.95rem;
+    min-width:36px; height:36px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .exam-q-pts {
+    background:rgba(252,211,77,.2); color:#FCD34D;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:.75rem;
+    padding:2px 10px; border-radius:999px; white-space:nowrap; margin-top:6px; flex-shrink:0;
+  }
+  .exam-q-text { font-family:'Sora',sans-serif; font-size:.92rem; font-weight:600; color:#fff; line-height:1.45; padding-top:4px; flex:1; }
+  .exam-q-body { padding:20px; }
+  .exam-choice {
+    background:#EBF3FA; border:2px solid #D6E4F0; border-radius:10px;
+    padding:11px 16px; margin-bottom:9px; cursor:pointer;
+    font-size:.9rem; display:flex; align-items:center; gap:12px;
+    transition:all .15s; color:#1A2332;
+  }
+  .exam-choice:hover { background:#D6E4F0; border-color:#2E75B6; }
+  .exam-choice input[type=radio] { accent-color:#1F4E79; width:16px; height:16px; flex-shrink:0; cursor:pointer; }
+  .exam-choice label { cursor:pointer; flex:1; }
+  .exam-choice .cletter {
+    background:#2E75B6; color:#fff; font-family:'Sora',sans-serif; font-weight:700; font-size:.82rem;
+    min-width:26px; height:26px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .exam-textarea {
+    width:100%; padding:14px 16px; border:2px solid #D6E4F0; border-radius:10px;
+    font-family:'DM Sans',sans-serif; font-size:.9rem; outline:none;
+    resize:vertical; min-height:90px; color:#1A2332; line-height:1.6;
+    transition:border-color .2s;
+  }
+  .exam-textarea:focus { border-color:#2E75B6; }
+  .exam-section-divider {
+    background:#1F4E79; color:#fff; border-radius:10px;
+    padding:12px 20px; margin:24px 0 16px;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:.95rem;
+    display:flex; align-items:center; gap:10px;
+  }
+  .exam-section-divider .pts-badge {
+    background:rgba(252,211,77,.25); color:#FCD34D;
+    padding:3px 12px; border-radius:999px; font-size:.8rem;
+  }
+  .exam-submit-zone {
+    background:linear-gradient(135deg, #1A3A5C, #2E75B6);
+    border-radius:14px; padding:28px 32px; text-align:center; margin-top:32px;
+  }
+  .exam-submit-zone p { color:rgba(255,255,255,.8); font-size:.9rem; margin-bottom:16px; }
+  .exam-submit-btn {
+    background:#FCD34D; color:#1A3A5C; border:none;
+    font-family:'Sora',sans-serif; font-weight:800; font-size:1.05rem;
+    padding:14px 40px; border-radius:12px; cursor:pointer;
+    transition:all .2s; letter-spacing:.02em;
+    box-shadow:0 4px 20px rgba(0,0,0,.2);
+  }
+  .exam-submit-btn:hover { background:#fff; transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,0,0,.25); }
+  .exam-submit-btn:disabled { background:#ccc; cursor:not-allowed; transform:none; }
+  /* RESULTS */
+  .exam-results { display:none; }
+  .exam-results.show { display:block; }
+  .result-hero {
+    border-radius:16px; padding:36px; text-align:center; margin-bottom:28px;
+    border:3px solid;
+  }
+  .result-hero.pass { background:linear-gradient(135deg,#0D4D25,#1A6B3A); border-color:#FCD34D; }
+  .result-hero.fail { background:linear-gradient(135deg,#6E1B13,#A93226); border-color:#FCD34D; }
+  .result-grade { font-family:'Sora',sans-serif; font-size:4rem; font-weight:800; color:#FCD34D; line-height:1; }
+  .result-pct { font-family:'Sora',sans-serif; font-size:1.3rem; color:rgba(255,255,255,.8); margin:8px 0 16px; }
+  .result-msg { font-size:1rem; color:#fff; max-width:500px; margin:auto; }
+  .result-breakdown { background:#fff; border-radius:14px; padding:24px; margin-bottom:24px; box-shadow:0 2px 12px rgba(0,0,0,.07); }
+  .result-breakdown h3 { font-family:'Sora',sans-serif; font-weight:700; font-size:1rem; color:#1F4E79; margin-bottom:16px; }
+  .answer-reveal-card {
+    border-radius:12px; margin-bottom:14px; overflow:hidden; border:2px solid #e2e8f0;
+  }
+  .answer-reveal-head {
+    padding:12px 16px; display:flex; align-items:center; gap:10px;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:.88rem;
+  }
+  .answer-reveal-head.correct { background:#D4EFDF; color:#0D4D25; }
+  .answer-reveal-head.wrong   { background:#FDEDEC; color:#6E1B13; }
+  .answer-reveal-head.open    { background:#EBF3FA; color:#1F4E79; }
+  .answer-reveal-body { padding:14px 16px; background:#fff; font-size:.87rem; line-height:1.65; }
+  .answer-reveal-body .correct-ans { color:#0D4D25; font-weight:600; }
+  .answer-reveal-body .student-ans { color:#555; font-style:italic; }
+  .answer-reveal-body pre { white-space:pre-wrap; font-family:'DM Sans',sans-serif; font-size:.87rem; line-height:1.65; }
+  .retry-btn {
+    background:#1F4E79; color:#fff; border:none; border-radius:10px;
+    font-family:'Sora',sans-serif; font-weight:700; font-size:.9rem;
+    padding:12px 28px; cursor:pointer; transition:all .2s;
+    margin-top:8px;
+  }
+  .retry-btn:hover { background:#2E75B6; }
+  .calcul-section textarea { min-height:70px; }
+
   /* ANIMATIONS */
   @keyframes fadeIn { from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)} }
   .q-card { animation:fadeIn .3s ease forwards; }
@@ -537,6 +664,7 @@
       <button class="nav-btn" onclick="showSection('sH')">H — Développement</button>
       <button class="nav-btn" onclick="showSection('sI')">I — Dilution</button>
       <button class="nav-btn" onclick="showSection('sMemo')">★ Mémos</button>
+      <button class="nav-btn exam-nav-btn" onclick="showSection('sExam')">🎓 EXAMEN</button>
     </div>
   </nav>
 </header>
@@ -858,8 +986,36 @@
       <div class="memo-formula">C = m ÷ V</div>
       <ul class="memo-list">
         <li>C en <strong>g/mL</strong> ou <strong>% m/V</strong></li>
-        <li>Dilution : <strong>C₁ × V₁ = C₂ × V₂</strong></li>
-        <li>V₂ = V₁ + <strong>volume d'eau ajouté</strong> (total !)</li>
+        <li>m en <strong>g</strong> | V en <strong>mL</strong></li>
+        <li>Pour trouver m : <strong>m = C × V</strong></li>
+      </ul>
+    </div>
+    <div class="memo-card" style="border-top-color:var(--teal); grid-column: 1 / -1;">
+      <h3 style="color:var(--teal)">💧 Formule de dilution — C₁ × V₁ = C₂ × V₂</h3>
+      <div class="memo-formula" style="color:var(--teal); font-size:1.6rem; margin:10px 0;">C₁ × V₁ = C₂ × V₂</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:10px; margin:12px 0;">
+        <div style="background:var(--teal-l); border-radius:8px; padding:10px 14px; border-left:4px solid var(--teal);">
+          <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:.82rem; color:var(--teal); margin-bottom:4px;">Trouver C₂</div>
+          <code style="font-family:'JetBrains Mono',monospace; font-size:.88rem; color:var(--red);">C₂ = (C₁ × V₁) ÷ V₂</code>
+        </div>
+        <div style="background:var(--teal-l); border-radius:8px; padding:10px 14px; border-left:4px solid var(--teal);">
+          <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:.82rem; color:var(--teal); margin-bottom:4px;">Trouver V₁</div>
+          <code style="font-family:'JetBrains Mono',monospace; font-size:.88rem; color:var(--red);">V₁ = (C₂ × V₂) ÷ C₁</code>
+        </div>
+        <div style="background:var(--teal-l); border-radius:8px; padding:10px 14px; border-left:4px solid var(--teal);">
+          <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:.82rem; color:var(--teal); margin-bottom:4px;">Trouver V₂</div>
+          <code style="font-family:'JetBrains Mono',monospace; font-size:.88rem; color:var(--red);">V₂ = (C₁ × V₁) ÷ C₂</code>
+        </div>
+        <div style="background:var(--orange-l); border-radius:8px; padding:10px 14px; border-left:4px solid var(--orange);">
+          <div style="font-family:'Sora',sans-serif; font-weight:700; font-size:.82rem; color:var(--orange); margin-bottom:4px;">⚠ Volume TOTAL</div>
+          <code style="font-family:'JetBrains Mono',monospace; font-size:.88rem; color:var(--red);">V₂ = V₁ + V<sub>eau ajoutée</sub></code>
+        </div>
+      </div>
+      <ul class="memo-list">
+        <li><strong>C₁</strong> = concentration initiale (avant dilution) | <strong>V₁</strong> = volume initial prélevé</li>
+        <li><strong>C₂</strong> = concentration finale (après dilution) | <strong>V₂</strong> = volume TOTAL de la solution finale</li>
+        <li>⚠ V₂ ≠ volume d'eau ajouté — c'est le volume <strong>TOTAL</strong> (V₁ + eau ajoutée)</li>
+        <li>Vérification : C₁ × V₁ doit toujours être <strong>égal</strong> à C₂ × V₂</li>
       </ul>
     </div>
     <div class="memo-card" style="border-top-color:var(--green)">
@@ -899,6 +1055,296 @@
   <h3 style="font-family:'Sora',sans-serif; font-size:1rem; font-weight:700; color:var(--orange); margin-bottom:14px;">⚠ Les 10 pièges de l'examen</h3>
   <div id="piegesContainer"></div>
 </div>
+
+
+
+<!-- ══════════════════════════════════════════ SECTION EXAMEN ══ -->
+<div id="sExam" class="section-panel">
+
+  <!-- ═══ BANNER ═══════════════════════════════════════════════════════ -->
+  <div class="exam-banner">
+    <h1>🎓 Examen de pratique</h1>
+    <p>Réponds à toutes les sections, puis clique sur <strong>« Soumettre l'examen »</strong> pour voir ton score et le corrigé complet.</p>
+    <div class="exam-meta">
+      <div class="exam-meta-item">⏱ Durée suggérée : <span>75 minutes</span></div>
+      <div class="exam-meta-item">📋 Questions : <span>28</span></div>
+      <div class="exam-meta-item">🏆 Total : <span>60 points</span></div>
+      <div class="exam-meta-item">✅ Seuil de réussite : <span>42/60 (70 %)</span></div>
+    </div>
+  </div>
+
+  <div id="examForm">
+
+    <!-- ═══ SECTION A — Choix multiple (10 × 1 pt = 10 pts) ══════════ -->
+    <div class="exam-section-divider">
+      📝 Section A — Questions à choix multiple
+      <span class="pts-badge">10 questions × 1 pt = 10 pts</span>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">1</div><div class="exam-q-text">Quelle est la principale différence entre la mitose et la méiose ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea1" value="A"><label>La mitose produit 4 cellules avec 23 chromosomes et la méiose en produit 2.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea1" value="B"><label>La mitose produit 2 cellules identiques (46 chr.) ; la méiose produit 4 gamètes (23 chr.).</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea1" value="C"><label>La mitose sert à la reproduction sexuée et la méiose à la réparation des tissus.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea1" value="D"><label>La mitose et la méiose produisent exactement les mêmes cellules.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">2</div><div class="exam-q-text">Lors de l'INSPIRATION chez une personne en bonne santé, que se passe-t-il ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea2" value="A"><label>Pression ↑, volume ↓, diaphragme remonte.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea2" value="B"><label>Pression ↓, volume ↑, diaphragme descend.</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea2" value="C"><label>Pression ↑, volume ↑, diaphragme descend.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea2" value="D"><label>Pression ↓, volume ↓, diaphragme remonte.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">3</div><div class="exam-q-text">Quels constituants du sang transportent l'O₂ et le CO₂ ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea3" value="A"><label>Les globules blancs (leucocytes).</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea3" value="B"><label>Les plaquettes (thrombocytes).</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea3" value="C"><label>Les globules rouges (érythrocytes).</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea3" value="D"><label>Le plasma.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">4</div><div class="exam-q-text">Quelle structure de l'oreille transforme les vibrations sonores en influx nerveux ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea4" value="A"><label>Le tympan.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea4" value="B"><label>Les osselets.</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea4" value="C"><label>La cochlée (limaçon).</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea4" value="D"><label>Le conduit auditif.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">5</div><div class="exam-q-text">Lequel de ces éléments relie un MUSCLE à un OS pour permettre le mouvement ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea5" value="A"><label>Le ligament.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea5" value="B"><label>Le cartilage.</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea5" value="C"><label>Le tendon.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea5" value="D"><label>La membrane synoviale.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">6</div><div class="exam-q-text">Quelle contrainte mécanique subit un câble de pont suspendu tiré aux deux extrémités ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea6" value="A"><label>La compression.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea6" value="B"><label>La traction.</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea6" value="C"><label>La flexion.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea6" value="D"><label>La torsion.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">7</div><div class="exam-q-text">Lors d'une augmentation de fréquence d'une onde, que se passe-t-il avec sa longueur d'onde ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea7" value="A"><label>Elle augmente aussi.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea7" value="B"><label>Elle reste identique.</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea7" value="C"><label>Elle diminue.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea7" value="D"><label>L'amplitude diminue en même temps.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">8</div><div class="exam-q-text">Quel est l'ordre des ères géologiques, de la plus ancienne à la plus récente ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea8" value="A"><label>Cénozoïque → Mésozoïque → Paléozoïque → Précambrien.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea8" value="B"><label>Mésozoïque → Précambrien → Paléozoïque → Cénozoïque.</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea8" value="C"><label>Précambrien → Paléozoïque → Mésozoïque → Cénozoïque.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea8" value="D"><label>Paléozoïque → Précambrien → Cénozoïque → Mésozoïque.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">9</div><div class="exam-q-text">Deux engrenages se touchent directement. Si la roue menante tourne en sens horaire, dans quel sens tourne la roue menée ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea9" value="A"><label>Dans le même sens (horaire).</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea9" value="B"><label>Dans le sens antihoraire (opposé).</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea9" value="C"><label>Elle ne tourne pas.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea9" value="D"><label>Ça dépend de la taille des dents.</label></div>
+      </div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">10</div><div class="exam-q-text">Quelle projection montre un objet en 3D avec 3 axes à 120° et toutes les dimensions à l'échelle réelle ?</div><div class="exam-q-pts">1 pt</div></div>
+      <div class="exam-q-body">
+        <div class="exam-choice"><span class="cletter">A</span><input type="radio" name="ea10" value="A"><label>Projection oblique.</label></div>
+        <div class="exam-choice"><span class="cletter">B</span><input type="radio" name="ea10" value="B"><label>Projection isométrique.</label></div>
+        <div class="exam-choice"><span class="cletter">C</span><input type="radio" name="ea10" value="C"><label>Vue de face.</label></div>
+        <div class="exam-choice"><span class="cletter">D</span><input type="radio" name="ea10" value="D"><label>Vue en coupe.</label></div>
+      </div>
+    </div>
+
+    <!-- ═══ SECTION B — Réponses courtes (5 × 2 pts = 10 pts) ════════ -->
+    <div class="exam-section-divider">
+      ✍ Section B — Réponses courtes
+      <span class="pts-badge">5 questions × 2 pts = 10 pts</span>
+    </div>
+    <div style="background:#FEF3CD;border-left:4px solid #D4A017;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:.87rem;color:#7A5200;">
+      ★ Réponds en 2 à 4 phrases complètes. Utilise le vocabulaire scientifique.
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">B1</div><div class="exam-q-text">Nomme les 4 constituants du sang et indique la fonction principale de chacun.</div><div class="exam-q-pts">2 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="eb1" placeholder="Écris ta réponse ici…" rows="4"></textarea></div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">B2</div><div class="exam-q-text">Explique la différence entre un réflexe et un mouvement volontaire en nommant les structures impliquées dans chaque cas.</div><div class="exam-q-pts">2 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="eb2" placeholder="Écris ta réponse ici…" rows="4"></textarea></div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">B3</div><div class="exam-q-text">Quelle est la différence entre un tendon et un ligament ? Donne un exemple de blessure pour chacun.</div><div class="exam-q-pts">2 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="eb3" placeholder="Écris ta réponse ici…" rows="4"></textarea></div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">B4</div><div class="exam-q-text">Nomme les 4 ères géologiques dans l'ordre du plus ancien au plus récent et associe un événement clé à chacune.</div><div class="exam-q-pts">2 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="eb4" placeholder="Écris ta réponse ici…" rows="5"></textarea></div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">B5</div><div class="exam-q-text">Décris le trajet de l'air lors de l'inspiration, depuis les fosses nasales jusqu'aux alvéoles. Nomme chaque structure dans l'ordre.</div><div class="exam-q-pts">2 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="eb5" placeholder="Écris ta réponse ici…" rows="3"></textarea></div>
+    </div>
+
+    <!-- ═══ SECTION C — Réponses moyennes (4 × 5 pts = 20 pts) ═══════ -->
+    <div class="exam-section-divider">
+      📝 Section C — Réponses à développement moyen
+      <span class="pts-badge">4 questions × 5 pts = 20 pts</span>
+    </div>
+    <div style="background:#FEF3CD;border-left:4px solid #D4A017;border-radius:8px;padding:10px 16px;margin-bottom:16px;font-size:.87rem;color:#7A5200;">
+      ★ Développe ta réponse avec des explications claires et des exemples. 5 à 8 phrases.
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">C1</div><div class="exam-q-text">Mario joue à un jeu vidéo de boxe. Il voit le poing adverse à l'écran et déplace sa manette pour esquiver. Décris le trajet COMPLET de l'influx nerveux depuis ses yeux jusqu'au mouvement de sa main. Nomme chaque structure dans l'ordre et précise s'il s'agit d'un réflexe ou d'un mouvement volontaire.</div><div class="exam-q-pts">5 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="ec1" placeholder="Décris le trajet complet étape par étape…" rows="7"></textarea></div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">C2</div><div class="exam-q-text">Explique la digestion mécanique et la digestion chimique. Pour chaque type, nomme au moins 2 exemples d'actions et les organes où elles se produisent. Quelle est l'importance de chacune pour l'absorption des nutriments ?</div><div class="exam-q-pts">5 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="ec2" placeholder="Décris les deux types de digestion avec exemples et organes…" rows="7"></textarea></div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">C3</div><div class="exam-q-text">Décris les deux circuits de la circulation sanguine (pulmonaire et systémique). Pour chacun : nomme le point de départ, le trajet principal et le point d'arrivée. Explique aussi les échanges qui se produisent entre les capillaires et les cellules du corps.</div><div class="exam-q-pts">5 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="ec3" placeholder="Décris les deux circuits avec leurs trajets et les échanges…" rows="7"></textarea></div>
+    </div>
+
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">C4</div><div class="exam-q-text">Quelles sont les conditions nécessaires à l'émergence de la vie sur Terre ? Pour chaque condition, explique pourquoi elle est indispensable. Pourquoi l'eau LIQUIDE est-elle essentielle plutôt que solide ou gazeuse ?</div><div class="exam-q-pts">5 pts</div></div>
+      <div class="exam-q-body"><textarea class="exam-textarea" id="ec4" placeholder="Liste et explique chaque condition nécessaire à la vie…" rows="7"></textarea></div>
+    </div>
+
+    <!-- ═══ SECTION D — Calculs (3 problèmes = 20 pts) ═══════════════ -->
+    <div class="exam-section-divider">
+      🔢 Section D — Problèmes de calcul
+      <span class="pts-badge">3 problèmes — 20 pts</span>
+    </div>
+    <div style="background:#FEF3CD;border-left:4px solid #D4A017;border-radius:8px;padding:10px 16px;margin-bottom:14px;font-size:.87rem;color:#7A5200;">
+      ★ Montre TOUTES tes étapes de calcul avec les unités. La démarche vaut des points, même si la réponse finale est incorrecte.
+    </div>
+    <div style="background:#1A3A5C;border-radius:10px;padding:14px 20px;margin-bottom:18px;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:#FCD34D;display:flex;gap:20px;flex-wrap:wrap;">
+      <span>ρ = m ÷ V</span>
+      <span style="color:rgba(255,255,255,.5)">|</span>
+      <span>C = m ÷ V</span>
+      <span style="color:rgba(255,255,255,.5)">|</span>
+      <span>C₁ × V₁ = C₂ × V₂</span>
+      <span style="color:rgba(255,255,255,.5)">|</span>
+      <span>V₂ = V₁ + V<sub style="font-size:.7em">eau</sub></span>
+      <span style="color:rgba(255,255,255,.5)">|</span>
+      <span>m<sub style="font-size:.7em">subst.</sub> = m<sub style="font-size:.7em">totale</sub> − m<sub style="font-size:.7em">bécher</sub></span>
+    </div>
+
+    <!-- D1 : Masse volumique -->
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">D1</div><div class="exam-q-text">Un technicien de laboratoire reçoit une substance liquide inconnue. Il effectue les mesures suivantes :<br><br>• Masse du bécher vide : 98,20 g<br>• Masse du bécher avec la substance : 119,70 g<br>• Volume de la substance : 25,0 mL<br><br>Identifie la substance parmi les choix suivants en montrant TOUTES tes étapes de calcul.<br><br>Références : Glycérine (ρ = 1,26 g/mL) | Antigel (ρ = 1,11 g/mL) | Eau distillée (ρ = 1,00 g/mL) | Alcool éthylique (ρ = 0,79 g/mL)</div><div class="exam-q-pts">6 pts</div></div>
+      <div class="exam-q-body">
+        <div style="background:#EBF3FA;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.87rem;line-height:1.7;">
+          <strong>Structure de réponse attendue :</strong><br>
+          Étape 1 : Calculer la masse de la substance (m = masse totale − masse bécher)<br>
+          Étape 2 : Calculer la masse volumique (ρ = m ÷ V)<br>
+          Étape 3 : Comparer avec les références et identifier la substance
+        </div>
+        <textarea class="exam-textarea" id="ed1" placeholder="Étape 1 — Masse de la substance :&#10;m = ___ g − ___ g = ___ g&#10;&#10;Étape 2 — Masse volumique :&#10;ρ = ___ g ÷ ___ mL = ___ g/mL&#10;&#10;Étape 3 — Identification :&#10;La substance est : ___" rows="10"></textarea>
+      </div>
+    </div>
+
+    <!-- D2 : Concentration et dilution (deux parties) -->
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">D2</div><div class="exam-q-text">Une solution de désinfectant concentré est vendue à 15 % m/V.<br><br>a) Une infirmière doit préparer 600 mL d'une solution à 3 % m/V pour désinfecter les surfaces. Quel volume de solution concentrée doit-elle prélever ? Quel volume d'eau doit-elle ajouter ?<br><br>b) Si elle utilise plutôt seulement 30 mL de solution concentrée (15 % m/V) et les mélange avec 120 mL d'eau, quelle sera la concentration de la nouvelle solution ?<br><br>Montre toutes tes étapes pour les deux parties.</div><div class="exam-q-pts">8 pts</div></div>
+      <div class="exam-q-body">
+        <div style="background:#EBF3FA;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.87rem;line-height:1.7;">
+          <strong>Partie a) :</strong> Cherche V₁ → V₁ = (C₂ × V₂) ÷ C₁ &nbsp;|&nbsp; V eau = V₂ − V₁<br>
+          <strong>Partie b) :</strong> Cherche C₂ → C₂ = (C₁ × V₁) ÷ V₂ &nbsp;|&nbsp; V₂ = V₁ + V eau
+        </div>
+        <textarea class="exam-textarea" id="ed2" placeholder="Partie a) :&#10;Données : C₁ = ___ % | C₂ = ___ % | V₂ = ___ mL&#10;V₁ = (C₂ × V₂) ÷ C₁ = (___ × ___) ÷ ___ = ___ mL ✔&#10;V eau = V₂ − V₁ = ___ − ___ = ___ mL ✔&#10;&#10;Vérification : C₁ × V₁ = ___ × ___ = ___ | C₂ × V₂ = ___ × ___ = ___&#10;&#10;Partie b) :&#10;Données : C₁ = ___ % | V₁ = ___ mL | V eau = ___ mL | V₂ = ___ mL&#10;C₂ = (C₁ × V₁) ÷ V₂ = (___ × ___) ÷ ___ = ___ % m/V ✔" rows="13"></textarea>
+      </div>
+    </div>
+
+    <!-- D3 : Substitut alimentaire — préparation + changement -->
+    <div class="exam-q-card">
+      <div class="exam-q-head"><div class="exam-q-num">D3</div><div class="exam-q-text">Un voyageur doit préparer un substitut alimentaire en poudre pour un voyage de 5 jours.<br><br>a) La concentration recommandée est de 12 g/100 mL. Il veut préparer 2 L (2 000 mL) de solution. Quelle quantité de poudre (en grammes) doit-il mesurer ?<br><br>b) Il réalise qu'il n'a que 1 500 mL d'eau disponible. S'il utilise la même quantité de poudre calculée en a), quelle sera la concentration de sa solution ?<br><br>c) Cette nouvelle concentration est-elle plus forte ou plus faible que recommandé ? Explique pourquoi en une phrase.</div><div class="exam-q-pts">6 pts</div></div>
+      <div class="exam-q-body">
+        <div style="background:#EBF3FA;border-radius:8px;padding:12px 16px;margin-bottom:14px;font-size:.87rem;line-height:1.7;">
+          <strong>Partie a) :</strong> m = C × V (arrange la formule C = m ÷ V)<br>
+          <strong>Partie b) :</strong> C₂ = m ÷ V₂<br>
+          <strong>Partie c) :</strong> Compare avec 12 g/100 mL
+        </div>
+        <textarea class="exam-textarea" id="ed3" placeholder="Partie a) :&#10;Données : C = 12 g/100 mL | V = 2 000 mL&#10;m = C × V = ___ × ___ = ___ g de poudre ✔&#10;&#10;Partie b) :&#10;Données : m = ___ g | V₂ = 1 500 mL&#10;C₂ = m ÷ V₂ = ___ ÷ ___ = ___ g/mL = ___ g/100 mL ✔&#10;&#10;Partie c) :&#10;La nouvelle concentration est ___ car ___" rows="13"></textarea>
+      </div>
+    </div>
+
+    <!-- ═══ BOUTON SOUMETTRE ══════════════════════════════════════════ -->
+    <div class="exam-submit-zone">
+      <p>📌 Assure-toi d'avoir répondu à toutes les questions. Les réponses seront verrouillées après la soumission.<br>Les sections B, C et D seront corrigées avec le corrigé de référence pour que tu puisses comparer.</p>
+      <button class="exam-submit-btn" id="examSubmitBtn" onclick="submitExam()">📤 Soumettre l'examen et voir mes résultats</button>
+    </div>
+
+  </div><!-- /examForm -->
+
+  <!-- ═══ RÉSULTATS ══════════════════════════════════════════════════ -->
+  <div id="examResults" class="exam-results">
+
+    <div id="resultHero" class="result-hero">
+      <div class="result-grade" id="resultGrade">—</div>
+      <div class="result-pct" id="resultPct"></div>
+      <div class="result-msg" id="resultMsg"></div>
+    </div>
+
+    <div class="result-breakdown">
+      <h3>📊 Bilan par section</h3>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead><tr style="background:#EBF3FA;">
+          <th style="padding:8px 12px;text-align:left;font-family:'Sora',sans-serif;font-size:.82rem;color:#1F4E79;">Section</th>
+          <th style="padding:8px 12px;text-align:center;font-family:'Sora',sans-serif;font-size:.82rem;color:#1F4E79;">Score</th>
+          <th style="padding:8px 12px;text-align:center;font-family:'Sora',sans-serif;font-size:.82rem;color:#1F4E79;">/ Total</th>
+          <th style="padding:8px 12px;text-align:center;font-family:'Sora',sans-serif;font-size:.82rem;color:#1F4E79;">%</th>
+        </tr></thead>
+        <tbody id="bilanBody"></tbody>
+      </table>
+    </div>
+
+    <div class="result-breakdown">
+      <h3>📖 Corrigé complet — toutes les réponses détaillées</h3>
+      <div id="corrigeDetails"></div>
+    </div>
+
+    <div style="text-align:center;margin-top:8px;">
+      <button class="retry-btn" onclick="retryExam()">🔄 Recommencer l'examen</button>
+    </div>
+
+  </div><!-- /examResults -->
+
+</div><!-- /sExam -->
 
 </main>
 
@@ -1589,9 +2035,309 @@ function buildPieges() {
   });
 }
 
+
 // ══════════════════════════════════════════════════════════════════════
-//  INIT
+//  SECTION EXAMEN — CORRIGÉ ET LOGIQUE
 // ══════════════════════════════════════════════════════════════════════
+
+// ── Réponses correctes (Section A — choix multiple) ──────────────────
+const examMCQAnswers = {
+  ea1:'B', ea2:'B', ea3:'C', ea4:'C', ea5:'C',
+  ea6:'B', ea7:'C', ea8:'C', ea9:'B', ea10:'B',
+};
+
+// ── Explications Section A ────────────────────────────────────────────
+const examMCQExpl = {
+  ea1:  'La MITOSE produit 2 cellules génétiquement identiques avec 46 chromosomes (croissance, réparation). La MÉIOSE produit 4 gamètes avec 23 chromosomes (reproduction sexuée, diversité génétique).',
+  ea2:  'Lors de l\'INSPIRATION : le diaphragme se contracte et DESCEND → le volume augmente → la pression DIMINUE → l\'air entre dans les poumons (de haute vers basse pression). Lors de l\'expiration, tout est inversé.',
+  ea3:  'Les GLOBULES ROUGES (érythrocytes) contiennent l\'hémoglobine qui se lie à l\'O₂ (des poumons vers les cellules) et au CO₂ (des cellules vers les poumons). Les globules blancs défendent. Les plaquettes coagulent. Le plasma transporte nutriments et déchets.',
+  ea4:  'La COCHLÉE (limaçon) est l\'organe de l\'oreille interne qui transforme les vibrations mécaniques en influx nerveux électriques envoyés au cerveau. Le tympan vibre. Les osselets amplifient et transmettent. La cochlée fait la conversion.',
+  ea5:  'Le TENDON relie un MUSCLE à un OS — il transmet la force de contraction pour créer le mouvement. Le LIGAMENT relie un OS à un autre OS — il stabilise l\'articulation. Confusion très fréquente à l\'examen !',
+  ea6:  'La TRACTION est une force qui ÉTIRE le matériau (deux forces vers l\'extérieur). Les câbles de pont sont tirés à leurs deux extrémités. Les piliers, eux, subissent une COMPRESSION (force qui écrase).',
+  ea7:  'Fréquence et longueur d\'onde ont une relation INVERSE : fréquence ↑ = longueur d\'onde ↓. Plus l\'onde fait de cycles par seconde, plus ses crêtes sont rapprochées → longueur d\'onde plus courte. L\'amplitude est totalement indépendante.',
+  ea8:  'Ordre du + ancien au + récent : PRÉCAMBRIEN (premières cellules) → PALÉOZOÏQUE (extinctions marines) → MÉSOZOÏQUE (dinosaures) → CÉNOZOÏQUE (hominidés). Moyen mémo : « Précédez Plutôt Mon Chemin ».',
+  ea9:  'Deux engrenages qui se touchent directement tournent TOUJOURS en sens opposés. Si la menante tourne en sens horaire, la menée tourne en sens antihoraire. Pour obtenir le même sens, il faut une roue intermédiaire (secondaire).',
+  ea10: 'La PROJECTION ISOMÉTRIQUE montre l\'objet en 3D avec 3 axes à 120° et toutes les dimensions à l\'échelle réelle. La projection oblique réduit la profondeur de moitié. Les vues multiples montrent des vues 2D séparées (standard de fabrication).',
+};
+
+// ── Corrigés de référence — Sections B, C, D ─────────────────────────
+const examLongRef = {
+  eb1: `CORRIGÉ — Les 4 constituants du sang :
+1. Globules rouges (érythrocytes) → Transportent l'O₂ (des poumons aux cellules) et le CO₂ (des cellules aux poumons) grâce à l'hémoglobine.
+2. Globules blancs (leucocytes) → Défendent l'organisme contre les agents pathogènes (bactéries, virus) — système immunitaire.
+3. Plaquettes (thrombocytes) → Assurent la coagulation sanguine pour arrêter les saignements.
+4. Plasma → Liquide jaunâtre qui transporte les nutriments, hormones, déchets (urée) et les éléments figurés.`,
+
+  eb2: `CORRIGÉ — Réflexe vs mouvement volontaire :
+RÉFLEXE (involontaire) : Le trajet passe par la MOELLE ÉPINIÈRE seulement.
+Trajet : Stimulus → Nerf sensitif → Moelle épinière → Nerf moteur → Muscle.
+Le cerveau n'est PAS impliqué → c'est très rapide et involontaire (ex : réflexe rotulien).
+
+MOUVEMENT VOLONTAIRE : Le trajet passe par l'ENCÉPHALE (cerveau).
+Trajet : Stimulus → Nerf sensitif → Encéphale (analyse + décision) → Nerf moteur → Muscle.
+Le cerveau analyse et décide consciemment du mouvement → plus lent mais contrôlé.`,
+
+  eb3: `CORRIGÉ — Tendon vs ligament :
+TENDON : Relie un MUSCLE à un OS. Il transmet la force de contraction musculaire à l'os pour créer le mouvement.
+Blessure : Tendinite (inflammation par mouvements répétitifs) ou rupture de tendon (ex : tendon d'Achille lors d'un saut).
+
+LIGAMENT : Relie un OS à un autre OS. Il stabilise l'articulation et empêche les mouvements excessifs.
+Blessure : Entorse (ligaments étirés ou déchirés lors d'une torsion) — ex : entorse de la cheville.`,
+
+  eb4: `CORRIGÉ — Ères géologiques :
+1. Précambrien (+ ancienne, > 3,8 milliards d'ans) → Formation des océans et apparition des premières cellules.
+2. Paléozoïque (~541 à 252 Ma) → Trois extinctions massives de la vie marine ; apparition de la vie terrestre.
+3. Mésozoïque (~252 à 66 Ma) → Règne des dinosaures, puis extinction des dinosaures (fin de l'ère).
+4. Cénozoïque (+ récente, ~66 Ma à aujourd'hui) → Apparition et évolution des hominidés (ancêtres de l'humain).`,
+
+  eb5: `CORRIGÉ — Trajet de l'air lors de l'inspiration :
+Fosses nasales → Pharynx → Larynx → Trachée → Bronches → Bronchioles → Alvéoles (dans les poumons).
+Les fosses nasales filtrent, réchauffent et humidifient l'air. La trachée est maintenue ouverte par des anneaux cartilagineux. Les alvéoles sont les petites cavités où s'effectuent les échanges gazeux O₂/CO₂ avec le sang.`,
+
+  ec1: `CORRIGÉ COMPLET — Trajet de l'influx nerveux (mouvement VOLONTAIRE) :
+
+1. Stimulus : image lumineuse du poing adverse frappe l'œil de Mario.
+2. Trajet dans l'œil : Cornée → Iris (pupille) → Cristallin (lentille convergente, focalise l'image) → Rétine (capte l'image).
+3. La rétine transforme la lumière en influx nerveux électrique.
+4. Le nerf optique (nerf SENSITIF) transporte l'influx vers l'encéphale.
+5. L'ENCÉPHALE (cerveau) analyse l'image et décide consciemment du mouvement d'esquive.
+6. Un influx moteur part de l'encéphale via le nerf MOTEUR vers les muscles du bras et de la main.
+7. Les muscles squelettiques (volontaires) se contractent → Mario déplace la manette.
+
+C'est un mouvement VOLONTAIRE car l'information passe par le CERVEAU (encéphale) qui analyse et décide.
+(Un réflexe ne passerait que par la moelle épinière, sans décision consciente.)`,
+
+  ec2: `CORRIGÉ COMPLET — Digestion mécanique et chimique :
+
+DIGESTION MÉCANIQUE : Fragmentation physique des aliments sans modifier leur nature chimique.
+• Mastication (dents — bouche) : brise les aliments en morceaux plus petits.
+• Brassage (estomac) : mélange les aliments pour les fragmenter davantage.
+• Péristaltisme (intestins) : contractions qui déplacent et malaxent les aliments.
+→ Importance : augmente la surface de contact pour les enzymes chimiques.
+
+DIGESTION CHIMIQUE : Transformation moléculaire par des enzymes spécifiques.
+• Salive (bouche) : l'amylase salivaire dégrade l'amidon (glucides complexes) en sucres simples.
+• Sucs gastriques (estomac) : enzymes qui décomposent les protéines en acides aminés.
+• Bile du foie (intestin grêle) : émulsifie les graisses (les brise en gouttelettes).
+• Pancréas (intestin grêle) : enzymes pour protéines, glucides ET lipides.
+→ Importance : transforme les macromolécules en nutriments absorbables par les cellules.`,
+
+  ec3: `CORRIGÉ COMPLET — Circulation sanguine :
+
+CIRCULATION PULMONAIRE (petit circuit) :
+• Départ : Ventricule DROIT (sang désoxygéné, pauvre en O₂)
+• Trajet : Ventricule droit → Artères pulmonaires → Capillaires des alvéoles (échanges gazeux : CO₂ libéré, O₂ absorbé) → Veines pulmonaires
+• Arrivée : Oreillette GAUCHE (sang oxygéné, riche en O₂)
+
+CIRCULATION SYSTÉMIQUE (grand circuit) :
+• Départ : Ventricule GAUCHE (sang oxygéné)
+• Trajet : Ventricule gauche → Artère aorte → Capillaires des organes et muscles (échanges) → Veines caves
+• Arrivée : Oreillette DROITE (sang désoxygéné)
+
+ÉCHANGES capillaires ↔ cellules :
+• O₂ et nutriments : vont du capillaire VERS la cellule (apport)
+• CO₂ et urée (déchets) : vont de la cellule VERS le capillaire (élimination)`,
+
+  ec4: `CORRIGÉ COMPLET — Conditions nécessaires à l'émergence de la vie :
+
+1. Présence d'eau LIQUIDE : L'eau est le solvant universel. Elle permet les réactions chimiques entre molécules organiques. L'eau solide (glace) emprisonne les molécules. L'eau gazeuse s'évapore et ne maintient pas un milieu stable. Seule l'eau liquide permet les échanges chimiques nécessaires à la vie.
+
+2. Présence de méthane (CH₄) dans l'atmosphère : L'atmosphère primitive ne contenait pas d'O₂ mais du méthane et d'autres gaz réducteurs. Ces gaz étaient nécessaires pour les premières réactions chimiques menant aux molécules organiques.
+
+3. Présence d'une source d'énergie : La chaleur volcanique ou le rayonnement solaire fournissent l'énergie pour déclencher les réactions chimiques qui forment les molécules organiques (acides aminés, sucres).
+
+4. Une très longue période de temps : Des milliards d'années sont nécessaires pour que les réactions chimiques se complexifient progressivement jusqu'à former des cellules vivantes.`,
+
+  ed1: `CORRIGÉ COMPLET — Calcul de masse volumique :
+
+Données : masse bécher vide = 98,20 g | masse bécher + substance = 119,70 g | volume = 25,0 mL
+
+Étape 1 — Masse de la substance :
+m = masse totale − masse bécher = 119,70 g − 98,20 g = 21,50 g
+
+Étape 2 — Calcul de la masse volumique :
+ρ = m ÷ V = 21,50 g ÷ 25,0 mL = 0,86 g/mL
+
+Étape 3 — Identification :
+Glycérine = 1,26 g/mL | Antigel = 1,11 g/mL | Eau distillée = 1,00 g/mL | Alcool éthylique = 0,79 g/mL
+ρ calculée = 0,86 g/mL → Ne correspond pas exactement. La valeur la plus proche est l'alcool éthylique (0,79 g/mL).
+Note : la substance pourrait être un mélange ou une solution concentrée d'alcool.`,
+
+  ed2: `CORRIGÉ COMPLET — Dilution (deux parties) :
+
+──── Partie a) ────
+Données : C₁ = 15 % m/V | C₂ = 3 % m/V | V₂ = 600 mL | V₁ = ?
+
+Formule : V₁ = (C₂ × V₂) ÷ C₁
+V₁ = (3 × 600) ÷ 15
+V₁ = 1 800 ÷ 15
+V₁ = 120 mL de solution concentrée ✔
+
+Volume d'eau à ajouter : V eau = V₂ − V₁ = 600 − 120 = 480 mL ✔
+
+Vérification : C₁ × V₁ = 15 × 120 = 1 800 | C₂ × V₂ = 3 × 600 = 1 800 ✔ (égaux)
+
+──── Partie b) ────
+Données : C₁ = 15 % m/V | V₁ = 30 mL | V eau = 120 mL
+V₂ = V₁ + V eau = 30 + 120 = 150 mL
+
+Formule : C₂ = (C₁ × V₁) ÷ V₂
+C₂ = (15 × 30) ÷ 150
+C₂ = 450 ÷ 150
+C₂ = 3,0 % m/V ✔
+
+Vérification : C₁ × V₁ = 15 × 30 = 450 | C₂ × V₂ = 3 × 150 = 450 ✔`,
+
+  ed3: `CORRIGÉ COMPLET — Substitut alimentaire :
+
+──── Partie a) ─ Quantité de poudre ────
+Données : C = 12 g/100 mL | V = 2 000 mL
+
+Formule : m = C × V
+m = (12 g / 100 mL) × 2 000 mL
+m = 0,12 g/mL × 2 000 mL
+m = 240 g de poudre ✔
+
+──── Partie b) ─ Nouvelle concentration ────
+Données : m = 240 g | V₂ = 1 500 mL
+
+C₂ = m ÷ V₂ = 240 g ÷ 1 500 mL = 0,16 g/mL = 16 g/100 mL ✔
+
+──── Partie c) ─ Comparaison ────
+La nouvelle concentration (16 g/100 mL) est PLUS FORTE que recommandé (12 g/100 mL) car la même quantité de poudre est dissoute dans un plus petit volume d'eau, ce qui augmente la concentration. ✔`,
+};
+
+// ══════════════════════════════════════════════════════════════════════
+//  SOUMETTRE L'EXAMEN
+// ══════════════════════════════════════════════════════════════════════
+function submitExam() {
+  document.getElementById('examForm').classList.add('exam-locked');
+  document.getElementById('examSubmitBtn').disabled = true;
+
+  let scoreA = 0;
+  const corrigeHTML = [];
+
+  // ── Section A — auto-correction ──────────────────────────────────
+  corrigeHTML.push('<div class="exam-section-divider" style="margin-top:0;margin-bottom:12px;">📝 Section A — Questions à choix multiple</div>');
+  const mcqLabels = [
+    'Mitose vs méiose','Inspiration','Constituants du sang','Structure de l\'oreille',
+    'Tendon (muscle→os)','Contrainte d\'un câble','Fréquence et longueur d\'onde',
+    'Ordre des ères géologiques','Sens de rotation des engrenages','Projection isométrique'
+  ];
+  for (let n=1; n<=10; n++) {
+    const key = 'ea'+n;
+    const sel = document.querySelector(`input[name="${key}"]:checked`);
+    const chosen = sel ? sel.value : null;
+    const correct = examMCQAnswers[key];
+    const isOk = chosen === correct;
+    if (isOk) scoreA++;
+    const cls = !chosen ? 'open' : (isOk ? 'correct' : 'wrong');
+    const icon = !chosen ? '⬜' : (isOk ? '✅' : '❌');
+    corrigeHTML.push(`<div class="answer-reveal-card">
+      <div class="answer-reveal-head ${cls}">${icon} Question ${n} — ${mcqLabels[n-1]} (1 pt)${isOk ? ' — Correct !' : chosen ? ` — Incorrect (tu as choisi ${chosen})` : ' — Sans réponse'}</div>
+      <div class="answer-reveal-body">
+        <p class="correct-ans" style="margin-bottom:8px;">✔ Bonne réponse : ${correct}</p>
+        <p>${examMCQExpl[key]}</p>
+      </div>
+    </div>`);
+  }
+
+  // ── Section B — réponse courte (comparaison manuelle) ────────────
+  corrigeHTML.push('<div class="exam-section-divider" style="margin-bottom:12px;">✍ Section B — Réponses courtes (compare avec le corrigé)</div>');
+  const bLabels = ['B1 — Les 4 constituants du sang','B2 — Réflexe vs mouvement volontaire',
+    'B3 — Tendon vs ligament','B4 — Ères géologiques','B5 — Trajet de l\'air'];
+  for (let n=1; n<=5; n++) {
+    const val = (document.getElementById('eb'+n)||{}).value||'';
+    corrigeHTML.push(`<div class="answer-reveal-card">
+      <div class="answer-reveal-head open">📝 ${bLabels[n-1]} (2 pts) — Vérifie ta réponse</div>
+      <div class="answer-reveal-body">
+        ${val.trim() ? `<p class="student-ans" style="margin-bottom:10px;border-left:3px solid #ccc;padding-left:10px;">📌 Ta réponse :<br>${val.replace(/\n/g,'<br>')}</p>` : '<p style="color:#999;margin-bottom:10px;font-style:italic;">Aucune réponse.</p>'}
+        <p class="correct-ans" style="margin-bottom:6px;">✔ Corrigé de référence :</p>
+        <pre>${examLongRef['eb'+n]}</pre>
+      </div>
+    </div>`);
+  }
+
+  // ── Section C — développement moyen ─────────────────────────────
+  corrigeHTML.push('<div class="exam-section-divider" style="margin-bottom:12px;">📝 Section C — Développement moyen (compare avec le corrigé)</div>');
+  const cLabels = ['C1 — Trajet influx nerveux / jeu vidéo','C2 — Digestion mécanique et chimique',
+    'C3 — Circulation sanguine et échanges','C4 — Conditions émergence de la vie'];
+  for (let n=1; n<=4; n++) {
+    const val = (document.getElementById('ec'+n)||{}).value||'';
+    corrigeHTML.push(`<div class="answer-reveal-card">
+      <div class="answer-reveal-head open">📄 ${cLabels[n-1]} (5 pts) — Vérifie ta réponse</div>
+      <div class="answer-reveal-body">
+        ${val.trim() ? `<p class="student-ans" style="margin-bottom:10px;border-left:3px solid #ccc;padding-left:10px;">📌 Ta réponse :<br>${val.replace(/\n/g,'<br>')}</p>` : '<p style="color:#999;margin-bottom:10px;font-style:italic;">Aucune réponse.</p>'}
+        <p class="correct-ans" style="margin-bottom:6px;">✔ Corrigé complet :</p>
+        <pre>${examLongRef['ec'+n]}</pre>
+      </div>
+    </div>`);
+  }
+
+  // ── Section D — calculs ──────────────────────────────────────────
+  corrigeHTML.push('<div class="exam-section-divider" style="margin-bottom:12px;">🔢 Section D — Calculs (compare avec le corrigé étape par étape)</div>');
+  const dLabels = ['D1 — Masse volumique (6 pts)','D2 — Dilution, deux parties (8 pts)','D3 — Substitut alimentaire (6 pts)'];
+  for (let n=1; n<=3; n++) {
+    const val = (document.getElementById('ed'+n)||{}).value||'';
+    corrigeHTML.push(`<div class="answer-reveal-card">
+      <div class="answer-reveal-head open">🔢 ${dLabels[n-1]} — Vérifie ta démarche</div>
+      <div class="answer-reveal-body">
+        ${val.trim() ? `<p class="student-ans" style="margin-bottom:10px;border-left:3px solid #ccc;padding-left:10px;">📌 Ta démarche :<br>${val.replace(/\n/g,'<br>')}</p>` : '<p style="color:#999;margin-bottom:10px;font-style:italic;">Aucun calcul écrit.</p>'}
+        <p class="correct-ans" style="margin-bottom:6px;">✔ Solution étape par étape :</p>
+        <pre>${examLongRef['ed'+n]}</pre>
+      </div>
+    </div>`);
+  }
+
+  // ── Score et affichage ───────────────────────────────────────────
+  const pctA = Math.round(scoreA / 10 * 100);
+  const pass = pctA >= 70;
+
+  const hero = document.getElementById('resultHero');
+  hero.className = 'result-hero ' + (pass ? 'pass' : 'fail');
+  document.getElementById('resultGrade').textContent = scoreA + '/10';
+  document.getElementById('resultPct').textContent = `Section A (choix multiple) : ${scoreA}/10 — ${pctA}% ✦ Sections B, C, D : compare tes réponses avec le corrigé ci-dessous`;
+  document.getElementById('resultMsg').textContent = pass
+    ? '🎉 Bravo pour la section A ! Consulte le corrigé détaillé pour évaluer tes développements et calculs.'
+    : '📚 Consulte le corrigé complet pour comprendre les erreurs et continue à réviser. Tu vas y arriver !';
+
+  // Bilan
+  document.getElementById('bilanBody').innerHTML = `
+    <tr style="background:#EBF3FA;"><td style="padding:8px 12px;font-size:.88rem;">A — Choix multiple (10 pts)</td>
+      <td style="text-align:center;font-weight:700;color:${scoreA>=7?'#1A6B3A':'#A93226'};">${scoreA}</td>
+      <td style="text-align:center;font-weight:600;">/10</td>
+      <td style="text-align:center;font-weight:700;color:${scoreA>=7?'#1A6B3A':'#A93226'};">${pctA}%</td></tr>
+    <tr><td style="padding:8px 12px;font-size:.88rem;">B — Réponses courtes (10 pts)</td>
+      <td style="text-align:center;color:#D4A017;font-weight:700;">?</td><td style="text-align:center;">/10</td>
+      <td style="text-align:center;color:#D4A017;font-style:italic;font-size:.82rem;">Auto-correction</td></tr>
+    <tr style="background:#EBF3FA;"><td style="padding:8px 12px;font-size:.88rem;">C — Développement moyen (20 pts)</td>
+      <td style="text-align:center;color:#D4A017;font-weight:700;">?</td><td style="text-align:center;">/20</td>
+      <td style="text-align:center;color:#D4A017;font-style:italic;font-size:.82rem;">Auto-correction</td></tr>
+    <tr><td style="padding:8px 12px;font-size:.88rem;">D — Calculs (20 pts)</td>
+      <td style="text-align:center;color:#D4A017;font-weight:700;">?</td><td style="text-align:center;">/20</td>
+      <td style="text-align:center;color:#D4A017;font-style:italic;font-size:.82rem;">Auto-correction</td></tr>
+    <tr style="background:#1F4E79;"><td style="padding:10px 12px;font-size:.9rem;color:#fff;font-weight:700;">TOTAL objectif (A)</td>
+      <td style="text-align:center;font-weight:800;font-size:1.1rem;color:#FCD34D;">${scoreA}</td>
+      <td style="text-align:center;font-weight:700;color:#FCD34D;">/10</td>
+      <td style="text-align:center;font-weight:700;font-size:1rem;color:#FCD34D;">${pctA}%</td></tr>`;
+
+  document.getElementById('corrigeDetails').innerHTML = corrigeHTML.join('');
+  document.getElementById('examForm').style.display = 'none';
+  const results = document.getElementById('examResults');
+  results.classList.add('show');
+  results.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function retryExam() {
+  document.getElementById('examForm').classList.remove('exam-locked');
+  document.getElementById('examForm').style.display = 'block';
+  document.getElementById('examSubmitBtn').disabled = false;
+  document.getElementById('examResults').classList.remove('show');
+  document.querySelectorAll('#examForm input[type=radio]').forEach(r => r.checked = false);
+  document.querySelectorAll('#examForm textarea').forEach(t => t.value = '');
+  window.scrollTo(0,0);
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   buildVF();
   buildQui();

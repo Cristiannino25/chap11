@@ -1,0 +1,16 @@
+[00:00.40 -> 00:03.38] Comment un volant qui tourne fait-il pivoter les roues d'une voiture?
+[00:03.73 -> 00:06.45] La réponse : la transformation du mouvement.
+[00:06.80 -> 00:09.76] Une rotation devient une translation, ou l'inverse.
+[00:10.11 -> 00:12.07] Il y a quatre systèmes à connaître.
+[00:12.42 -> 00:13.91] Un : la vis et l'écrou.
+[00:14.26 -> 00:17.49] Tu tournes la vis, et le mors du serre en C avance en ligne droite.
+[00:17.84 -> 00:19.75] Deux : la bielle et la manivelle.
+[00:20.10 -> 00:23.55] Dans un moteur, l'explosion repousse le piston, la bielle descend,
+[00:23.90 -> 00:26.05] et la manivelle fait tourner le vilebrequin.
+[00:26.40 -> 00:28.53] Trois : le pignon et la crémaillère.
+[00:28.88 -> 00:32.57] Le volant fait tourner le pignon, et la crémaillère glisse pour orienter les roues.
+[00:32.92 -> 00:34.97] Quatre : la came et la tige guidée.
+[00:35.32 -> 00:39.23] Dans une machine à coudre, la came en forme d'œuf fait monter et descendre la tige.
+[00:39.58 -> 00:43.45] Attention : le pédalier de vélo, ce n'est pas une transformation.
+[00:43.80 -> 00:47.12] La rotation reste une rotation : c'est une transmission.
+[00:47.48 -> 00:50.84] Et toi, autour de toi, quel objet transforme le mouvement?

@@ -1,0 +1,82 @@
+[
+ {
+  "start": 0.4,
+  "end": 3.375,
+  "text": "Comment un volant qui tourne fait-il pivoter les roues d'une voiture?"
+ },
+ {
+  "start": 3.725,
+  "end": 6.446,
+  "text": "La réponse : la transformation du mouvement."
+ },
+ {
+  "start": 6.796,
+  "end": 9.756,
+  "text": "Une rotation devient une translation, ou l'inverse."
+ },
+ {
+  "start": 10.106,
+  "end": 12.067,
+  "text": "Il y a quatre systèmes à connaître."
+ },
+ {
+  "start": 12.417,
+  "end": 13.908,
+  "text": "Un : la vis et l'écrou."
+ },
+ {
+  "start": 14.258,
+  "end": 17.488,
+  "text": "Tu tournes la vis, et le mors du serre en C avance en ligne droite."
+ },
+ {
+  "start": 17.838,
+  "end": 19.752,
+  "text": "Deux : la bielle et la manivelle."
+ },
+ {
+  "start": 20.102,
+  "end": 23.549,
+  "text": "Dans un moteur, l'explosion repousse le piston, la bielle descend,"
+ },
+ {
+  "start": 23.899,
+  "end": 26.051,
+  "text": "et la manivelle fait tourner le vilebrequin."
+ },
+ {
+  "start": 26.401,
+  "end": 28.526,
+  "text": "Trois : le pignon et la crémaillère."
+ },
+ {
+  "start": 28.876,
+  "end": 32.566,
+  "text": "Le volant fait tourner le pignon, et la crémaillère glisse pour orienter les roues."
+ },
+ {
+  "start": 32.916,
+  "end": 34.973,
+  "text": "Quatre : la came et la tige guidée."
+ },
+ {
+  "start": 35.323,
+  "end": 39.229,
+  "text": "Dans une machine à coudre, la came en forme d'œuf fait monter et descendre la tige."
+ },
+ {
+  "start": 39.579,
+  "end": 43.45,
+  "text": "Attention : le pédalier de vélo, ce n'est pas une transformation."
+ },
+ {
+  "start": 43.8,
+  "end": 47.125,
+  "text": "La rotation reste une rotation : c'est une transmission."
+ },
+ {
+  "start": 47.475,
+  "end": 50.842,
+  "text": "Et toi, autour de toi, quel objet transforme le mouvement?"
+ }
+]

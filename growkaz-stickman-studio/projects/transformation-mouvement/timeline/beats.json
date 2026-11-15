@@ -1,0 +1,122 @@
+[
+ {
+  "i": 0,
+  "start": 0.0,
+  "speechStart": 0.4,
+  "speechEnd": 4.55,
+  "text": "Comment un volant qui tourne fait-il pivoter les roues d'une voiture? La réponse :",
+  "end": 4.412
+ },
+ {
+  "i": 1,
+  "start": 4.412,
+  "speechStart": 4.562,
+  "speechEnd": 6.396,
+  "text": "la transformation du mouvement.",
+  "end": 6.646
+ },
+ {
+  "i": 2,
+  "start": 6.646,
+  "speechStart": 6.796,
+  "speechEnd": 9.708,
+  "text": "Une rotation devient une translation, ou l'inverse.",
+  "end": 9.956
+ },
+ {
+  "i": 3,
+  "start": 9.956,
+  "speechStart": 10.106,
+  "speechEnd": 13.868,
+  "text": "Il y a quatre systèmes à connaître. Un : la vis et l'écrou.",
+  "end": 14.108
+ },
+ {
+  "i": 4,
+  "start": 14.108,
+  "speechStart": 14.258,
+  "speechEnd": 18.247,
+  "text": "Tu tournes la vis, et le mors du serre en C avance en ligne droite. Deux :",
+  "end": 18.108
+ },
+ {
+  "i": 5,
+  "start": 18.108,
+  "speechStart": 18.258,
+  "speechEnd": 19.707,
+  "text": "la bielle et la manivelle.",
+  "end": 19.952
+ },
+ {
+  "i": 6,
+  "start": 19.952,
+  "speechStart": 20.102,
+  "speechEnd": 26.872,
+  "text": "Dans un moteur, l'explosion repousse le piston, la bielle descend, et la manivelle fait tourner le vilebrequin. Trois :",
+  "end": 26.734
+ },
+ {
+  "i": 7,
+  "start": 26.734,
+  "speechStart": 26.884,
+  "speechEnd": 28.472,
+  "text": "le pignon et la crémaillère.",
+  "end": 28.726
+ },
+ {
+  "i": 8,
+  "start": 28.726,
+  "speechStart": 28.876,
+  "speechEnd": 33.419,
+  "text": "Le volant fait tourner le pignon, et la crémaillère glisse pour orienter les roues. Quatre :",
+  "end": 33.28
+ },
+ {
+  "i": 9,
+  "start": 33.28,
+  "speechStart": 33.43,
+  "speechEnd": 34.939,
+  "text": "la came et la tige guidée.",
+  "end": 35.173
+ },
+ {
+  "i": 10,
+  "start": 35.173,
+  "speechStart": 35.323,
+  "speechEnd": 40.271,
+  "text": "Dans une machine à coudre, la came en forme d'œuf fait monter et descendre la tige. Attention :",
+  "end": 40.133
+ },
+ {
+  "i": 11,
+  "start": 40.133,
+  "speechStart": 40.283,
+  "speechEnd": 43.382,
+  "text": "le pédalier de vélo, ce n'est pas une transformation.",
+  "end": 43.65
+ },
+ {
+  "i": 12,
+  "start": 43.65,
+  "speechStart": 43.8,
+  "speechEnd": 45.753,
+  "text": "La rotation reste une rotation :",
+  "end": 45.615
+ },
+ {
+  "i": 13,
+  "start": 45.615,
+  "speechStart": 45.765,
+  "speechEnd": 47.065,
+  "text": "c'est une transmission.",
+  "end": 47.325
+ },
+ {
+  "i": 14,
+  "start": 47.325,
+  "speechStart": 47.475,
+  "speechEnd": 50.795,
+  "text": "Et toi, autour de toi, quel objet transforme le mouvement?",
+  "end": 52.295
+ }
+]

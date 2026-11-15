@@ -1,0 +1,384 @@
+{
+ "title": "La transformation du mouvement",
+ "duration": 52.7,
+ "shots": [
+  {
+   "id": "s01",
+   "start": 0,
+   "end": 3.58,
+   "line": "Comment un volant qui tourne fait-il pivoter les roues d'une voiture?",
+   "scene": "Rue au crépuscule : l'élève conduit, le volant tourne",
+   "set": "rue",
+   "bars": null,
+   "in": {
+    "type": "cut",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "whoosh",
+     "gain": -14
+    }
+   ],
+   "notes": "",
+   "amb": {
+    "name": "city",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s02",
+   "start": 3.58,
+   "end": 6.65,
+   "line": "La réponse : la transformation du mouvement.",
+   "scene": "Carte titre LA TRANSFORMATION DU MOUVEMENT",
+   "set": null,
+   "bars": "scope",
+   "in": {
+    "type": "fade",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "riser",
+     "gain": -10
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "s03",
+   "start": 6.65,
+   "end": 9.96,
+   "line": "Une rotation devient une translation, ou l'inverse.",
+   "scene": "Plan : ROTATION ↔ TRANSLATION",
+   "set": null,
+   "bars": null,
+   "in": {
+    "type": "zoom",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.5,
+     "name": "pop",
+     "gain": -12
+    },
+    {
+     "at": 1.6,
+     "name": "pop",
+     "gain": -12
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "s04",
+   "start": 9.96,
+   "end": 12.27,
+   "line": "Il y a quatre systèmes à connaître.",
+   "scene": "Plan : 4 icônes des systèmes",
+   "set": null,
+   "bars": null,
+   "in": {
+    "type": "cut",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "blip",
+     "gain": -12
+    },
+    {
+     "at": 0.6,
+     "name": "blip",
+     "gain": -12
+    },
+    {
+     "at": 1.0,
+     "name": "blip",
+     "gain": -12
+    },
+    {
+     "at": 1.4,
+     "name": "blip",
+     "gain": -12
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "s05",
+   "start": 12.27,
+   "end": 14.11,
+   "line": "Un : la vis et l'écrou.",
+   "scene": "Chapitre 1 dans l'atelier",
+   "set": "atelier",
+   "bars": null,
+   "in": {
+    "type": "dip",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -10
+    }
+   ],
+   "notes": "",
+   "amb": {
+    "name": "roomtone",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s06",
+   "start": 14.11,
+   "end": 17.69,
+   "line": "Tu tournes la vis, et le mors du serre en C avance en ligne droite.",
+   "scene": "Insert : serre en C, la vis tourne, le mors descend",
+   "set": "atelier",
+   "bars": null,
+   "in": {
+    "type": "cut",
+    "dur": 0.4
+   },
+   "sfx": [],
+   "notes": "",
+   "amb": {
+    "name": "roomtone",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s07",
+   "start": 17.69,
+   "end": 19.95,
+   "line": "Deux : la bielle et la manivelle.",
+   "scene": "Chapitre 2",
+   "set": "atelier",
+   "bars": null,
+   "in": {
+    "type": "whip",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -10
+    }
+   ],
+   "notes": "",
+   "amb": {
+    "name": "roomtone",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s08",
+   "start": 19.95,
+   "end": 23.75,
+   "line": "Dans un moteur, l'explosion repousse le piston, la bielle descend,",
+   "scene": "Plan moteur : explosion, piston, bielle",
+   "set": null,
+   "bars": null,
+   "in": {
+    "type": "zoom",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.3,
+     "name": "impact",
+     "gain": -10
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "s09",
+   "start": 23.75,
+   "end": 26.25,
+   "line": "et la manivelle fait tourner le vilebrequin.",
+   "scene": "Plan moteur : le vilebrequin tourne",
+   "set": null,
+   "bars": null,
+   "in": {
+    "type": "cut",
+    "dur": 0.4
+   },
+   "sfx": [],
+   "notes": ""
+  },
+  {
+   "id": "s10",
+   "start": 26.25,
+   "end": 28.73,
+   "line": "Trois : le pignon et la crémaillère.",
+   "scene": "Chapitre 3",
+   "set": "atelier",
+   "bars": null,
+   "in": {
+    "type": "whip",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -10
+    }
+   ],
+   "notes": "",
+   "amb": {
+    "name": "roomtone",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s11",
+   "start": 28.73,
+   "end": 32.77,
+   "line": "Le volant fait tourner le pignon, et la crémaillère glisse pour orienter les roues.",
+   "scene": "Plan vue de dessus : volant, pignon, crémaillère, roues",
+   "set": null,
+   "bars": null,
+   "in": {
+    "type": "zoom",
+    "dur": 0.4
+   },
+   "sfx": [],
+   "notes": ""
+  },
+  {
+   "id": "s12",
+   "start": 32.77,
+   "end": 35.17,
+   "line": "Quatre : la came et la tige guidée.",
+   "scene": "Chapitre 4",
+   "set": "atelier",
+   "bars": null,
+   "in": {
+    "type": "whip",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.1,
+     "name": "pop",
+     "gain": -10
+    }
+   ],
+   "notes": "",
+   "amb": {
+    "name": "roomtone",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s13",
+   "start": 35.17,
+   "end": 39.43,
+   "line": "Dans une machine à coudre, la came en forme d'œuf fait monter et descendre la tige.",
+   "scene": "Plan came en œuf et tige guidée, aiguille",
+   "set": null,
+   "bars": null,
+   "in": {
+    "type": "zoom",
+    "dur": 0.4
+   },
+   "sfx": [],
+   "notes": ""
+  },
+  {
+   "id": "s14",
+   "start": 39.43,
+   "end": 43.65,
+   "line": "Attention : le pédalier de vélo, ce n'est pas une transformation.",
+   "scene": "L'élève à vélo, badge PIÈGE",
+   "set": "rue",
+   "bars": null,
+   "in": {
+    "type": "flash",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 0.2,
+     "name": "whoosh",
+     "gain": -12
+    }
+   ],
+   "notes": "",
+   "amb": {
+    "name": "city",
+    "gain": -26
+   }
+  },
+  {
+   "id": "s15",
+   "start": 43.65,
+   "end": 47.33,
+   "line": "La rotation reste une rotation : c'est une transmission.",
+   "scene": "Plan pédalier, chaîne, TRANSMISSION",
+   "set": null,
+   "bars": null,
+   "in": {
+    "type": "zoom",
+    "dur": 0.4
+   },
+   "sfx": [
+    {
+     "at": 2.2,
+     "name": "pop",
+     "gain": -10
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "id": "s16",
+   "start": 47.33,
+   "end": 52.7,
+   "line": "Et toi, autour de toi, quel objet transforme le mouvement?",
+   "scene": "Gros plan : l'élève réfléchit, question",
+   "set": "atelier",
+   "bars": "scope",
+   "in": {
+    "type": "dip",
+    "dur": 0.4
+   },
+   "sfx": [],
+   "notes": "",
+   "amb": {
+    "name": "roomtone",
+    "gain": -26
+   }
+  }
+ ],
+ "music": [
+  {
+   "start": 0,
+   "end": 12.3,
+   "mood": "mystery",
+   "intensity": 0.35
+  },
+  {
+   "start": 12.3,
+   "end": 39.4,
+   "mood": "playful",
+   "intensity": 0.45
+  },
+  {
+   "start": 39.4,
+   "end": 52.7,
+   "mood": "wonder",
+   "intensity": 0.4
+  }
+ ]
+}

@@ -1,0 +1,765 @@
+{
+ "source": "script:script.json",
+ "words": [
+  {
+   "word": "Comment",
+   "start": 0.4,
+   "end": 0.704
+  },
+  {
+   "word": "un",
+   "start": 0.731,
+   "end": 0.866
+  },
+  {
+   "word": "volant",
+   "start": 0.877,
+   "end": 1.148
+  },
+  {
+   "word": "qui",
+   "start": 1.171,
+   "end": 1.34
+  },
+  {
+   "word": "tourne",
+   "start": 1.355,
+   "end": 1.625
+  },
+  {
+   "word": "fait-il",
+   "start": 1.649,
+   "end": 1.953
+  },
+  {
+   "word": "pivoter",
+   "start": 1.979,
+   "end": 2.283
+  },
+  {
+   "word": "les",
+   "start": 2.31,
+   "end": 2.479
+  },
+  {
+   "word": "roues",
+   "start": 2.494,
+   "end": 2.73
+  },
+  {
+   "word": "d'une",
+   "start": 2.751,
+   "end": 2.987
+  },
+  {
+   "word": "voiture?",
+   "start": 3.008,
+   "end": 3.346
+  },
+  {
+   "word": "La",
+   "start": 3.725,
+   "end": 3.918
+  },
+  {
+   "word": "réponse",
+   "start": 3.934,
+   "end": 4.368
+  },
+  {
+   "word": ":",
+   "start": 4.405,
+   "end": 4.55
+  },
+  {
+   "word": "la",
+   "start": 4.562,
+   "end": 4.755
+  },
+  {
+   "word": "transformation",
+   "start": 4.772,
+   "end": 5.542
+  },
+  {
+   "word": "du",
+   "start": 5.609,
+   "end": 5.801
+  },
+  {
+   "word": "mouvement.",
+   "start": 5.818,
+   "end": 6.396
+  },
+  {
+   "word": "Une",
+   "start": 6.796,
+   "end": 7.027
+  },
+  {
+   "word": "rotation",
+   "start": 7.047,
+   "end": 7.508
+  },
+  {
+   "word": "devient",
+   "start": 7.549,
+   "end": 7.964
+  },
+  {
+   "word": "une",
+   "start": 8.0,
+   "end": 8.231
+  },
+  {
+   "word": "translation,",
+   "start": 8.251,
+   "end": 8.897
+  },
+  {
+   "word": "ou",
+   "start": 8.953,
+   "end": 9.138
+  },
+  {
+   "word": "l'inverse.",
+   "start": 9.154,
+   "end": 9.708
+  },
+  {
+   "word": "Il",
+   "start": 10.106,
+   "end": 10.274
+  },
+  {
+   "word": "y",
+   "start": 10.288,
+   "end": 10.414
+  },
+  {
+   "word": "a",
+   "start": 10.425,
+   "end": 10.551
+  },
+  {
+   "word": "quatre",
+   "start": 10.562,
+   "end": 10.898
+  },
+  {
+   "word": "systèmes",
+   "start": 10.927,
+   "end": 11.346
+  },
+  {
+   "word": "à",
+   "start": 11.383,
+   "end": 11.509
+  },
+  {
+   "word": "connaître.",
+   "start": 11.52,
+   "end": 12.023
+  },
+  {
+   "word": "Un",
+   "start": 12.417,
+   "end": 12.6
+  },
+  {
+   "word": ":",
+   "start": 12.616,
+   "end": 12.753
+  },
+  {
+   "word": "la",
+   "start": 12.765,
+   "end": 12.948
+  },
+  {
+   "word": "vis",
+   "start": 12.964,
+   "end": 13.192
+  },
+  {
+   "word": "et",
+   "start": 13.212,
+   "end": 13.395
+  },
+  {
+   "word": "l'écrou.",
+   "start": 13.411,
+   "end": 13.868
+  },
+  {
+   "word": "Tu",
+   "start": 14.258,
+   "end": 14.401
+  },
+  {
+   "word": "tournes",
+   "start": 14.414,
+   "end": 14.736
+  },
+  {
+   "word": "la",
+   "start": 14.764,
+   "end": 14.907
+  },
+  {
+   "word": "vis,",
+   "start": 14.92,
+   "end": 15.134
+  },
+  {
+   "word": "et",
+   "start": 15.153,
+   "end": 15.296
+  },
+  {
+   "word": "le",
+   "start": 15.309,
+   "end": 15.452
+  },
+  {
+   "word": "mors",
+   "start": 15.464,
+   "end": 15.679
+  },
+  {
+   "word": "du",
+   "start": 15.698,
+   "end": 15.841
+  },
+  {
+   "word": "serre",
+   "start": 15.854,
+   "end": 16.104
+  },
+  {
+   "word": "en",
+   "start": 16.126,
+   "end": 16.269
+  },
+  {
+   "word": "C",
+   "start": 16.282,
+   "end": 16.389
+  },
+  {
+   "word": "avance",
+   "start": 16.398,
+   "end": 16.685
+  },
+  {
+   "word": "en",
+   "start": 16.71,
+   "end": 16.853
+  },
+  {
+   "word": "ligne",
+   "start": 16.865,
+   "end": 17.116
+  },
+  {
+   "word": "droite.",
+   "start": 17.138,
+   "end": 17.46
+  },
+  {
+   "word": "Deux",
+   "start": 17.838,
+   "end": 18.096
+  },
+  {
+   "word": ":",
+   "start": 18.118,
+   "end": 18.247
+  },
+  {
+   "word": "la",
+   "start": 18.258,
+   "end": 18.43
+  },
+  {
+   "word": "bielle",
+   "start": 18.445,
+   "end": 18.788
+  },
+  {
+   "word": "et",
+   "start": 18.818,
+   "end": 18.99
+  },
+  {
+   "word": "la",
+   "start": 19.005,
+   "end": 19.177
+  },
+  {
+   "word": "manivelle.",
+   "start": 19.192,
+   "end": 19.707
+  },
+  {
+   "word": "Dans",
+   "start": 20.102,
+   "end": 20.349
+  },
+  {
+   "word": "un",
+   "start": 20.371,
+   "end": 20.535
+  },
+  {
+   "word": "moteur,",
+   "start": 20.55,
+   "end": 20.92
+  },
+  {
+   "word": "l'explosion",
+   "start": 20.953,
+   "end": 21.488
+  },
+  {
+   "word": "repousse",
+   "start": 21.535,
+   "end": 21.946
+  },
+  {
+   "word": "le",
+   "start": 21.982,
+   "end": 22.147
+  },
+  {
+   "word": "piston,",
+   "start": 22.161,
+   "end": 22.532
+  },
+  {
+   "word": "la",
+   "start": 22.564,
+   "end": 22.729
+  },
+  {
+   "word": "bielle",
+   "start": 22.743,
+   "end": 23.073
+  },
+  {
+   "word": "descend,",
+   "start": 23.101,
+   "end": 23.513
+  },
+  {
+   "word": "et",
+   "start": 23.899,
+   "end": 24.051
+  },
+  {
+   "word": "la",
+   "start": 24.065,
+   "end": 24.217
+  },
+  {
+   "word": "manivelle",
+   "start": 24.23,
+   "end": 24.649
+  },
+  {
+   "word": "fait",
+   "start": 24.685,
+   "end": 24.914
+  },
+  {
+   "word": "tourner",
+   "start": 24.934,
+   "end": 25.276
+  },
+  {
+   "word": "le",
+   "start": 25.306,
+   "end": 25.458
+  },
+  {
+   "word": "vilebrequin.",
+   "start": 25.472,
+   "end": 26.005
+  },
+  {
+   "word": "Trois",
+   "start": 26.401,
+   "end": 26.712
+  },
+  {
+   "word": ":",
+   "start": 26.739,
+   "end": 26.872
+  },
+  {
+   "word": "le",
+   "start": 26.884,
+   "end": 27.062
+  },
+  {
+   "word": "pignon",
+   "start": 27.077,
+   "end": 27.433
+  },
+  {
+   "word": "et",
+   "start": 27.463,
+   "end": 27.641
+  },
+  {
+   "word": "la",
+   "start": 27.657,
+   "end": 27.834
+  },
+  {
+   "word": "crémaillère.",
+   "start": 27.85,
+   "end": 28.472
+  },
+  {
+   "word": "Le",
+   "start": 28.876,
+   "end": 29.015
+  },
+  {
+   "word": "volant",
+   "start": 29.027,
+   "end": 29.304
+  },
+  {
+   "word": "fait",
+   "start": 29.328,
+   "end": 29.536
+  },
+  {
+   "word": "tourner",
+   "start": 29.554,
+   "end": 29.866
+  },
+  {
+   "word": "le",
+   "start": 29.893,
+   "end": 30.031
+  },
+  {
+   "word": "pignon,",
+   "start": 30.043,
+   "end": 30.355
+  },
+  {
+   "word": "et",
+   "start": 30.382,
+   "end": 30.521
+  },
+  {
+   "word": "la",
+   "start": 30.533,
+   "end": 30.671
+  },
+  {
+   "word": "crémaillère",
+   "start": 30.683,
+   "end": 31.134
+  },
+  {
+   "word": "glisse",
+   "start": 31.173,
+   "end": 31.45
+  },
+  {
+   "word": "pour",
+   "start": 31.474,
+   "end": 31.682
+  },
+  {
+   "word": "orienter",
+   "start": 31.7,
+   "end": 32.046
+  },
+  {
+   "word": "les",
+   "start": 32.077,
+   "end": 32.25
+  },
+  {
+   "word": "roues.",
+   "start": 32.265,
+   "end": 32.542
+  },
+  {
+   "word": "Quatre",
+   "start": 32.916,
+   "end": 33.26
+  },
+  {
+   "word": ":",
+   "start": 33.29,
+   "end": 33.419
+  },
+  {
+   "word": "la",
+   "start": 33.43,
+   "end": 33.602
+  },
+  {
+   "word": "came",
+   "start": 33.617,
+   "end": 33.875
+  },
+  {
+   "word": "et",
+   "start": 33.898,
+   "end": 34.07
+  },
+  {
+   "word": "la",
+   "start": 34.085,
+   "end": 34.257
+  },
+  {
+   "word": "tige",
+   "start": 34.272,
+   "end": 34.53
+  },
+  {
+   "word": "guidée.",
+   "start": 34.552,
+   "end": 34.939
+  },
+  {
+   "word": "Dans",
+   "start": 35.323,
+   "end": 35.539
+  },
+  {
+   "word": "une",
+   "start": 35.557,
+   "end": 35.737
+  },
+  {
+   "word": "machine",
+   "start": 35.753,
+   "end": 36.076
+  },
+  {
+   "word": "à",
+   "start": 36.104,
+   "end": 36.212
+  },
+  {
+   "word": "coudre,",
+   "start": 36.221,
+   "end": 36.545
+  },
+  {
+   "word": "la",
+   "start": 36.573,
+   "end": 36.717
+  },
+  {
+   "word": "came",
+   "start": 36.729,
+   "end": 36.945
+  },
+  {
+   "word": "en",
+   "start": 36.964,
+   "end": 37.107
+  },
+  {
+   "word": "forme",
+   "start": 37.12,
+   "end": 37.371
+  },
+  {
+   "word": "d'œuf",
+   "start": 37.393,
+   "end": 37.645
+  },
+  {
+   "word": "fait",
+   "start": 37.667,
+   "end": 37.882
+  },
+  {
+   "word": "monter",
+   "start": 37.901,
+   "end": 38.188
+  },
+  {
+   "word": "et",
+   "start": 38.213,
+   "end": 38.357
+  },
+  {
+   "word": "descendre",
+   "start": 38.37,
+   "end": 38.765
+  },
+  {
+   "word": "la",
+   "start": 38.799,
+   "end": 38.943
+  },
+  {
+   "word": "tige.",
+   "start": 38.956,
+   "end": 39.207
+  },
+  {
+   "word": "Attention",
+   "start": 39.579,
+   "end": 40.088
+  },
+  {
+   "word": ":",
+   "start": 40.132,
+   "end": 40.271
+  },
+  {
+   "word": "le",
+   "start": 40.283,
+   "end": 40.468
+  },
+  {
+   "word": "pédalier",
+   "start": 40.484,
+   "end": 40.946
+  },
+  {
+   "word": "de",
+   "start": 40.987,
+   "end": 41.172
+  },
+  {
+   "word": "vélo,",
+   "start": 41.188,
+   "end": 41.511
+  },
+  {
+   "word": "ce",
+   "start": 41.54,
+   "end": 41.725
+  },
+  {
+   "word": "n'est",
+   "start": 41.741,
+   "end": 42.064
+  },
+  {
+   "word": "pas",
+   "start": 42.093,
+   "end": 42.324
+  },
+  {
+   "word": "une",
+   "start": 42.344,
+   "end": 42.575
+  },
+  {
+   "word": "transformation.",
+   "start": 42.595,
+   "end": 43.382
+  },
+  {
+   "word": "La",
+   "start": 43.8,
+   "end": 43.985
+  },
+  {
+   "word": "rotation",
+   "start": 44.002,
+   "end": 44.465
+  },
+  {
+   "word": "reste",
+   "start": 44.505,
+   "end": 44.83
+  },
+  {
+   "word": "une",
+   "start": 44.858,
+   "end": 45.09
+  },
+  {
+   "word": "rotation",
+   "start": 45.11,
+   "end": 45.573
+  },
+  {
+   "word": ":",
+   "start": 45.614,
+   "end": 45.753
+  },
+  {
+   "word": "c'est",
+   "start": 45.765,
+   "end": 46.089
+  },
+  {
+   "word": "une",
+   "start": 46.117,
+   "end": 46.349
+  },
+  {
+   "word": "transmission.",
+   "start": 46.369,
+   "end": 47.065
+  },
+  {
+   "word": "Et",
+   "start": 47.475,
+   "end": 47.655
+  },
+  {
+   "word": "toi,",
+   "start": 47.67,
+   "end": 47.94
+  },
+  {
+   "word": "autour",
+   "start": 47.963,
+   "end": 48.322
+  },
+  {
+   "word": "de",
+   "start": 48.353,
+   "end": 48.533
+  },
+  {
+   "word": "toi,",
+   "start": 48.549,
+   "end": 48.818
+  },
+  {
+   "word": "quel",
+   "start": 48.841,
+   "end": 49.111
+  },
+  {
+   "word": "objet",
+   "start": 49.134,
+   "end": 49.448
+  },
+  {
+   "word": "transforme",
+   "start": 49.476,
+   "end": 50.014
+  },
+  {
+   "word": "le",
+   "start": 50.061,
+   "end": 50.241
+  },
+  {
+   "word": "mouvement?",
+   "start": 50.256,
+   "end": 50.795
+  }
+ ]
+}

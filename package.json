@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "remotion studio src/index.ts",
-    "render": "remotion render src/index.ts HelloWorld out/video.mp4"
+    "render": "remotion render src/index.ts HelloWorld out/video.mp4",
+    "render:3d": "remotion render src/index.ts Cube3D out/cube3d.mp4 --gl=angle"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,15 @@
   },
   "homepage": "https://github.com/Cristiannino25/chap11#readme",
   "dependencies": {
+    "@react-three/fiber": "^9.8.2",
     "@remotion/cli": "^4.0.543",
+    "@remotion/three": "^4.0.543",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "remotion": "^4.0.543"
+    "remotion": "^4.0.543",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.187.0"
   }
 }

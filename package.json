@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts HelloWorld out/video.mp4",
-    "render:3d": "remotion render src/index.ts Cube3D out/cube3d.mp4 --gl=angle"
+    "render:3d": "remotion render src/index.ts Cube3D out/cube3d.mp4 --gl=angle",
+    "render:bielle": "remotion render src/index.ts BielleManivelle out/bielle-manivelle.mp4 --gl=angle"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   "dependencies": {
     "@react-three/fiber": "^9.8.2",
     "@remotion/cli": "^4.0.543",
+    "@remotion/google-fonts": "^4.0.543",
     "@remotion/three": "^4.0.543",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",

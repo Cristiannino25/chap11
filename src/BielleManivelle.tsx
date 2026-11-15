@@ -3,11 +3,13 @@ import { useThree } from "@react-three/fiber";
 import { loadFont as loadDisplay } from "@remotion/google-fonts/Unbounded";
 import { loadFont as loadBody } from "@remotion/google-fonts/AtkinsonHyperlegible";
 import { useLayoutEffect } from "react";
+import { ExemplesQuotidiens } from "./ExemplesQuotidiens";
 import * as THREE from "three";
 import {
   AbsoluteFill,
   Easing,
   interpolate,
+  Sequence,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
@@ -183,7 +185,7 @@ const Caption: React.FC<{ frame: number; from: number; to: number; children: Rea
 
 export const BielleManivelle: React.FC = () => {
   const frame = useCurrentFrame();
-  const { width, height, durationInFrames } = useVideoConfig();
+  const { width, height } = useVideoConfig();
   const angle = crankAngle(frame);
   const y = pistonY(angle);
 
@@ -191,11 +193,14 @@ export const BielleManivelle: React.FC = () => {
 
   const titleO = fadeIn(frame, 0, 18);
   const sceneO = fadeIn(frame, 10, 25);
-  const endStart = durationInFrames - 90;
+  const endStart = 360;
+  const PART2 = 450;
+  const part1O = 1 - fadeIn(frame, PART2 - 12, 12);
   const endO = fadeIn(frame, endStart, 18);
 
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg }}>
+      <AbsoluteFill style={{ opacity: part1O }}>
       <AbsoluteFill style={{ opacity: sceneO }}>
         <ThreeCanvas width={width} height={height} camera={{ fov: 42 }}>
           <CameraRig />
@@ -233,6 +238,11 @@ export const BielleManivelle: React.FC = () => {
           </div>
         </div>
       )}
+      </AbsoluteFill>
+
+      <Sequence from={PART2} layout="none">
+        <ExemplesQuotidiens c={C} display={display} body={body} />
+      </Sequence>
     </AbsoluteFill>
   );
 };

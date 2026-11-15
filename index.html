@@ -1,3 +1,4 @@
+<html lang="fr">
 <title>Humain et technique</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Plateforme de révision interactive — Thématique 3, Science et technologie, secondaire 3">
@@ -508,6 +509,34 @@ details.corr .body { padding: 0 13px 13px; }
 
 .fig-body img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); background: #fff; }
 .lightbox img { display: block; width: 100%; height: auto; border-radius: 8px; background: #fff; }
+
+/* --- ajouts : menu mobile, lecture vocale, vidéos, révision, espace enseignant --- */
+@media (max-width: 900px) {
+  .nav { -webkit-mask-image: linear-gradient(to right, #000 82%, transparent); mask-image: linear-gradient(to right, #000 82%, transparent); padding-right: 28px; }
+  .nav.at-end { -webkit-mask-image: none; mask-image: none; }
+}
+.listen { display: inline-flex; align-items: center; gap: 6px; }
+.listen svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.listen[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.qw-meta .listen { margin-left: auto; padding: 4px 10px; min-height: 30px; font-size: .8rem; }
+.theory-listen { margin: -4px 0 12px; }
+.videos { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.video-card { border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; background: var(--surface-2); }
+.video-card video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0F2B3A; }
+.video-card .vc-b { padding: 12px 14px; }
+.video-card .vc-b b { display: block; }
+.video-card .vc-b small { color: var(--muted); }
+.code-box { width: 100%; min-height: 110px; font: 500 .8rem var(--f-mono); padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-2); color: var(--ink); resize: vertical; word-break: break-all; }
+.field { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; font-weight: 700; }
+.field input { font: inherit; font-weight: 400; padding: 9px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); max-width: 320px; }
+.t-bars { display: grid; gap: 8px; }
+.t-bar { display: grid; grid-template-columns: minmax(0, 1fr) 140px 48px; gap: 10px; align-items: center; font-size: .9rem; }
+.t-bar .bar { height: 10px; }
+.t-tbl { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.t-tbl th, .t-tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.t-tbl th { font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+.t-tbl td.num { font-family: var(--f-mono); white-space: nowrap; }
+@media (max-width: 560px) { .t-bar { grid-template-columns: minmax(0, 1fr) 80px 44px; } }
 </style>
 <a class="skip" href="#main">Aller au contenu</a>
 <header class="topbar"><div class="wrap">
@@ -1323,7 +1352,7 @@ var Core = (function () {
   var NUM = /^\d+(,\d+)?$/;
   function leadingNumber(k) { var m = k.match(/^\d+(,\d+)?/); return m ? m[0] : null; }
 
-  function gradeShort(q, ans) {
+  function gradeShort(q, ans, strict) {
     var k = key(ans);
     if (!k) return false;
     if (q.kw) return q.kw.every(function (w) { return k.indexOf(key(w)) !== -1; });
@@ -1341,7 +1370,32 @@ var Core = (function () {
         }
       }
     }
+    if (!strict && closeMatch(q, ans)) return true;
     return false;
+  }
+
+  /* Tolérance aux fautes de frappe : une seule lettre de différence (jamais dans les 2 premières), pour les mots de 6 lettres et plus,
+     sans chiffre, et seulement si la réponse n'est pas un AUTRE terme du glossaire (ex. plasticité / élasticité). */
+  var GLOSS = {};
+  function setGlossary(list) { GLOSS = {}; (list || []).forEach(function (t) { GLOSS[key(t)] = 1; }); }
+  function lev(a, b) {
+    if (Math.abs(a.length - b.length) > 1) return 2;
+    var prev = [], cur = [], i, j;
+    for (j = 0; j <= b.length; j++) prev[j] = j;
+    for (i = 1; i <= a.length; i++) {
+      cur = [i];
+      for (j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+  function closeMatch(q, ans) {
+    if (!q || q.t !== 'short' || q.kw || q.contains) return null;
+    var k = key(ans);
+    if (!k || k.length < 6 || /\d/.test(k) || GLOSS[k]) return null;
+    var acc = q.acc || [];
+    for (var i = 0; i < acc.length; i++) { var a = key(acc[i]); if (a.length >= 6 && !/\d/.test(a) && k.slice(0, 2) === a.slice(0, 2) && lev(k, a) === 1) return acc[i]; }
+    return null;
   }
 
   function grade(q, r) {
@@ -1508,7 +1562,7 @@ var Core = (function () {
     return errs;
   }
 
-  return { norm: norm, key: key, grade: grade, gradeShort: gradeShort, answered: answered, shuffle: shuffle, rng: rng, notionMastery: notionMastery, chapterMastery: chapterMastery, allocate: allocate, buildExam: buildExam, clockTime: clockTime, validate: validate };
+  return { closeMatch: closeMatch, setGlossary: setGlossary, lev: lev, norm: norm, key: key, grade: grade, gradeShort: gradeShort, answered: answered, shuffle: shuffle, rng: rng, notionMastery: notionMastery, chapterMastery: chapterMastery, allocate: allocate, buildExam: buildExam, clockTime: clockTime, validate: validate };
 })();
 </script>
 <script>/* Géométrie partagée par les illustrations et les simulations : engrenages, blocs en projection, symboles normalisés. */
@@ -2706,6 +2760,52 @@ var SIMS = (function () {
 <script>/* Application : navigation, progression, exercices, examen blanc, fiches, défis. */
 (function () {
   var D = DATA;
+
+  /* Questions de calcul à valeurs variées : de nouveaux nombres à chaque essai, pour qu'on ne puisse pas mémoriser la réponse. */
+  (function addGenerated() {
+    function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+    function fmt(x) { return String(Number(x.toFixed(2))).replace('.', ','); }
+    var SRC = 'Calcul à valeurs variées (nouveaux nombres à chaque essai)';
+    var G = [
+      ['n6', 1, 'ρ = m ÷ V.', function () {
+        var m = pick([['bois', 0.65], ['aluminium', 2.7], ['fer', 7.9], ['cuivre', 8.9], ['plastique', 1.3], ['liège', 0.24]]), V = pick([10, 20, 25, 40, 50]), mass = Number((m[1] * V).toFixed(1));
+        return { q: 'Un bloc de ' + m[0] + ' de ' + V + ' cm³ a une masse de ' + fmt(mass) + ' g. Quelle est sa masse volumique en g/cm³? (nombre seulement)', acc: [fmt(mass / V)], x: 'ρ = ' + fmt(mass) + ' g ÷ ' + V + ' cm³ = ' + fmt(mass / V) + ' g/cm³.' };
+      }],
+      ['n6', 2, 'm = ρ × V.', function () {
+        var r = pick([0.5, 0.8, 1.2, 2.7, 7.9]), V = pick([4, 5, 10, 15, 30]);
+        return { q: 'Un objet a une masse volumique de ' + fmt(r) + ' g/cm³ et un volume de ' + V + ' cm³. Quelle est sa masse en g? (nombre seulement)', acc: [fmt(r * V)], x: 'm = ρ × V = ' + fmt(r) + ' × ' + V + ' = ' + fmt(r * V) + ' g.' };
+      }],
+      ['n13', 2, 'Vitesse menée = (dents menante ÷ dents menée) × vitesse menante.', function () {
+        var T = [10, 12, 15, 20, 24, 30, 36, 40, 60], v = [30, 40, 60, 90, 120], a, b, s, r;
+        do { a = pick(T); b = pick(T); s = pick(v); r = a / b * s; } while (a === b || r !== Math.round(r));
+        return { q: 'Roue menante : ' + a + ' dents à ' + s + ' tours/min. Roue menée : ' + b + ' dents. Vitesse de la roue menée en tours/min? (nombre seulement)', acc: [String(r)], x: '(' + a + ' ÷ ' + b + ') × ' + s + ' = ' + r + ' tours/min. La vitesse ' + (r > s ? 'augmente' : 'diminue') + ' : la roue menée a ' + (b < a ? 'moins' : 'plus') + ' de dents.' };
+      }],
+      ['n17', 2, 'Réduction 1 : k → mesure réelle = mesure du dessin × k.', function () {
+        var k = pick([2, 5, 10, 20, 50, 100]), L = pick([12, 15, 20, 25, 30, 40]);
+        return { q: 'Échelle 1 : ' + k + '. Un trait mesure ' + L + ' mm sur le dessin. Mesure réelle en mm? (nombre seulement)', acc: [String(L * k)], x: L + ' × ' + k + ' = ' + (L * k) + ' mm.' };
+      }],
+      ['n17', 3, 'Agrandissement k : 1 → mesure réelle = mesure du dessin ÷ k.', function () {
+        var k = pick([2, 4, 5, 10, 20]), real = pick([1, 2, 3, 4, 5, 8]);
+        return { q: 'Échelle ' + k + ' : 1. Un trait mesure ' + (real * k) + ' mm sur le dessin. Mesure réelle en mm? (nombre seulement)', acc: [String(real)], x: (real * k) + ' ÷ ' + k + ' = ' + real + ' mm (agrandissement : on divise).' };
+      }]
+    ];
+    var count = {};
+    G.forEach(function (g) {
+      count[g[0]] = (count[g[0]] || 0) + 1;
+      var q = { t: 'short', d: g[1], h: g[2], src: SRC, gen: g[3], n: g[0], id: g[0] + '-g' + count[g[0]] };
+      Object.assign(q, q.gen());
+      D.questions.push(q);
+    });
+  })();
+
+  /* Vidéos des notions (fichiers placés dans le dossier videos/ à côté de index.html) */
+  var VIDEOS = {
+    n14: [
+      { src: 'videos/bielle-manivelle.mp4', poster: 'videos/bielle-manivelle.webp', title: 'Le système bielle-manivelle en 3D', sub: '25 s · sans son · le mécanisme, puis 4 objets de la vie courante' },
+      { src: 'videos/transformation-mouvement.mp4', poster: 'videos/transformation-mouvement.webp', title: 'Les 4 systèmes de transformation', sub: '53 s · narration · vis-écrou, bielle-manivelle, pignon-crémaillère, came' }
+    ]
+  };
+
   var QBYID = {}; D.questions.forEach(function (q) { QBYID[q.id] = q; });
   var NORDER = []; D.chapters.forEach(function (c) { c.notions.forEach(function (n) { NORDER.push(n); }); });
   function chOf(nid) { return D.chapters.filter(function (c) { return c.id === D.notions[nid].ch; })[0]; }
@@ -2731,10 +2831,88 @@ var SIMS = (function () {
 
   /* ------------------------------------------------------------ état / stockage */
   var KEY = D.meta.key;
-  function fresh() { return { xp: 0, answers: {}, tests: {}, sims: {}, pos: {}, last: null, streak: 0, best: 0, badges: {}, cards: {}, exams: [], exam: null, lastExam: null, fixes: 0, reseau: false, mystere: {}, mots: {}, mystereDone: false, d3: 0 }; }
+  function fresh() { return { xp: 0, answers: {}, tests: {}, sims: {}, pos: {}, last: null, streak: 0, best: 0, badges: {}, cards: {}, exams: [], exam: null, lastExam: null, fixes: 0, reseau: false, mystere: {}, mots: {}, mystereDone: false, d3: 0, srs: {} }; }
   var state = fresh();
   try { var raw = localStorage.getItem(KEY); if (raw) { var p = JSON.parse(raw); if (p && typeof p === 'object') state = Object.assign(fresh(), p); } } catch (e) { }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { } }
+
+  /* ------------------------------------------------------------ révision espacée
+     Une question réussie revient après 1, 3, 7, 16 puis 35 jours; une question ratée revient le lendemain. */
+  var DAY = 86400000, GAPS = [1, 3, 7, 16, 35];
+  function srsUpdate(id, ok) {
+    var r = state.srs[id] || { b: 0 };
+    r.b = ok ? Math.min((r.b || 0) + 1, GAPS.length) : 0;
+    r.due = Date.now() + (ok ? GAPS[r.b - 1] : 1) * DAY - 3600000;
+    state.srs[id] = r;
+  }
+  function dueReview() {
+    var now = Date.now();
+    return Object.keys(state.srs).filter(function (id) { return QBYID[id] && state.srs[id].due <= now; });
+  }
+  /* Mélange les notions : jamais deux questions de la même notion de suite quand c'est possible */
+  function interleave(ids) {
+    var by = {}; Core.shuffle(ids).forEach(function (id) { var n = QBYID[id].n; (by[n] = by[n] || []).push(id); });
+    var keys = Core.shuffle(Object.keys(by)), out = [];
+    while (out.length < ids.length) keys.forEach(function (k) { if (by[k].length) out.push(by[k].shift()); });
+    return out;
+  }
+
+  /* ------------------------------------------------------------ lecture vocale */
+  var SPK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+  var canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+  var speakingBtn = null;
+  function listenBtn(extra, attr) { return canSpeak ? '<button type="button" class="btn small listen ' + (extra || '') + '" ' + (attr || 'data-listen') + ' aria-pressed="false">' + SPK + '<span>Écouter</span></button>' : ''; }
+  function setListen(b, on) { if (!b) return; b.setAttribute('aria-pressed', on ? 'true' : 'false'); var t = b.querySelector('span'); if (t) t.textContent = on ? 'Arrêter' : 'Écouter'; }
+  function stopSpeak() { if (!canSpeak) return; window.speechSynthesis.cancel(); setListen(speakingBtn, false); speakingBtn = null; }
+  function plainText(node) {
+    var c = node.cloneNode(true);
+    Array.prototype.forEach.call(c.querySelectorAll('button, svg, script, style, .fix'), function (x) { x.remove(); });
+    Array.prototype.forEach.call(c.querySelectorAll('li, p, h3, h4, tr, td, th'), function (x) { x.insertAdjacentText('afterend', '. '); });
+    return c.textContent.replace(/→/g, ' donne ').replace(/↔/g, ' ou ').replace(/\s+/g, ' ').replace(/(\.\s*){2,}/g, '. ').trim();
+  }
+  function speak(text, btn) {
+    if (!canSpeak) return;
+    var ss = window.speechSynthesis;
+    if (speakingBtn === btn) { stopSpeak(); return; }
+    stopSpeak();
+    var u = new SpeechSynthesisUtterance(text), vs = ss.getVoices();
+    var voice = vs.filter(function (x) { return /^fr[-_]CA/i.test(x.lang); })[0] || vs.filter(function (x) { return /^fr/i.test(x.lang); })[0];
+    u.lang = voice ? voice.lang : 'fr-CA'; if (voice) u.voice = voice; u.rate = 0.95;
+    u.onend = u.onerror = function () { if (speakingBtn === btn) { setListen(btn, false); speakingBtn = null; } };
+    speakingBtn = btn; setListen(btn, true); ss.speak(u);
+  }
+  if (canSpeak) { try { window.speechSynthesis.getVoices(); } catch (e) { } }
+
+  /* ------------------------------------------------------------ code de progression (export / import / enseignant) */
+  var CODE_V = 'HT1';
+  function b64(bytes) { var s = ''; for (var i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s); }
+  function unb64(str) { var s = atob(str), b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i); return b; }
+  function pipe(bytes, stream) { return new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer().then(function (ab) { return new Uint8Array(ab); }); }
+  function compactState(st) {
+    var o = JSON.parse(JSON.stringify(st)), a = {};
+    Object.keys(o.answers || {}).forEach(function (id) { var h = o.answers[id]; a[id] = [h.first === true ? 1 : h.first === false ? 0 : -1, h.ok ? 1 : 0, h.wrong || 0]; });
+    o.answers = a; delete o.exam; delete o.lastExam; o.exams = (o.exams || []).slice(-10);
+    return o;
+  }
+  function expandState(o) {
+    var a = {};
+    Object.keys(o.answers || {}).forEach(function (id) { var h = o.answers[id]; a[id] = Array.isArray(h) ? { first: h[0] === 1 ? true : h[0] === 0 ? false : null, ok: !!h[1], wrong: h[2] || 0 } : h; });
+    o.answers = a; return Object.assign(fresh(), o);
+  }
+  function encodeProgress(name) {
+    var json = JSON.stringify({ v: 1, name: name || '', at: Date.now(), s: compactState(state) }), bytes = new TextEncoder().encode(json);
+    if (typeof CompressionStream !== 'undefined') return pipe(bytes, new CompressionStream('gzip')).then(function (z) { return CODE_V + 'z.' + b64(z); });
+    return Promise.resolve(CODE_V + '.' + b64(bytes));
+  }
+  function decodeProgress(code) {
+    code = String(code || '').replace(/\s+/g, '');
+    var m = code.match(/^HT1(z?)\.([A-Za-z0-9+/=]+)$/);
+    if (!m) return Promise.reject(new Error('Ce n’est pas un code de progression valide.'));
+    var bytes;
+    try { bytes = unb64(m[2]); } catch (e) { return Promise.reject(new Error('Code incomplet ou abîmé.')); }
+    var p = m[1] ? (typeof DecompressionStream !== 'undefined' ? pipe(bytes, new DecompressionStream('gzip')) : Promise.reject(new Error('Ce navigateur ne peut pas lire ce code.'))) : Promise.resolve(bytes);
+    return p.then(function (b) { var o = JSON.parse(new TextDecoder().decode(b)); if (!o || !o.s) throw new Error('Code vide.'); return { name: o.name || '', at: o.at, state: expandState(o.s) }; });
+  }
 
   /* ------------------------------------------------------------ XP, niveaux, badges */
   var LEVELS = D.meta.levels;
@@ -2803,6 +2981,7 @@ var SIMS = (function () {
     } else if (ok && !h.ok) addXP(4);
     h.ok = ok; h.at = Date.now();
     state.answers[q.id] = h;
+    if (tries === 1) srsUpdate(q.id, ok);
     checkBadges(); save();
   }
 
@@ -2825,11 +3004,12 @@ var SIMS = (function () {
   function QW(q, opt) {
     opt = opt || {};
     var mode = opt.mode || 'practice', id = nid(), value = opt.value, tries = 0, locked = mode === 'review';
+    if (q.gen && mode === 'practice' && !opt.keepValues) Object.assign(q, q.gen());
     if (q.t === 'order' && !value) value = shuffledOrder(q);
     if (q.t === 'match' && !value) value = {};
     if (q.t === 'multi' && !value) value = [];
     var root = el('<div class="qw"></div>');
-    var meta = '<div class="qw-meta"><span class="pill d' + q.d + '">' + DLAB[q.d] + '</span><span>' + TLAB[q.t] + '</span>' + (q.src ? '<span>· ' + esc(q.src) + '</span>' : '') + '</div>';
+    var meta = '<div class="qw-meta"><span class="pill d' + q.d + '">' + DLAB[q.d] + '</span><span>' + TLAB[q.t] + '</span>' + (q.src ? '<span>· ' + esc(q.src) + '</span>' : '') + listenBtn('', 'data-a="listen"') + '</div>';
     root.innerHTML = meta + '<p class="qw-q" id="' + id + '-q">' + q.q + '</p><div class="qw-body"></div>' + (mode === 'practice' ? '<div class="btn-row qw-act"><button class="btn primary" type="button" data-a="check">Vérifier</button></div>' : '') + '<div class="qw-fb" aria-live="polite"></div>';
     var body = $('.qw-body', root);
     function set(v) { value = v; if (opt.onChange) opt.onChange(v); }
@@ -2898,7 +3078,9 @@ var SIMS = (function () {
       if (opt.onAttempt) opt.onAttempt(ok, tries);
       if (ok) {
         lock(); $('.qw-act', root).hidden = true;
-        fb('<b class="t">' + IC('check') + (tries === 1 ? 'Bonne réponse!' : 'Bien corrigé!') + '</b><p>' + q.x + '</p>', 'ok');
+        var spell = q.t === 'short' && !Core.gradeShort(q, value, true) ? Core.closeMatch(q, value) : null;
+        if (spell) { var sk = Core.key(spell), words = String(q.x + ' ' + q.q).replace(/<[^>]+>/g, ' ').split(/[^A-Za-zÀ-ÿœŒ’'-]+/); for (var wi = 0; wi < words.length; wi++) { if (words[wi] && Core.key(words[wi]) === sk) { spell = words[wi]; break; } } }
+        fb('<b class="t">' + IC('check') + (tries === 1 ? 'Bonne réponse!' : 'Bien corrigé!') + '</b>' + (spell ? '<p><b>Attention à l’orthographe :</b> on écrit « ' + esc(spell) + ' ».</p>' : '') + '<p>' + q.x + '</p>', 'ok');
       } else {
         var tip = { multi: 'Certaines cases sont mal cochées, ou il en manque.', order: 'Les éléments en rouge ne sont pas à la bonne place.', match: 'Les associations en rouge sont à revoir.' }[q.t] || 'Ce n’est pas la bonne réponse.';
         var html = '<b class="t">' + IC('target') + 'Pas encore.</b><p>' + tip + '</p><p><b>Indice :</b> ' + q.h + '</p><div class="btn-row"><button class="btn small" type="button" data-a="retry">Réessayer</button>' + (tries >= 2 ? '<button class="btn small" type="button" data-a="reveal">Voir la correction</button>' : '') + (opt.onTheory ? '<button class="btn small ghost" type="button" data-a="theory">Revoir la théorie</button>' : '') + '</div>';
@@ -2912,6 +3094,14 @@ var SIMS = (function () {
       if (a.dataset.a === 'retry') { clearMarks(); fb(''); $('.qw-act', root).hidden = false; var f = $('input,select,button[data-mv]', body); if (f) f.focus(); }
       if (a.dataset.a === 'reveal') { mark(false, true); lock(); fb(revealHTML(), 'info'); }
       if (a.dataset.a === 'theory' && opt.onTheory) opt.onTheory();
+      if (a.dataset.a === 'listen') {
+        var parts = [plainText($('.qw-q', root))];
+        if (q.t === 'mc') parts.push('Choix : ' + (q._ord || q.c.map(function (_, i) { return i; })).map(function (i) { return q.c[i]; }).join('; '));
+        if (q.t === 'tf') parts.push('Vrai ou faux?');
+        if (q.t === 'multi') parts.push('Plusieurs réponses possibles : ' + q.c.join('; '));
+        var f = $('.qw-fb', root); if (f && f.textContent.trim()) parts.push(plainText(f));
+        speak(parts.join('. '), a);
+      }
     });
     renderBody();
     if (mode === 'review') { var ok = Core.grade(q, value); mark(ok, true); fb('<b class="t">' + (ok ? 'Bonne réponse' : (Core.answered(q, value) ? 'Réponse incorrecte' : 'Sans réponse')) + '</b>' + (!ok && (q.t === 'short' || q.t === 'order' || q.t === 'mc' || q.t === 'tf') ? '<p>Réponse attendue : ' + answerText(q) + '</p>' : '') + '<p>' + q.x + '</p>', ok ? 'ok' : 'bad'); }
@@ -2948,9 +3138,10 @@ var SIMS = (function () {
   var main;
   function go(name, args, opts) {
     if (timerId) { clearInterval(timerId); timerId = null; }
+    stopSpeak();
     view = Object.assign({ name: name }, args || {});
     document.body.insertAdjacentHTML('afterbegin', ILLUS.defs);
-    $$('.nav button').forEach(function (b) { var map = { home: 'home', parcours: 'parcours', chapter: 'parcours', notion: 'parcours', diff: 'home', fiches: 'fiches', exam: 'exam', examres: 'exam', defis: 'defis', about: 'about' }; b.setAttribute('aria-current', b.dataset.v === map[name] ? 'page' : 'false'); });
+    $$('.nav button').forEach(function (b) { var map = { home: 'home', parcours: 'parcours', chapter: 'parcours', notion: 'parcours', diff: 'home', review: 'home', teacher: 'about', fiches: 'fiches', exam: 'exam', examres: 'exam', defis: 'defis', about: 'about' }; b.setAttribute('aria-current', b.dataset.v === map[name] ? 'page' : 'false'); if (b.dataset.v === map[name] && b.scrollIntoView) { var nv = b.parentNode; nv.scrollLeft = Math.max(0, b.offsetLeft - nv.clientWidth / 2 + b.offsetWidth / 2); } });
     var fn = VIEWS[name]; main.innerHTML = ''; var v = el('<div class="view"></div>'); main.appendChild(v); fn(v, view);
     if (!(opts && opts.keepScroll)) window.scrollTo(0, 0);
     var h = main.querySelector('h1'); if (h && !(opts && opts.noFocus)) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
@@ -2964,11 +3155,11 @@ var SIMS = (function () {
     var passed = NORDER.filter(function (n) { return state.tests[n] && state.tests[n].passed; }).length;
     var qok = D.questions.filter(function (q) { var a = state.answers[q.id]; return a && a.first; }).length;
     var last = state.last && D.notions[state.last] ? state.last : null;
-    var rec = recommend(4);
+    var rec = recommend(4), due = dueReview().length;
     v.innerHTML =
       '<section class="hero"><div><span class="eyebrow">' + IC('gear', 'sm') + D.meta.eyebrow + '</span><h1>' + D.meta.titleHTML + '</h1>' +
       '<p class="lede">' + D.meta.lede + '</p>' +
-      '<div class="btn-row"><button class="btn primary" data-go="continue">' + IC('play', 'sm') + (last ? 'Continuer ma révision' : 'Commencer ma révision') + '</button><button class="btn" data-go="diff">' + IC('target', 'sm') + 'Mes difficultés' + (diffs ? ' (' + diffs + ')' : '') + '</button><button class="btn" data-go="exam">' + IC('exam', 'sm') + 'Examen blanc</button></div>' +
+      '<div class="btn-row"><button class="btn primary" data-go="continue">' + IC('play', 'sm') + (last ? 'Continuer ma révision' : 'Commencer ma révision') + '</button><button class="btn" data-go="diff">' + IC('target', 'sm') + 'Mes difficultés' + (diffs ? ' (' + diffs + ')' : '') + '</button>' + (due ? '<button class="btn" data-go="review">' + IC('route', 'sm') + 'À revoir aujourd’hui (' + due + ')</button>' : '') + '<button class="btn" data-go="exam">' + IC('exam', 'sm') + 'Examen blanc</button></div>' +
       (last ? '<p class="hero-last">Dernière notion consultée : <b>' + D.notions[last].title + '</b></p>' : '') + '</div>' + ILLUS.hero() + '</section>' +
       '<section class="stats"><div class="stat"><span class="si">' + IC('target') + '</span><div><span class="v">' + ov + ' %</span><span class="k">maîtrise générale estimée</span></div></div><div class="stat"><span class="si">' + IC('check') + '</span><div><span class="v">' + passed + '/' + NORDER.length + '</span><span class="k">tests de maîtrise réussis</span></div></div><div class="stat"><span class="si">' + IC('pencil') + '</span><div><span class="v">' + qok + '/' + D.questions.length + '</span><span class="k">questions réussies du 1<sup>er</sup> coup</span></div></div></section>' +
       '<section><div class="sec-title" style="margin-bottom:14px"><div><span class="eyebrow">Ton parcours</span><h2>' + D.chapters.length + ' parties, dans l’ordre du cahier</h2></div><small>La maîtrise combine tes exercices (60 %) et ton meilleur test (40 %). Ouvrir une page ne compte pas.</small></div><div class="ch-cards">' +
@@ -2987,9 +3178,19 @@ var SIMS = (function () {
       if (b.dataset.n) go('notion', { n: b.dataset.n });
       if (b.dataset.go === 'continue') { var n = last && status(last)[0] !== 'done' ? last : (NORDER.filter(function (x) { return status(x)[0] !== 'done'; })[0] || NORDER[0]); go('notion', { n: n, sec: last === n && state.pos[n] ? 'ex' : null }); }
       if (b.dataset.go === 'diff') go('diff');
+      if (b.dataset.go === 'review') go('review');
       if (b.dataset.go === 'exam') go('exam');
       if (b.dataset.go === 'fiches') go('fiches');
     });
+  };
+
+  /* ---------------------------------------------------------------- Révision du jour (espacée et mélangée) */
+  VIEWS.review = function (v) {
+    var ids = interleave(dueReview()).slice(0, 15);
+    var later = Object.keys(state.srs).length - dueReview().length;
+    v.innerHTML = '<header><span class="eyebrow">' + IC('route', 'sm') + 'Révision espacée</span><h1>À revoir aujourd’hui</h1><p class="muted prose">Ces questions reviennent au bon moment pour que tu ne les oublies pas : une question réussie revient après 1 jour, puis 3, 7, 16 et 35 jours. Une question ratée revient le lendemain. Les notions sont mélangées exprès : ça t’oblige à reconnaître de quoi parle chaque question.</p></header>' +
+      '<section class="card"><h2 style="margin-bottom:10px">' + ids.length + ' question' + (ids.length > 1 ? 's' : '') + ' pour aujourd’hui</h2>' + (later > 0 ? '<p class="muted" style="margin-bottom:10px">' + later + ' autre' + (later > 1 ? 's' : '') + ' question' + (later > 1 ? 's' : '') + ' reviendr' + (later > 1 ? 'ont' : 'a') + ' plus tard.</p>' : '') + '<div id="rrun"></div></section>';
+    runner($('#rrun', v), ids, { showNotion: true, empty: 'Rien à revoir aujourd’hui. Reviens demain, ou fais des exercices dans le parcours : chaque question réussie sera programmée pour une révision.' });
   };
 
   VIEWS.parcours = function (v) {
@@ -3017,7 +3218,7 @@ var SIMS = (function () {
     var n = a.n, no = D.notions[n], c = chOf(n), idx = NORDER.indexOf(n);
     state.last = n; save();
     var figs = ((typeof SLIDES !== 'undefined' && SLIDES[n]) || []).concat(ILLUS.figures[n] || []);
-    var secs = [['intro', 'Introduction', 'spark'], ['theo', 'Théorie', 'book'], figs.length ? ['fig', 'Illustrations', 'image'] : null, ['sim', 'Simulation', 'flask'], no.exemple ? ['exr', 'Exemple résolu', 'steps'] : null, ['ex', 'Exercices', 'pencil'], ['sum', 'Résumé', 'list'], ['test', 'Test de maîtrise', 'check']].filter(Boolean);
+    var secs = [['intro', 'Introduction', 'spark'], ['theo', 'Théorie', 'book'], figs.length ? ['fig', 'Illustrations', 'image'] : null, ['sim', 'Simulation', 'flask'], VIDEOS[n] ? ['vid', 'Vidéos', 'play'] : null, no.exemple ? ['exr', 'Exemple résolu', 'steps'] : null, ['ex', 'Exercices', 'pencil'], ['sum', 'Résumé', 'list'], ['test', 'Test de maîtrise', 'check']].filter(Boolean);
     var s = status(n);
     v.className = 'view ' + c.color;
     v.innerHTML =
@@ -3027,12 +3228,14 @@ var SIMS = (function () {
       // Introduction
       '<section class="card sec" id="s-intro">' + SH('spark', 'A', 'Introduction') + '<p class="intro-q">' + no.hook + '</p><p class="prose">' + no.situation + '</p><p class="objectif">' + IC('target') + '<span><b>Objectif :</b> À la fin de cette activité, tu seras capable de ' + no.objectif + '</span></p></section>' +
       // Théorie
-      '<section class="card sec" id="s-theo">' + SH('book', 'B', 'Théorie expliquée simplement') + no.theory.map(function (t) { return '<div class="theory-b"><h3>' + t.h + '</h3><div class="prose">' + wrapT(t.html) + '</div></div>'; }).join('') +
+      '<section class="card sec" id="s-theo">' + SH('book', 'B', 'Théorie expliquée simplement') + (canSpeak ? '<div class="theory-listen">' + listenBtn('', 'data-listen-theo') + '</div>' : '') + no.theory.map(function (t) { return '<div class="theory-b"><h3>' + t.h + '</h3><div class="prose">' + wrapT(t.html) + '</div></div>'; }).join('') +
       '<div class="theory-b"><h3>Mots scientifiques à retenir</h3><div class="keys">' + no.defs.map(function (d) { return '<span class="chip" title="' + esc(d.d) + '"><b>' + d.t + '</b></span>'; }).join('') + '</div></div>' +
       '<div class="theory-b"><div class="errs"><h4>' + IC('info', 'sm') + 'Erreurs fréquentes à éviter</h4><ul>' + no.erreurs.map(function (e) { return '<li>' + e + '</li>'; }).join('') + '</ul></div></div></section>' +
       // Simulation
       (figs.length ? '<section class="card sec" id="s-fig">' + SH('image', 'C', 'Images et illustrations') + '<div class="figs">' + figs.map(figHTML).join('') + '</div></section>' : '') +
       '<section class="card sec" id="s-sim">' + SH('flask', 'D', no.sim.title) + '<div class="sim"><p class="sim-consigne"><b>' + IC('flask', 'sm') + 'Consigne</b><span>' + no.sim.consigne + '</span></p><div id="sim-root"></div><div class="sim-obs"><p class="o"><b>À observer :</b> ' + no.sim.observe + '</p></div><button class="btn small reveal-btn" data-reveal="simx">Voir l’explication du phénomène</button><div id="simx" hidden><p class="fb info" style="margin-top:10px">' + no.sim.explique + '</p></div></div><div id="sim-check" style="margin-top:16px"></div></section>' +
+      // Vidéos
+      (VIDEOS[n] ? '<section class="card sec" id="s-vid">' + SH('play', 'D bis', 'Vidéos explicatives') + '<div class="videos">' + VIDEOS[n].map(function (vd) { return '<div class="video-card"><video controls preload="none" playsinline poster="' + vd.poster + '"><source src="' + vd.src + '" type="video/mp4"><p>Ton navigateur ne peut pas lire cette vidéo.</p></video><div class="vc-b"><b>' + vd.title + '</b><small>' + vd.sub + '</small><p class="status warn vid-err" hidden style="margin-top:8px">Vidéo introuvable : le dossier <b>videos/</b> doit être à côté de la page.</p></div></div>'; }).join('') + '</div></section>' : '') +
       // Exemple
       (no.exemple ? '<section class="card sec" id="s-exr">' + SH('steps', 'E', 'Exemple résolu') + '<h3>' + no.exemple.titre + '</h3><p class="prose" style="margin-top:6px">' + no.exemple.enonce + '</p><ol class="ex-steps" id="ex-steps"></ol><div class="btn-row" style="margin-top:12px"><button class="btn primary small" id="ex-next">Afficher l’étape 1</button><button class="btn small" id="ex-all">Tout afficher</button></div></section>' : '') +
       // Exercices
@@ -3044,6 +3247,9 @@ var SIMS = (function () {
       '<section class="card sec" id="s-test">' + SH('check', 'I', 'Test de maîtrise') + '<div id="test-root"></div></section>' +
       '<nav class="runner-nav" aria-label="Notions précédente et suivante">' + (idx > 0 ? '<button class="btn" data-n="' + NORDER[idx - 1] + '">' + IC('arrowL', 'sm') + D.notions[NORDER[idx - 1]].short + '</button>' : '<span></span>') + (idx < NORDER.length - 1 ? '<button class="btn primary" data-n="' + NORDER[idx + 1] + '">' + D.notions[NORDER[idx + 1]].short + IC('arrowR', 'sm') + '</button>' : '<button class="btn primary" data-go="exam">Faire un examen blanc' + IC('arrowR', 'sm') + '</button>') + '</nav>';
     // simulation
+    $$('#s-vid source', v).forEach(function (src) { src.addEventListener('error', function () { var card = src.closest('.video-card'); var e = card && card.querySelector('.vid-err'); if (e) e.hidden = false; }); });
+    $$('#s-vid video', v).forEach(function (vid) { vid.addEventListener('play', stopSpeak); });
+    var lt = $('[data-listen-theo]', v); if (lt) lt.addEventListener('click', function () { speak(plainText($('#s-theo', v)).replace(/^Section B\.?\s*/, ''), lt); });
     try { SIMS[no.sim.id]($('#sim-root', v)); } catch (err) { $('#sim-root', v).innerHTML = '<p class="status warn">La simulation n’a pas pu se charger.</p>'; }
     var ck = Object.assign({ id: 'sim-' + no.sim.id, d: 2, src: 'Vérification de la simulation', sim: true }, SIMS.CHECKS[no.sim.id]);
     $('#sim-check', v).appendChild(el('<h3 style="margin-bottom:8px">Vérifie ta compréhension</h3>'));
@@ -3125,7 +3331,7 @@ var SIMS = (function () {
     }
     function finish() {
       var score = 0;
-      ids.forEach(function (id) { var q = QBYID[id], ok = Core.grade(q, resp[id]); if (ok) score++; var h = state.answers[id] || { wrong: 0 }; if (ok && h.first === false) state.fixes++; h.first = ok; h.ok = ok; if (!ok) h.wrong = (h.wrong || 0) + 1; state.answers[id] = h; });
+      ids.forEach(function (id) { var q = QBYID[id], ok = Core.grade(q, resp[id]); if (ok) score++; var h = state.answers[id] || { wrong: 0 }; if (ok && h.first === false) state.fixes++; h.first = ok; h.ok = ok; if (!ok) h.wrong = (h.wrong || 0) + 1; state.answers[id] = h; srsUpdate(id, ok); });
       var prev = state.tests[n], frac = score / 5, passed = score >= 4;
       var firstPass = passed && !(prev && prev.passed);
       state.tests[n] = { best: Math.max(prev ? prev.best : 0, frac), passed: (prev && prev.passed) || passed, last: frac };
@@ -3353,8 +3559,12 @@ var SIMS = (function () {
   VIEWS.about = function (v) {
     v.innerHTML = '<header><span class="eyebrow">' + IC('info', 'sm') + 'Mode d’emploi et limites</span><h1>À propos de cette plateforme</h1></header>' +
       '<section class="card"><h2 style="margin-bottom:8px">Comment l’utiliser</h2><ol class="steps"><li>Suis les notions dans l’ordre du cahier (menu <b>Parcours</b>).</li><li>Dans chaque notion : lis la théorie, manipule la simulation, fais les exercices, puis le <b>test de maîtrise</b> (4/5 pour valider).</li><li>Reprends tes erreurs dans <b>Pratiquer mes difficultés</b>.</li><li>Avant l’examen : fiches de révision, puis un ou plusieurs <b>examens blancs</b>.</li></ol></section>' +
-      '<section class="card"><h2 style="margin-bottom:8px">Tes données</h2><p>Aucun compte, aucun nom, aucune donnée personnelle. Ta progression (réponses, XP, badges, examen en cours) est enregistrée <b>seulement dans ce navigateur</b>, sur cet appareil. Elle n’est envoyée nulle part et personne d’autre ne la voit, pas même ton enseignant.</p><p class="muted">Conséquences : ta progression ne suit pas d’un appareil à l’autre, et elle disparaît si tu effaces les données du navigateur ou si tu utilises la navigation privée.</p><div class="btn-row"><button class="btn" data-reset>Effacer ma progression</button></div><div id="rz"></div></section>' +
-      '<section class="card"><h2 style="margin-bottom:8px">Limites de cette version</h2><ul><li>Pas d’espace enseignant ni de résultats de groupe : la plateforme fonctionne sans serveur.</li><li>La maîtrise affichée est une <b>estimation</b> basée sur tes réponses, pas une mesure exacte de ton niveau.</li><li>La banque contient ' + D.questions.length + ' questions (de 8 à 11 par notion). Un examen de 40 questions réutilisera souvent des questions déjà vues.</li><li>Le contenu de l’examen réel n’est pas connu : les questions préparent aux notions du cahier.</li><li>Quelques exercices fondés sur des images (grille du mot mystère, certains dessins à compléter) sont remplacés par des simulations et des questions (voir ci-dessous).</li></ul></section>' +
+      '<section class="card"><h2 style="margin-bottom:8px">Tes données</h2><p>Aucun compte, aucun nom, aucune donnée personnelle. Ta progression (réponses, XP, badges, examen en cours) est enregistrée <b>seulement dans ce navigateur</b>, sur cet appareil. Elle n’est envoyée nulle part et personne d’autre ne la voit, pas même ton enseignant.</p><p class="muted">Conséquences : ta progression ne suit pas d’un appareil à l’autre, et elle disparaît si tu effaces les données du navigateur ou si tu utilises la navigation privée. Pour la garder, exporte-la en <b>code de progression</b> ci-dessous.</p><div class="btn-row"><button class="btn" data-reset>Effacer ma progression</button></div><div id="rz"></div></section>' +
+      '<section class="card" id="xfer"><h2 style="margin-bottom:8px">Sauvegarder ou transférer ma progression</h2><p>Le code contient tes réponses, ton XP et tes badges. Garde-le (dans un courriel ou un document) pour continuer sur un autre appareil, ou remets-le à ton enseignant·e s’il ou elle te le demande.</p>' +
+      '<label class="field">Ton prénom (facultatif, seulement si tu remets le code à ton enseignant·e)<input id="xf-name" type="text" maxlength="40" autocomplete="given-name"></label>' +
+      '<div class="btn-row"><button class="btn primary" data-export>Créer mon code de progression</button><button class="btn" data-import>J’ai déjà un code</button></div><div id="xf-out" style="margin-top:12px"></div></section>' +
+      '<section class="card"><h2 style="margin-bottom:8px">Espace enseignant</h2><p>Collez les codes de progression de vos élèves pour voir les notions et les questions qui posent problème au groupe. Tout reste dans ce navigateur : rien n’est envoyé.</p><div class="btn-row"><button class="btn" data-teacher>' + IC('target', 'sm') + 'Ouvrir l’espace enseignant</button></div></section>' +
+      '<section class="card"><h2 style="margin-bottom:8px">Limites de cette version</h2><ul><li>Pas de compte ni de serveur : les résultats du groupe passent par les codes de progression que les élèves vous remettent (voir l’espace enseignant).</li><li>La maîtrise affichée est une <b>estimation</b> basée sur tes réponses, pas une mesure exacte de ton niveau.</li><li>La banque contient ' + D.questions.length + ' questions (de 8 à 11 par notion). Un examen de 40 questions réutilisera souvent des questions déjà vues.</li><li>Le contenu de l’examen réel n’est pas connu : les questions préparent aux notions du cahier.</li><li>Quelques exercices fondés sur des images (grille du mot mystère, certains dessins à compléter) sont remplacés par des simulations et des questions (voir ci-dessous).</li></ul></section>' +
       '<section class="card"><h2 style="margin-bottom:8px">Points ambigus repérés dans les documents</h2><ul>' + D.flags.map(function (f) { return '<li>' + f + '</li>'; }).join('') + '</ul></section>' +
       '<section class="card"><h2 style="margin-bottom:8px">Sources</h2><p>' + D.meta.source + ' Les questions marquées « Question supplémentaire » ont été créées pour cette plateforme à partir des notions du cahier.</p></section>';
     v.addEventListener('click', function (e) {
@@ -3362,6 +3572,50 @@ var SIMS = (function () {
       if (b.hasAttribute('data-reset')) $('#rz', v).innerHTML = '<div class="confirm" style="margin-top:12px"><b>Effacer toute ta progression?</b><p style="margin:6px 0 10px">Réponses, XP, badges et examens seront supprimés de ce navigateur. Cette action est définitive.</p><div class="btn-row"><button class="btn primary" data-rzy>Oui, tout effacer</button><button class="btn" data-rzn>Annuler</button></div></div>';
       if (b.hasAttribute('data-rzn')) $('#rz', v).innerHTML = '';
       if (b.hasAttribute('data-rzy')) { state = fresh(); try { localStorage.removeItem(KEY); } catch (er) { } renderXP(); $('#rz', v).innerHTML = '<p class="status ok" style="margin-top:12px">Progression effacée.</p>'; }
+      var out = $('#xf-out', v);
+      if (b.hasAttribute('data-export')) {
+        out.innerHTML = '<p class="muted">Création du code…</p>';
+        encodeProgress($('#xf-name', v).value.trim()).then(function (code) {
+          out.innerHTML = '<label class="field">Ton code de progression<textarea class="code-box" id="xf-code" readonly>' + code + '</textarea></label><div class="btn-row"><button class="btn small primary" data-copy>Copier le code</button><button class="btn small" data-dl>Télécharger en fichier</button></div><p class="muted" style="margin-top:8px;font-size:.85rem">Ce code est une copie de ta progression d’aujourd’hui. Si tu continues à réviser, crée un nouveau code.</p>';
+        }).catch(function () { out.innerHTML = '<p class="status warn">Impossible de créer le code dans ce navigateur.</p>'; });
+      }
+      if (b.hasAttribute('data-copy')) { var ta = $('#xf-code', v); ta.select(); var done = function () { b.textContent = 'Copié!'; }; if (navigator.clipboard) navigator.clipboard.writeText(ta.value).then(done, function () { document.execCommand('copy'); done(); }); else { document.execCommand('copy'); done(); } }
+      if (b.hasAttribute('data-dl')) { var blob = new Blob([$('#xf-code', v).value], { type: 'text/plain' }), u = URL.createObjectURL(blob), a = document.createElement('a'); a.href = u; a.download = 'progression-humain-et-technique.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 1000); }
+      if (b.hasAttribute('data-import')) out.innerHTML = '<label class="field">Colle ton code ici<textarea class="code-box" id="xf-in" spellcheck="false"></textarea></label><div class="btn-row"><button class="btn small primary" data-load>Vérifier le code</button></div><div id="xf-msg"></div>';
+      if (b.hasAttribute('data-load')) {
+        decodeProgress($('#xf-in', v).value).then(function (r) {
+          window.__xfPending = r.state;
+          var ok = Object.keys(r.state.answers).length, when = r.at ? new Date(r.at).toLocaleDateString('fr-CA') : '?';
+          $('#xf-msg', v).innerHTML = '<div class="confirm" style="margin-top:12px"><b>Remplacer ta progression actuelle?</b><p style="margin:6px 0 10px">Code' + (r.name ? ' de ' + esc(r.name) : '') + ' créé le ' + when + ' : ' + r.state.xp + ' XP, ' + ok + ' questions répondues. Ta progression actuelle sur cet appareil sera remplacée.</p><div class="btn-row"><button class="btn primary" data-loady>Oui, utiliser ce code</button><button class="btn" data-loadn>Annuler</button></div></div>';
+        }).catch(function (err) { $('#xf-msg', v).innerHTML = '<p class="status warn" style="margin-top:10px">' + esc(err.message) + '</p>'; });
+      }
+      if (b.hasAttribute('data-loadn')) $('#xf-msg', v).innerHTML = '';
+      if (b.hasAttribute('data-loady') && window.__xfPending) { state = window.__xfPending; window.__xfPending = null; save(); renderXP(); $('#xf-msg', v).innerHTML = '<p class="status ok" style="margin-top:10px">Progression importée.</p>'; }
+      if (b.hasAttribute('data-teacher')) go('teacher');
+    });
+  };
+
+  /* ---------------------------------------------------------------- Espace enseignant */
+  VIEWS.teacher = function (v) {
+    v.innerHTML = '<header><div class="crumb"><button data-back>À propos</button><span>›</span><span>Espace enseignant</span></div><span class="eyebrow">' + IC('target', 'sm') + 'Résultats du groupe</span><h1>Espace enseignant</h1><p class="muted prose">Demandez aux élèves d’aller dans <b>À propos › Sauvegarder ou transférer ma progression</b>, d’écrire leur prénom et de vous envoyer leur code. Collez ensuite les codes ici, un par ligne (ou séparés par des espaces). L’analyse se fait dans ce navigateur : rien n’est envoyé ni enregistré.</p></header>' +
+      '<section class="card"><label class="field">Codes de progression<textarea class="code-box" id="t-in" style="min-height:160px" spellcheck="false" placeholder="HT1z.…"></textarea></label><div class="btn-row"><button class="btn primary" data-run>Analyser</button></div><div id="t-msg"></div></section><div id="t-out"></div>';
+    v.addEventListener('click', function (e) {
+      if (e.target.closest('[data-back]')) { go('about'); return; }
+      if (!e.target.closest('[data-run]')) return;
+      var codes = ($('#t-in', v).value.match(/HT1z?\.[A-Za-z0-9+/=]+/g) || []);
+      if (!codes.length) { $('#t-msg', v).innerHTML = '<p class="status warn" style="margin-top:10px">Aucun code reconnu. Un code commence par HT1.</p>'; return; }
+      Promise.all(codes.map(function (c) { return decodeProgress(c).catch(function () { return null; }); })).then(function (rs) {
+        var bad = rs.filter(function (r) { return !r; }).length; rs = rs.filter(Boolean);
+        $('#t-msg', v).innerHTML = '<p class="status ok" style="margin-top:10px">' + rs.length + ' code' + (rs.length > 1 ? 's' : '') + ' analysé' + (rs.length > 1 ? 's' : '') + (bad ? ' · ' + bad + ' illisible' + (bad > 1 ? 's' : '') : '') + '.</p>';
+        if (!rs.length) { $('#t-out', v).innerHTML = ''; return; }
+        var notions = NORDER.map(function (n) { var sum = 0; rs.forEach(function (r) { sum += Core.notionMastery(D, r.state, n); }); return { n: n, m: Math.round(sum / rs.length) }; }).sort(function (a, b) { return a.m - b.m; });
+        var miss = D.questions.map(function (q) { var k = 0, seen = 0; rs.forEach(function (r) { var h = r.state.answers[q.id]; if (h && h.first != null) { seen++; if (h.first === false) k++; } }); return { q: q, k: k, seen: seen }; }).filter(function (x) { return x.k > 0; }).sort(function (a, b) { return b.k - a.k || b.k / b.seen - a.k / a.seen; }).slice(0, 12);
+        var students = rs.map(function (r, i) { var st = r.state; return { name: r.name || 'Élève ' + (i + 1), m: Math.round(NORDER.reduce(function (s, n) { return s + Core.notionMastery(D, st, n); }, 0) / NORDER.length), tests: NORDER.filter(function (n) { return st.tests[n] && st.tests[n].passed; }).length, wrong: Object.keys(st.answers).filter(function (id) { return st.answers[id].first === false; }).length, answered: Object.keys(st.answers).length, at: r.at }; }).sort(function (a, b) { return a.m - b.m; });
+        $('#t-out', v).innerHTML =
+          '<section class="card"><h2 style="margin-bottom:6px">Maîtrise moyenne par notion</h2><p class="muted" style="margin-bottom:12px">Des plus faibles aux plus fortes. La maîtrise combine les exercices (60 %) et le meilleur test (40 %).</p><div class="t-bars">' + notions.map(function (x) { var c = chOf(x.n); return '<div class="t-bar ' + c.color + '"><span>' + c.num + '.' + (c.notions.indexOf(x.n) + 1) + ' ' + D.notions[x.n].title + '</span><span class="bar"><i style="width:' + x.m + '%"></i></span><span class="mono">' + x.m + ' %</span></div>'; }).join('') + '</div></section>' +
+          '<section class="card"><h2 style="margin-bottom:6px">Questions les plus ratées au premier essai</h2><div class="scroll-x"><table class="t-tbl"><thead><tr><th>Élèves</th><th>Question</th><th>Notion</th></tr></thead><tbody>' + (miss.length ? miss.map(function (x) { return '<tr><td class="num">' + x.k + ' / ' + x.seen + '</td><td>' + x.q.q + '</td><td>' + D.notions[x.q.n].short + '</td></tr>'; }).join('') : '<tr><td colspan="3">Aucune erreur au premier essai.</td></tr>') + '</tbody></table></div></section>' +
+          '<section class="card"><h2 style="margin-bottom:6px">Élèves</h2><div class="scroll-x"><table class="t-tbl"><thead><tr><th>Élève</th><th>Maîtrise</th><th>Tests réussis</th><th>Questions répondues</th><th>Ratées au 1<sup>er</sup> essai</th><th>Code du</th></tr></thead><tbody>' + students.map(function (s) { return '<tr><td>' + esc(s.name) + '</td><td class="num">' + s.m + ' %</td><td class="num">' + s.tests + ' / ' + NORDER.length + '</td><td class="num">' + s.answered + '</td><td class="num">' + s.wrong + '</td><td class="num">' + (s.at ? new Date(s.at).toLocaleDateString('fr-CA') : '?') + '</td></tr>'; }).join('') + '</tbody></table></div></section>';
+      });
     });
   };
 
@@ -3369,6 +3623,8 @@ var SIMS = (function () {
   function boot() {
     main = $('#main');
     var tb = $('.topbar'); function setTb() { document.documentElement.style.setProperty('--tb', tb.offsetHeight + 'px'); } setTb(); window.addEventListener('resize', setTb);
+    var gl = []; Object.keys(D.notions).forEach(function (k) { (D.notions[k].defs || []).forEach(function (d) { gl.push(d.t); }); }); Core.setGlossary(gl);
+    var nav = $('.nav'); if (nav) { var endCheck = function () { nav.classList.toggle('at-end', nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 4); }; nav.addEventListener('scroll', endCheck, { passive: true }); window.addEventListener('resize', endCheck); setTimeout(endCheck, 50); }
     var errs = Core.validate(D);
     if (errs.length && window.console) console.warn('Validation du contenu :', errs);
     var NI = { home: 'home', parcours: 'route', fiches: 'cards', exam: 'exam', defis: 'trophy', about: 'info' };

@@ -1,2 +1,4 @@
 node_modules
 out
+growkaz-stickman-studio/node_modules
+growkaz-stickman-studio/**/build
